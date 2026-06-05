@@ -63,6 +63,12 @@ export function Navbar() {
 
           <div className="flex items-center gap-3">
             <Link
+              href="/auth/login"
+              className="hidden text-sm font-medium text-haze transition-colors hover:text-white md:inline-flex"
+            >
+              Login
+            </Link>
+            <Link
               href="/contact"
               className="group hidden items-center gap-2 rounded-btn bg-white px-5 py-2.5 text-sm font-semibold text-black transition-all duration-200 hover:bg-electric hover:text-white md:inline-flex"
             >
@@ -122,6 +128,17 @@ export function Navbar() {
                   </Link>
                 </motion.li>
               ))}
+              <motion.li
+                variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+              >
+                <Link
+                  href="/auth/login"
+                  onClick={() => setOpen(false)}
+                  className="font-display text-4xl font-semibold text-white"
+                >
+                  Login
+                </Link>
+              </motion.li>
               <motion.li
                 variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
                 className="mt-8"
