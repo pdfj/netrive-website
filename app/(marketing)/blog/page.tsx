@@ -26,7 +26,6 @@ const GRADIENT_COVERS = [
   "from-[#0a0a0a] via-[#112040] to-[#2c5fff]",
 ];
 
-// File names match the prompts below — drop images into /public/images/blog/
 const BLOG_IMAGES = [
   "/images/blog/why-website.jpg",
   "/images/blog/choose-package.jpg",
@@ -40,7 +39,6 @@ export default function BlogPage() {
   return (
     <PageTransition>
       <main className="pt-20">
-        {/* Header */}
         <div className="relative overflow-hidden">
           <div
             className="pointer-events-none absolute inset-x-0 top-0 h-[360px]"
@@ -63,7 +61,6 @@ export default function BlogPage() {
           </div>
         </div>
 
-        {/* Grid */}
         <section className="mx-auto max-w-content px-6 pb-32">
           <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
             {BLOG_POSTS.map((post, i) => {
@@ -75,20 +72,15 @@ export default function BlogPage() {
                   key={post.title}
                   className="group flex cursor-pointer flex-col overflow-hidden rounded-card glass transition-all duration-300 hover:-translate-y-1.5 hover:border-electric/30 hover:shadow-glow"
                 >
-                  {/* Cover — real image with CSS gradient fallback */}
                   <div className="relative h-48 overflow-hidden">
                     <BlogCoverImage src={imgSrc ?? ""} alt={post.title} fallbackClass={cover} />
-                    {/* Category badge always on top */}
                     <span
                       className={`absolute left-4 top-4 z-10 rounded-pill bg-gradient-to-r ${color} px-3 py-1 font-grotesk text-xs font-semibold uppercase tracking-wider text-white shadow-sm`}
                     >
                       {post.category}
                     </span>
-                    {/* Subtle gradient scrim at the bottom of the image */}
                     <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
-
-                  {/* Content */}
                   <div className="flex flex-1 flex-col p-6">
                     <span className="font-grotesk text-xs text-haze">{post.date}</span>
                     <h2 className="mt-2 font-display text-lg font-semibold leading-snug text-white">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { ArrowRight, CheckCircle2, Lock, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowRight, CheckCircle2, Lock, Mail, MapPin, Phone, Loader2 } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { PRICING, SITE } from "@/lib/constants";
 
@@ -10,10 +10,38 @@ const inputClass =
 
 export function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+
+    const form = e.currentTarget;
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      business: (form.elements.namedItem("business") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
+      package: (form.elements.namedItem("package") as HTMLSelectElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+
+    try {
+      const res = await fetch("/api/projects/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Submission failed");
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -30,11 +58,10 @@ export function Contact() {
             <div className="flex h-full min-h-[400px] flex-col items-center justify-center text-center">
               <CheckCircle2 className="h-14 w-14 text-electric" />
               <h3 className="mt-5 font-display text-2xl font-semibold text-white">
-                Message sent!
+                Project received!
               </h3>
               <p className="mt-2 max-w-sm text-sm leading-[1.7] text-haze">
-                Thanks for reaching out. The NetRive team will get back to you shortly —
-                usually within a few hours.
+                Check your email — we&apos;ve sent you a link to access your client dashboard where you can track progress and chat with our team.
               </p>
             </div>
           ) : (
@@ -106,12 +133,21 @@ export function Contact() {
                 />
               </div>
 
+              {error && (
+                <p className="rounded-input border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                  {error}
+                </p>
+              )}
               <button
                 type="submit"
-                className="group inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-btn bg-electric px-7 py-3.5 text-sm font-semibold text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-glow-lg"
+                disabled={loading}
+                className="group inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-btn bg-electric px-7 py-3.5 text-sm font-semibold text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-glow-lg disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Send Message
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                {loading ? (
+                  <><Loader2 className="h-4 w-4 animate-spin" /> Submitting…</>
+                ) : (
+                  <>Start Your Project <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></>
+                )}
               </button>
             </form>
           )}

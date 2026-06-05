@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { SITE } from "@/lib/constants";
 
 const inter = Inter({
@@ -66,10 +63,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="bg-ink font-sans text-white antialiased">
         <Providers>
-          <Navbar />
           {children}
-          <Footer />
-          <WhatsAppButton />
         </Providers>
       </body>
     </html>
