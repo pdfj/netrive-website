@@ -3,27 +3,15 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { LogOut, FolderOpen, User, ExternalLink } from "lucide-react";
 
-async function SignOutButton() {
-  return (
-    <form action="/api/auth/signout" method="POST">
-      <button
-        type="submit"
-        className="flex w-full items-center gap-3 rounded-input px-3 py-2.5 text-sm text-haze transition hover:bg-white/[0.05] hover:text-white"
-      >
-        <LogOut className="h-4 w-4" />
-        Sign Out
-      </button>
-    </form>
-  );
-}
-
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect("/auth/login");
 
@@ -33,18 +21,34 @@ export default async function DashboardLayout({
     .eq("id", user.id)
     .single();
 
+  // Redirect admins to the admin dashboard
+  if (profile?.role === "admin") redirect("/admin");
+
   return (
     <div className="flex min-h-screen bg-ink">
+      {/* Subtle background glow */}
+      <div
+        className="pointer-events-none fixed inset-y-0 left-0 w-80"
+        style={{
+          background:
+            "radial-gradient(ellipse 100% 60% at 0% 50%, rgba(44,95,255,0.07) 0%, transparent 70%)",
+        }}
+        aria-hidden
+      />
+
       {/* Sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-30 flex w-60 flex-col border-r border-white/[0.06] bg-night">
+      <aside className="fixed inset-y-0 left-0 z-30 flex w-60 flex-col border-r border-white/[0.07] bg-night/80 backdrop-blur-xl">
         {/* Logo */}
         <div className="flex h-16 items-center px-5">
           <Link href="/" className="font-display text-xl font-bold text-white">
             Net<span className="text-electric">Rive</span>
           </Link>
+          <span className="ml-2 rounded-pill bg-electric/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-electric">
+            Client
+          </span>
         </div>
 
-        {/* User info */}
+        {/* User card */}
         <div className="mx-3 mb-4 rounded-input glass px-3 py-3">
           <p className="truncate text-sm font-medium text-white">
             {profile?.full_name ?? user.email}
@@ -56,20 +60,19 @@ export default async function DashboardLayout({
 
         {/* Nav */}
         <nav className="flex-1 space-y-1 px-3">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-3 rounded-input px-3 py-2.5 text-sm text-white/80 transition hover:bg-white/[0.05] hover:text-white"
-          >
-            <FolderOpen className="h-4 w-4 text-electric" />
-            My Projects
-          </Link>
-          <Link
-            href="/dashboard/account"
-            className="flex items-center gap-3 rounded-input px-3 py-2.5 text-sm text-haze transition hover:bg-white/[0.05] hover:text-white"
-          >
-            <User className="h-4 w-4" />
-            Account
-          </Link>
+          {[
+            { href: "/dashboard", icon: FolderOpen, label: "My Projects", active: true },
+            { href: "/dashboard/account", icon: User, label: "Account", active: false },
+          ].map(({ href, icon: Icon, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className="flex items-center gap-3 rounded-input px-3 py-2.5 text-sm text-haze transition-all hover:bg-white/[0.06] hover:text-white"
+            >
+              <Icon className="h-4 w-4 text-electric/70" />
+              {label}
+            </Link>
+          ))}
         </nav>
 
         {/* Footer */}
@@ -77,16 +80,24 @@ export default async function DashboardLayout({
           <Link
             href="/"
             target="_blank"
-            className="flex items-center gap-3 rounded-input px-3 py-2.5 text-sm text-haze transition hover:bg-white/[0.05] hover:text-white"
+            className="flex items-center gap-3 rounded-input px-3 py-2.5 text-sm text-haze transition hover:bg-white/[0.06] hover:text-white"
           >
             <ExternalLink className="h-4 w-4" />
             netrive.com
           </Link>
-          <SignOutButton />
+          <form action="/api/auth/signout" method="POST">
+            <button
+              type="submit"
+              className="flex w-full items-center gap-3 rounded-input px-3 py-2.5 text-sm text-haze transition hover:bg-white/[0.06] hover:text-white"
+            >
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </button>
+          </form>
         </div>
       </aside>
 
-      {/* Main */}
+      {/* Main content */}
       <main className="ml-60 flex-1 p-8">{children}</main>
     </div>
   );

@@ -31,8 +31,29 @@ export default async function DashboardPage() {
 
   const firstName = profile?.full_name?.split(" ")[0] ?? "there";
 
+  // Show password prompt for magic-link-only accounts (no password set yet)
+  const needsPassword = !user.app_metadata?.password_hash && user.app_metadata?.provider !== "email";
+
   return (
     <div>
+      {/* Set password banner — shown when user logged in via magic link only */}
+      {needsPassword && (
+        <div className="mb-6 flex items-center justify-between gap-4 rounded-card border border-yellow-400/20 bg-yellow-400/[0.06] px-5 py-4">
+          <div>
+            <p className="text-sm font-semibold text-yellow-300">Set your password</p>
+            <p className="text-xs text-yellow-300/70">
+              You logged in via email link. Set a password so you can sign in anytime.
+            </p>
+          </div>
+          <Link
+            href="/dashboard/account"
+            className="shrink-0 rounded-btn border border-yellow-400/40 px-4 py-2 text-xs font-semibold text-yellow-300 transition hover:bg-yellow-400/10"
+          >
+            Set Password →
+          </Link>
+        </div>
+      )}
+
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>

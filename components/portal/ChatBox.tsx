@@ -15,10 +15,14 @@ export function ChatBox({ projectId, userId }: { projectId: string; userId: stri
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const supabase = createClient();
+  // Stable client reference — not re-created on each render
+  const supabaseRef = useRef(createClient());
 
   useEffect(() => {
+    const supabase = supabaseRef.current;
+
     // Initial load
     supabase
       .from("messages")
@@ -31,17 +35,28 @@ export function ChatBox({ projectId, userId }: { projectId: string; userId: stri
 
     // Real-time subscription
     const channel = supabase
-      .channel(`messages:${projectId}`)
+      .channel(`chat-client-${projectId}`)
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages", filter: `project_id=eq.${projectId}` },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `project_id=eq.${projectId}`,
+        },
         (payload) => {
-          setMessages((prev) => [...prev, payload.new as Message]);
+          setMessages((prev) => {
+            // Avoid duplicate if we already added it optimistically
+            if (prev.find((m) => m.id === payload.new.id)) return prev;
+            return [...prev, payload.new as Message];
+          });
         }
       )
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [projectId]);
 
   useEffect(() => {
@@ -51,17 +66,28 @@ export function ChatBox({ projectId, userId }: { projectId: string; userId: stri
   const send = async () => {
     if (!text.trim() || sending) return;
     setSending(true);
-    await fetch("/api/messages", {
+    setSendError(null);
+
+    const res = await fetch("/api/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ projectId, content: text.trim() }),
     });
-    setText("");
+
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}));
+      setSendError(json.error ?? "Failed to send. Try again.");
+    } else {
+      setText("");
+    }
     setSending(false);
   };
 
   const onKey = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
   };
 
   return (
@@ -93,14 +119,19 @@ export function ChatBox({ projectId, userId }: { projectId: string; userId: stri
         <div ref={bottomRef} />
       </div>
 
+      {/* Error */}
+      {sendError && (
+        <p className="mt-2 text-xs text-red-400">{sendError}</p>
+      )}
+
       {/* Input */}
-      <div className="mt-4 flex gap-2">
+      <div className="mt-3 flex gap-2">
         <textarea
           rows={1}
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={onKey}
-          placeholder="Type a message…"
+          placeholder="Type a message… (Enter to send)"
           className="flex-1 resize-none rounded-input border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric"
         />
         <button

@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
@@ -36,7 +36,7 @@ export default function LoginPage() {
     setError(null);
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+      options: { emailRedirectTo: `${window.location.origin}/api/auth/callback` },
     });
     if (error) {
       setError(error.message);
@@ -47,23 +47,56 @@ export default function LoginPage() {
     }
   };
 
+  const input =
+    "w-full rounded-input border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric transition-colors";
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-ink px-4">
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-ink px-4">
+      {/* Arch background glow */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[500px]"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(44,95,255,0.22) 0%, transparent 70%)",
+        }}
+        aria-hidden
+      />
+      {/* Subtle grid */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
+        aria-hidden
+      />
+
       {/* Logo */}
-      <Link href="/" className="mb-10 font-display text-2xl font-bold text-white">
+      <Link href="/" className="relative mb-10 font-display text-2xl font-bold text-white">
         Net<span className="text-electric">Rive</span>
+        <span className="ml-2 rounded-pill bg-electric/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-electric">
+          Portal
+        </span>
       </Link>
 
-      <div className="w-full max-w-[420px] rounded-card glass p-8">
+      <div className="relative w-full max-w-[420px] rounded-card glass-strong p-8">
         {magicSent ? (
           <div className="text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-electric/15">
+            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-electric/15">
               <span className="text-2xl">📧</span>
             </div>
             <h2 className="font-display text-xl font-semibold text-white">Check your email</h2>
             <p className="mt-2 text-sm leading-[1.7] text-haze">
-              We&apos;ve sent a login link to <strong className="text-white">{email}</strong>. Click it to sign in — no password needed.
+              We&apos;ve sent a sign-in link to{" "}
+              <strong className="text-white">{email}</strong>. Click it to access your dashboard.
             </p>
+            <button
+              onClick={() => { setMagicSent(false); setError(null); }}
+              className="mt-5 text-xs text-haze hover:text-white"
+            >
+              ← Try a different email
+            </button>
           </div>
         ) : (
           <>
@@ -75,14 +108,14 @@ export default function LoginPage() {
               className="mt-6 space-y-4"
             >
               <div>
-                <label className="mb-1.5 block text-sm text-white/80">Email</label>
+                <label className="mb-1.5 block text-sm text-white/80">Email address</label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="w-full rounded-input border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric"
+                  className={input}
                 />
               </div>
 
@@ -95,7 +128,7 @@ export default function LoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full rounded-input border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric"
+                    className={input}
                   />
                 </div>
               )}
@@ -109,23 +142,34 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex w-full items-center justify-center gap-2 rounded-btn bg-electric py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-2 rounded-btn bg-electric py-3 text-sm font-semibold text-white shadow-glow transition hover:shadow-glow-lg disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : mode === "password" ? "Sign In" : "Send Magic Link"}
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : mode === "password" ? (
+                  <>Sign In <ArrowRight className="h-4 w-4" /></>
+                ) : (
+                  <>Send Magic Link <ArrowRight className="h-4 w-4" /></>
+                )}
               </button>
             </form>
 
             <button
-              onClick={() => { setMode(mode === "password" ? "magic" : "password"); setError(null); }}
+              onClick={() => {
+                setMode(mode === "password" ? "magic" : "password");
+                setError(null);
+              }}
               className="mt-4 w-full text-center text-sm text-haze transition hover:text-white"
             >
-              {mode === "password" ? "Forgot password? Sign in with email link instead" : "Sign in with password instead"}
+              {mode === "password"
+                ? "Forgot password? Sign in with email link instead →"
+                : "← Sign in with password instead"}
             </button>
           </>
         )}
       </div>
 
-      <p className="mt-6 text-xs text-white/30">
+      <p className="relative mt-6 text-xs text-white/30">
         Not a client yet?{" "}
         <Link href="/#contact" className="text-electric hover:underline">
           Start a project

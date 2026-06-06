@@ -12,6 +12,7 @@ export function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [countdown, setCountdown] = useState<number | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,6 +38,20 @@ export function Contact() {
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Submission failed");
       setSubmitted(true);
+
+      // New user: auto-redirect via magic link so they land on dashboard already logged in
+      if (json.dashboardLink) {
+        setCountdown(3);
+        let count = 3;
+        const timer = setInterval(() => {
+          count -= 1;
+          setCountdown(count);
+          if (count === 0) {
+            clearInterval(timer);
+            window.location.href = json.dashboardLink as string;
+          }
+        }, 1000);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
@@ -58,11 +73,28 @@ export function Contact() {
             <div className="flex h-full min-h-[400px] flex-col items-center justify-center text-center">
               <CheckCircle2 className="h-14 w-14 text-electric" />
               <h3 className="mt-5 font-display text-2xl font-semibold text-white">
-                Project received!
+                Project received! 🚀
               </h3>
-              <p className="mt-2 max-w-sm text-sm leading-[1.7] text-haze">
-                Check your email — we&apos;ve sent you a link to access your client dashboard where you can track progress and chat with our team.
-              </p>
+              {countdown !== null ? (
+                <div className="mt-4 space-y-2">
+                  <p className="text-sm text-haze">
+                    Opening your dashboard in <span className="font-bold text-electric">{countdown}</span>…
+                  </p>
+                  <div className="mx-auto h-1 w-40 overflow-hidden rounded-pill bg-white/10">
+                    <div
+                      className="h-full rounded-pill bg-electric transition-all duration-1000"
+                      style={{ width: `${((3 - countdown) / 3) * 100}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-haze/60">
+                    You&apos;ll also receive a confirmation email with a link to set your password.
+                  </p>
+                </div>
+              ) : (
+                <p className="mt-2 max-w-sm text-sm leading-[1.7] text-haze">
+                  We&apos;ve sent you a login link. Check your email to access your client dashboard and track progress.
+                </p>
+              )}
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">

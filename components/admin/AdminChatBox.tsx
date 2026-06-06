@@ -23,27 +23,45 @@ export function AdminChatBox({
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const supabase = createClient();
+  // Stable reference — not re-created on each render
+  const supabaseRef = useRef(createClient());
 
   useEffect(() => {
+    const supabase = supabaseRef.current;
+
     supabase
       .from("messages")
       .select("*")
       .eq("project_id", projectId)
       .order("created_at", { ascending: true })
-      .then(({ data }) => { if (data) setMessages(data); });
+      .then(({ data }) => {
+        if (data) setMessages(data);
+      });
 
     const channel = supabase
-      .channel(`admin-messages:${projectId}`)
+      .channel(`chat-admin-${projectId}`)
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages", filter: `project_id=eq.${projectId}` },
-        (payload) => { setMessages((prev) => [...prev, payload.new as Message]); }
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `project_id=eq.${projectId}`,
+        },
+        (payload) => {
+          setMessages((prev) => {
+            if (prev.find((m) => m.id === payload.new.id)) return prev;
+            return [...prev, payload.new as Message];
+          });
+        }
       )
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [projectId]);
 
   useEffect(() => {
@@ -53,34 +71,50 @@ export function AdminChatBox({
   const send = async () => {
     if (!text.trim() || sending) return;
     setSending(true);
-    await fetch("/api/messages", {
+    setSendError(null);
+
+    const res = await fetch("/api/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ projectId, content: text.trim() }),
     });
-    setText("");
+
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}));
+      setSendError(json.error ?? "Message failed to send. Try again.");
+    } else {
+      setText("");
+    }
     setSending(false);
   };
 
   const onKey = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
   };
 
   return (
     <div className="flex h-[450px] flex-col">
       <div className="flex-1 space-y-3 overflow-y-auto pr-1">
         {messages.length === 0 ? (
-          <p className="py-4 text-center text-sm text-haze">No messages yet.</p>
+          <p className="py-4 text-center text-sm text-haze">
+            No messages yet — start the conversation.
+          </p>
         ) : (
           messages.map((m) => {
             const isAdmin = m.sender_id === adminUserId;
-            const isClient = m.sender_id === clientId;
             return (
               <div key={m.id} className={`flex ${isAdmin ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[80%] rounded-[16px] px-4 py-2.5 text-sm leading-[1.6] ${
-                  isAdmin ? "rounded-br-sm bg-electric text-white" : "rounded-bl-sm bg-white/[0.07] text-white"
-                }`}>
-                  {!isAdmin && !isClient && (
+                <div
+                  className={`max-w-[80%] rounded-[16px] px-4 py-2.5 text-sm leading-[1.6] ${
+                    isAdmin
+                      ? "rounded-br-sm bg-electric text-white"
+                      : "rounded-bl-sm bg-white/[0.07] text-white"
+                  }`}
+                >
+                  {!isAdmin && m.sender_id !== clientId && (
                     <span className="mb-1 block text-[10px] text-sky">System</span>
                   )}
                   {m.content}
@@ -92,13 +126,17 @@ export function AdminChatBox({
         <div ref={bottomRef} />
       </div>
 
-      <div className="mt-4 flex gap-2">
+      {sendError && (
+        <p className="mt-2 text-xs text-red-400">{sendError}</p>
+      )}
+
+      <div className="mt-3 flex gap-2">
         <textarea
           rows={1}
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={onKey}
-          placeholder="Reply to client…"
+          placeholder="Reply to client… (Enter to send)"
           className="flex-1 resize-none rounded-input border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric"
         />
         <button

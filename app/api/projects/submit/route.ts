@@ -70,11 +70,14 @@ export async function POST(request: NextRequest) {
       throw new Error(`Could not create project: ${projErr?.message}`);
     }
 
-    // ── 3. Generate magic link so client can access dashboard ─────
+    // ── 3. Generate magic link — routes through callback so session cookie is set ─────
     const { data: linkData } = await supabase.auth.admin.generateLink({
       type: "magiclink",
       email: email.toLowerCase().trim(),
-      options: { redirectTo: `${siteUrl}/dashboard` },
+      options: {
+        // Must go through our callback, which calls exchangeCodeForSession and sets the cookie
+        redirectTo: `${siteUrl}/api/auth/callback`,
+      },
     });
 
     const dashboardLink =
@@ -88,7 +91,13 @@ export async function POST(request: NextRequest) {
       sendAdminWhatsAppNotification({ clientName: name, clientEmail: email, projectTitle }),
     ]);
 
-    return NextResponse.json({ success: true, projectId: project.id });
+    // Return the magic link so the frontend can auto-redirect (new users only)
+    return NextResponse.json({
+      success: true,
+      projectId: project.id,
+      // Only send the auto-login link for brand-new users; returning users are already logged in
+      dashboardLink: isNewUser ? dashboardLink : null,
+    });
   } catch (err) {
     console.error("[submit] error:", err);
     return NextResponse.json(
