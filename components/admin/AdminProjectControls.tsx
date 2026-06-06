@@ -18,12 +18,16 @@ export function AdminProjectControls({
   project,
   existingUpdates,
 }: {
-  project: { id: string; status: string; progress: number; admin_notes: string };
+  project: { id: string; status: string; progress: number; admin_notes: string; preview_url?: string; quoted_price?: string; monthly_maintenance?: string; customer_message?: string };
   existingUpdates: Update[];
 }) {
   const [status, setStatus] = useState(project.status);
   const [progress, setProgress] = useState(project.progress);
   const [notes, setNotes] = useState(project.admin_notes);
+  const [previewUrl, setPreviewUrl] = useState(project.preview_url ?? "");
+  const [quotedPrice, setQuotedPrice] = useState(project.quoted_price ?? "");
+  const [monthlyMaintenance, setMonthlyMaintenance] = useState(project.monthly_maintenance ?? "");
+  const [customerMessage, setCustomerMessage] = useState(project.customer_message ?? "");
   const [updateMsg, setUpdateMsg] = useState("");
   const [updates, setUpdates] = useState<Update[]>(existingUpdates);
   const [saving, setSaving] = useState(false);
@@ -35,7 +39,15 @@ export function AdminProjectControls({
     await fetch(`/api/admin/projects/${project.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status, progress, admin_notes: notes }),
+      body: JSON.stringify({
+        status,
+        progress,
+        admin_notes: notes,
+        preview_url: previewUrl,
+        quoted_price: quotedPrice,
+        monthly_maintenance: monthlyMaintenance,
+        customer_message: customerMessage,
+      }),
     });
     setSaving(false);
     setSaved(true);
@@ -111,6 +123,51 @@ export function AdminProjectControls({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Notes only visible to you…"
+              className={inputClass}
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-sm text-white/80">Preview URL</label>
+            <input
+              type="text"
+              value={previewUrl}
+              onChange={(e) => setPreviewUrl(e.target.value)}
+              placeholder="https://preview.netrive.com/..."
+              className={inputClass}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-1.5 block text-sm text-white/80">Quoted price (R)</label>
+              <input
+                type="text"
+                value={quotedPrice}
+                onChange={(e) => setQuotedPrice(e.target.value)}
+                placeholder="4000"
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-sm text-white/80">Monthly maintenance (R)</label>
+              <input
+                type="text"
+                value={monthlyMaintenance}
+                onChange={(e) => setMonthlyMaintenance(e.target.value)}
+                placeholder="500-1200"
+                className={inputClass}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-sm text-white/80">Message to customer</label>
+            <textarea
+              rows={3}
+              value={customerMessage}
+              onChange={(e) => setCustomerMessage(e.target.value)}
+              placeholder="e.g. Your website is done — preview it above and approve to go live."
               className={inputClass}
             />
           </div>
