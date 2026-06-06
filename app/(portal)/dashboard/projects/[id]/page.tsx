@@ -63,6 +63,36 @@ export default async function ProjectPage({
         </div>
       </div>
 
+      {/* Preview & quote from NetRive */}
+      {(project.preview_url || project.customer_message || project.quoted_price) && (
+        <div className="mb-6 rounded-card border border-electric/20 bg-electric/[0.06] p-6">
+          <h2 className="mb-3 font-display text-lg font-semibold text-white">Your Preview &amp; Quote</h2>
+          {project.customer_message && (
+            <p className="mb-4 text-sm leading-[1.7] text-white/80">{project.customer_message}</p>
+          )}
+          <div className="flex flex-wrap items-center gap-4">
+            {project.preview_url && (
+              <a
+                href={project.preview_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-btn bg-electric px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+              >
+                View your preview
+              </a>
+            )}
+            {project.quoted_price && (
+              <span className="text-sm text-haze">
+                Quote: <span className="font-semibold text-white">R{project.quoted_price}</span>
+                {project.monthly_maintenance && (
+                  <> · Maintenance: <span className="font-semibold text-white">R{project.monthly_maintenance}/mo</span></>
+                )}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
         {/* Left col — progress + updates */}
         <div className="space-y-6 lg:col-span-3">
