@@ -55,9 +55,9 @@ export default async function DashboardPage() {
       )}
 
       {/* Header */}
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 sm:mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold text-white">
+          <h1 className="font-display text-2xl font-bold text-white sm:text-3xl">
             Hey, {firstName} 👋
           </h1>
           <p className="mt-1 text-sm text-haze">
@@ -119,9 +119,14 @@ export default async function DashboardPage() {
                   {project.title}
                 </h3>
 
-                {project.package && (
-                  <p className="mt-1 text-xs text-haze">{project.package}</p>
-                )}
+                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  {project.package && (
+                    <p className="text-xs text-haze">{project.package}</p>
+                  )}
+                  <p className="font-mono text-xs font-semibold text-sky">
+                    {project.reference ?? `#${project.id.slice(0, 8).toUpperCase()}`}
+                  </p>
+                </div>
 
                 {/* Progress bar */}
                 <div className="mt-4">

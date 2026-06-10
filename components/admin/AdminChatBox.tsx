@@ -31,14 +31,24 @@ export function AdminChatBox({
   useEffect(() => {
     const supabase = supabaseRef.current;
 
-    supabase
-      .from("messages")
-      .select("*")
-      .eq("project_id", projectId)
-      .order("created_at", { ascending: true })
-      .then(({ data }) => {
-        if (data) setMessages(data);
-      });
+    const fetchMessages = () => {
+      supabase
+        .from("messages")
+        .select("*")
+        .eq("project_id", projectId)
+        .order("created_at", { ascending: true })
+        .then(({ data }) => {
+          if (!data) return;
+          setMessages((prev) => {
+            if (prev.length === data.length && prev[prev.length - 1]?.id === data[data.length - 1]?.id) {
+              return prev;
+            }
+            return data;
+          });
+        });
+    };
+
+    fetchMessages();
 
     const channel = supabase
       .channel(`chat-admin-${projectId}`)
@@ -59,7 +69,12 @@ export function AdminChatBox({
       )
       .subscribe();
 
+    // Polling fallback — guarantees the admin sees client messages even
+    // if realtime isn't enabled on the messages table
+    const poll = setInterval(fetchMessages, 5000);
+
     return () => {
+      clearInterval(poll);
       supabase.removeChannel(channel);
     };
   }, [projectId]);
@@ -83,6 +98,13 @@ export function AdminChatBox({
       const json = await res.json().catch(() => ({}));
       setSendError(json.error ?? "Message failed to send. Try again.");
     } else {
+      // Show the sent message immediately (poll/realtime will reconcile)
+      const sent = await res.json().catch(() => null);
+      if (sent?.id) {
+        setMessages((prev) =>
+          prev.find((m) => m.id === sent.id) ? prev : [...prev, sent as Message]
+        );
+      }
       setText("");
     }
     setSending(false);

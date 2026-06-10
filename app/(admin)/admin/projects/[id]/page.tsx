@@ -48,10 +48,15 @@ export default async function AdminProjectDetailPage({
         <ArrowLeft className="h-4 w-4" /> All projects
       </Link>
 
-      <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-4 sm:mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold text-white">{project.title}</h1>
-          <p className="mt-1 text-sm text-haze">Submitted {date}</p>
+          <h1 className="font-display text-2xl font-bold text-white sm:text-3xl">{project.title}</h1>
+          <div className="mt-2 flex flex-wrap items-center gap-3">
+            <p className="text-sm text-haze">Submitted {date}</p>
+            <span className="glass-electric inline-flex items-center rounded-pill px-3 py-1 font-mono text-xs font-bold text-white">
+              {project.reference ?? `#${project.id.slice(0, 8).toUpperCase()}`}
+            </span>
+          </div>
         </div>
       </div>
 

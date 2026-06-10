@@ -23,17 +23,28 @@ export function ChatBox({ projectId, userId }: { projectId: string; userId: stri
   useEffect(() => {
     const supabase = supabaseRef.current;
 
-    // Initial load
-    supabase
-      .from("messages")
-      .select("*")
-      .eq("project_id", projectId)
-      .order("created_at", { ascending: true })
-      .then(({ data }) => {
-        if (data) setMessages(data);
-      });
+    const fetchMessages = () => {
+      supabase
+        .from("messages")
+        .select("*")
+        .eq("project_id", projectId)
+        .order("created_at", { ascending: true })
+        .then(({ data }) => {
+          if (!data) return;
+          setMessages((prev) => {
+            // Only update state when something actually changed (avoids re-render churn)
+            if (prev.length === data.length && prev[prev.length - 1]?.id === data[data.length - 1]?.id) {
+              return prev;
+            }
+            return data;
+          });
+        });
+    };
 
-    // Real-time subscription
+    // Initial load
+    fetchMessages();
+
+    // Real-time subscription (instant delivery when enabled on the table)
     const channel = supabase
       .channel(`chat-client-${projectId}`)
       .on(
@@ -46,7 +57,6 @@ export function ChatBox({ projectId, userId }: { projectId: string; userId: stri
         },
         (payload) => {
           setMessages((prev) => {
-            // Avoid duplicate if we already added it optimistically
             if (prev.find((m) => m.id === payload.new.id)) return prev;
             return [...prev, payload.new as Message];
           });
@@ -54,7 +64,11 @@ export function ChatBox({ projectId, userId }: { projectId: string; userId: stri
       )
       .subscribe();
 
+    // Polling fallback — guarantees delivery even if realtime isn't enabled
+    const poll = setInterval(fetchMessages, 5000);
+
     return () => {
+      clearInterval(poll);
       supabase.removeChannel(channel);
     };
   }, [projectId]);
@@ -78,6 +92,13 @@ export function ChatBox({ projectId, userId }: { projectId: string; userId: stri
       const json = await res.json().catch(() => ({}));
       setSendError(json.error ?? "Failed to send. Try again.");
     } else {
+      // Show the sent message immediately (poll/realtime will reconcile)
+      const sent = await res.json().catch(() => null);
+      if (sent?.id) {
+        setMessages((prev) =>
+          prev.find((m) => m.id === sent.id) ? prev : [...prev, sent as Message]
+        );
+      }
       setText("");
     }
     setSending(false);

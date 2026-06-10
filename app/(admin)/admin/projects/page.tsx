@@ -29,7 +29,7 @@ export default async function AdminProjectsPage() {
   const db = createAdminClient();
   const { data: projects } = await db
     .from("projects")
-    .select("id, title, package, status, progress, created_at, profiles(full_name, business_name, phone)")
+    .select("id, title, package, status, progress, created_at, reference, profiles(full_name, business_name, phone)")
     .order("created_at", { ascending: false });
 
   return (
@@ -66,9 +66,12 @@ export default async function AdminProjectsPage() {
                 return (
                   <tr key={p.id} className="transition hover:bg-white/[0.02]">
                     <td className="px-5 py-4">
-                      <Link href={`/admin/projects/${p.id}`} className="font-medium text-white hover:text-electric">
+                      <Link href={`/admin/projects/${p.id}`} className="font-medium text-white hover:text-sky">
                         {p.title}
                       </Link>
+                      <span className="mt-0.5 block font-mono text-xs text-sky/80">
+                        {p.reference ?? `#${p.id.slice(0, 8).toUpperCase()}`}
+                      </span>
                     </td>
                     <td className="px-5 py-4 text-haze">
                       {client?.business_name ?? client?.full_name ?? "—"}
