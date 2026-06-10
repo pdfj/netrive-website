@@ -12,11 +12,15 @@ export const SITE = {
   positioning: "Human-led. AI-Powered.",
   description:
     "NetRive is Cape Town's premier web agency, delivering fast, modern, high-converting websites for ambitious businesses across South Africa and beyond.",
-  phoneDisplay: "+27 (0) 83 515 3674",
-  phoneRaw: "27835153674",
-  whatsapp: "https://wa.me/27835153674",
+  phoneDisplay: "+27 65 653 8435",
+  phoneRaw: "27656538435",
+  whatsapp: "https://wa.me/27656538435",
   email: "hello@netrive.com",
   emailAlt: "netrive.agency@gmail.com",
+  instagram: "https://www.instagram.com/netrive_",
+  instagramHandle: "@netrive_",
+  tiktok: "https://www.tiktok.com/@netrive.com",
+  tiktokHandle: "@netrive.com",
   rating: "4.9",
   reviewsCount: "50+",
   usdRate: 18.5,
@@ -74,31 +78,39 @@ export const PROCESS = [
   { icon: "Rocket", title: "Launch", desc: "Your site goes live — fast. Up to 48 hours from start to finish." },
 ] as const;
 
-// Section 7 — portfolio
+// Section 7 — portfolio (real projects, cards link to the live sites)
 export const PORTFOLIO = [
   {
-    name: "Apex Digital Solutions",
-    type: "Corporate Website",
+    name: "Pacôme Pertant",
+    type: "Interactive Portfolio",
+    url: "https://pacomepertant.com/",
+    domain: "pacomepertant.com",
+    tags: ["Web Design", "3D & Motion"],
+    result: "Immersive WebGL portfolio with spiral project navigation",
+  },
+  {
+    name: "Storytelling by Noomo",
+    type: "Brand Experience",
+    url: "https://storytelling.noomoagency.com/",
+    domain: "storytelling.noomoagency.com",
+    tags: ["Web Design", "Animation"],
+    result: "Award-grade digital storytelling experience in 3D",
+  },
+  {
+    name: "Sohub",
+    type: "Agency Platform",
+    url: "https://sohub.digital/",
+    domain: "sohub.digital",
     tags: ["Web Design", "Development"],
-    result: "Modern redesign that tripled their leads",
+    result: "Bold digital agency platform — your story builds our history",
   },
   {
-    name: "Coastal Brands Co.",
+    name: "Seoul Glow",
     type: "E-commerce Store",
-    tags: ["E-commerce", "Payment Integration"],
-    result: "Full online store live in 48 hours",
-  },
-  {
-    name: "Meridian Properties",
-    type: "Property Listings",
-    tags: ["Custom Web App", "SEO"],
-    result: "Custom property search and enquiry system",
-  },
-  {
-    name: "Summit Health Clinics",
-    type: "Healthcare Site",
-    tags: ["Web Design", "Booking System"],
-    result: "Online booking reduced no-shows by 40%",
+    url: "https://seoulglow.net/",
+    domain: "seoulglow.net",
+    tags: ["E-commerce", "Branding"],
+    result: "K-beauty store with a glass-skin glow aesthetic, built to convert",
   },
 ] as const;
 

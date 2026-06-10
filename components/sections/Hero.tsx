@@ -122,14 +122,14 @@ export function Hero() {
           aria-hidden
         />
 
-        {/* Drifting gradient orbs — depth + life */}
+        {/* Drifting gradient orbs — desktop only; large blur radii choke mobile GPUs */}
         <div
-          className="animate-orb-drift absolute left-[12%] top-[22%] h-72 w-72 rounded-full opacity-25 blur-[100px]"
+          className="animate-orb-drift absolute left-[12%] top-[22%] hidden h-72 w-72 rounded-full opacity-25 blur-[70px] md:block"
           style={{ background: "radial-gradient(circle, #00d4ff 0%, transparent 70%)" }}
           aria-hidden
         />
         <div
-          className="animate-orb-drift absolute right-[10%] top-[40%] h-80 w-80 rounded-full opacity-25 blur-[110px]"
+          className="animate-orb-drift absolute right-[10%] top-[40%] hidden h-80 w-80 rounded-full opacity-25 blur-[70px] md:block"
           style={{
             background: "radial-gradient(circle, #0066ff 0%, transparent 70%)",
             animationDelay: "-9s",
@@ -137,8 +137,8 @@ export function Hero() {
           aria-hidden
         />
 
-        {/* Rising particles */}
-        <div className="absolute inset-0 overflow-hidden" aria-hidden>
+        {/* Rising particles — desktop only (20 animated layers is too many for phones) */}
+        <div className="absolute inset-0 hidden overflow-hidden sm:block" aria-hidden>
           {PARTICLES.map((p, i) => (
             <span
               key={i}
@@ -183,10 +183,9 @@ export function Hero() {
               </Word>
             ))}
           </span>
-          <span
-            className="block drop-shadow-[0_24px_60px_rgba(0,150,255,0.45)]"
-            style={{ transform: "translateZ(60px)" }}
-          >
+          {/* No drop-shadow here: a filter over continuously-moving words
+              re-rasterizes every frame and causes scroll jank */}
+          <span className="block" style={{ transform: "translateZ(60px)" }}>
             {LINE_TWO.map((word, i) => (
               <Word key={word} index={LINE_ONE.length + i} gradient>
                 {word}

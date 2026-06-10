@@ -79,7 +79,7 @@ export async function sendProjectConfirmationEmail({
       </a>
     </div>
     <p style="margin:0;font-size:13px;color:#a0aaba;text-align:center;">
-      Questions? Reply to this email or WhatsApp us at ${process.env.ADMIN_WHATSAPP_NUMBER ?? "+27835153674"}
+      Questions? Reply to this email or WhatsApp us at ${process.env.ADMIN_WHATSAPP_NUMBER ?? "+27656538435"}
     </p>
   `;
 

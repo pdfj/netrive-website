@@ -17,7 +17,7 @@ const config: Config = {
         haze: "#9aa3b2", // secondary text
       },
       fontFamily: {
-        display: ["Clash Display", "system-ui", "sans-serif"],
+        display: ["var(--font-clash)", "Clash Display", "system-ui", "sans-serif"],
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         grotesk: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
       },
@@ -37,9 +37,11 @@ const config: Config = {
         content: "1200px",
       },
       keyframes: {
+        // transform/opacity only — animating filter here repainted the whole
+        // viewport every frame and froze scrolling on mobile
         breathe: {
-          "0%,100%": { filter: "brightness(1)", transform: "scale(1)" },
-          "50%": { filter: "brightness(1.18)", transform: "scale(1.03)" },
+          "0%,100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.92", transform: "scale(1.03)" },
         },
         floatUp: {
           "0%": { transform: "translateY(0) translateX(0)", opacity: "0" },

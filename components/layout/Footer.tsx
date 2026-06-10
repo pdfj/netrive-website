@@ -12,18 +12,10 @@ function InstagramIcon({ className }: { className?: string }) {
   );
 }
 
-function FacebookIcon({ className }: { className?: string }) {
+function TikTokIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6v1.9H16l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z" />
-    </svg>
-  );
-}
-
-function LinkedinIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.25 8h4.5v12h-4.5V8zM8 8h4.3v1.64h.06c.6-1.06 2.06-2.18 4.24-2.18 4.54 0 5.38 2.86 5.38 6.58V20h-4.5v-5.5c0-1.31-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9V20H8V8z" />
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
     </svg>
   );
 }
@@ -58,13 +50,14 @@ export function Footer() {
           </p>
           <div className="mt-5 flex gap-3">
             {[
-              { Icon: InstagramIcon, label: "Instagram" },
-              { Icon: FacebookIcon, label: "Facebook" },
-              { Icon: LinkedinIcon, label: "LinkedIn" },
-            ].map(({ Icon, label }) => (
+              { Icon: InstagramIcon, label: "Instagram", href: SITE.instagram },
+              { Icon: TikTokIcon, label: "TikTok", href: SITE.tiktok },
+            ].map(({ Icon, label, href }) => (
               <a
                 key={label}
-                href="#"
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={`NetRive on ${label}`}
                 className="flex h-9 w-9 items-center justify-center rounded-full glass text-white/70 transition-colors hover:text-sky"
               >
