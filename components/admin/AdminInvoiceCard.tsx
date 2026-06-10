@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Receipt, CheckCircle2, Clock, Send } from "lucide-react";
+import { Loader2, Receipt, CheckCircle2, Clock, Send, Download } from "lucide-react";
 
 type InvoiceState = {
   invoice_amount: number | null;
@@ -94,15 +94,25 @@ export function AdminInvoiceCard({
 
       {/* Amount summary when issued */}
       {status !== "none" && invoice.invoice_amount && (
-        <p className="mb-4 text-sm text-haze">
-          Amount:{" "}
-          <span className="font-display text-lg font-bold text-white">
-            R{Number(invoice.invoice_amount).toLocaleString("en-ZA")}
-          </span>
-          {invoice.invoice_monthly ? (
-            <span> + R{Number(invoice.invoice_monthly).toLocaleString("en-ZA")}/mo maintenance</span>
-          ) : null}
-        </p>
+        <div className="mb-4">
+          <p className="text-sm text-haze">
+            Amount:{" "}
+            <span className="font-display text-lg font-bold text-white">
+              R{Number(invoice.invoice_amount).toLocaleString("en-ZA")}
+            </span>
+            {invoice.invoice_monthly ? (
+              <span> + R{Number(invoice.invoice_monthly).toLocaleString("en-ZA")}/mo maintenance</span>
+            ) : null}
+          </p>
+          <a
+            href={`/api/invoices/${projectId}/pdf`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-sky transition hover:text-white"
+          >
+            <Download className="h-4 w-4" /> View / download the PDF invoice
+          </a>
+        </div>
       )}
 
       {/* Issue / re-issue form */}

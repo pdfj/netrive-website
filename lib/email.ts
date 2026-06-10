@@ -209,6 +209,7 @@ export async function sendInvoiceEmail({
   reference,
   amount,
   monthly,
+  pdf,
 }: {
   to: string;
   name: string;
@@ -216,6 +217,7 @@ export async function sendInvoiceEmail({
   reference: string;
   amount: number;
   monthly?: number | null;
+  pdf?: Buffer | null;
 }) {
   const content = `
     <h1 style="margin:0 0 8px;font-size:26px;font-weight:700;color:#ffffff;">
@@ -252,6 +254,9 @@ export async function sendInvoiceEmail({
     to,
     subject: `🧾 Invoice ${reference} — R${amount.toLocaleString("en-ZA")} · ${projectTitle}`,
     html: emailShell(content, true),
+    attachments: pdf
+      ? [{ filename: `Invoice-${reference}.pdf`, content: pdf }]
+      : undefined,
   });
 }
 

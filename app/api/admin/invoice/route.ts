@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendInvoiceEmail, sendPaymentConfirmedEmail } from "@/lib/email";
+import { renderInvoicePdf } from "@/lib/invoice-pdf";
 
 // POST /api/admin/invoice
 // { projectId, action: "issue", amount, monthly? }  → issue invoice + email client
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
   // Load project + client
   const { data: project, error: projErr } = await adminDb
     .from("projects")
-    .select("*, profiles(full_name)")
+    .select("*, profiles(full_name, business_name)")
     .eq("id", projectId)
     .single();
   if (projErr || !project) {
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
 
   const { data: authUser } = await adminDb.auth.admin.getUserById(project.client_id);
   const clientEmail = authUser?.user?.email ?? null;
-  const clientProfile = project.profiles as { full_name: string | null } | null;
+  const clientProfile = project.profiles as { full_name: string | null; business_name: string | null } | null;
   const clientName = clientProfile?.full_name ?? "there";
   const reference: string =
     project.reference ?? `#${String(project.id).slice(0, 8).toUpperCase()}`;
@@ -73,6 +74,24 @@ export async function POST(request: NextRequest) {
 
     if (clientEmail) {
       try {
+        // Generate the branded PDF invoice (best-effort — never blocks issuing)
+        let pdf: Buffer | null = null;
+        try {
+          pdf = await renderInvoicePdf({
+            reference,
+            projectTitle: project.title,
+            packageName: project.package,
+            amount: amt,
+            monthly: monthlyAmt,
+            clientName,
+            businessName: clientProfile?.business_name ?? null,
+            clientEmail,
+            issuedAt: data.invoice_issued_at,
+          });
+        } catch (pdfErr) {
+          console.error("[invoice] pdf render failed (non-fatal):", pdfErr);
+        }
+
         await sendInvoiceEmail({
           to: clientEmail,
           name: clientName,
@@ -80,6 +99,7 @@ export async function POST(request: NextRequest) {
           reference,
           amount: amt,
           monthly: monthlyAmt,
+          pdf,
         });
       } catch (e) {
         console.error("[invoice] email failed (non-fatal):", e);

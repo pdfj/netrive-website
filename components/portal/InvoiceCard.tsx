@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Receipt, CheckCircle2, Clock } from "lucide-react";
+import { Loader2, Receipt, CheckCircle2, Clock, Download } from "lucide-react";
 
 type InvoiceState = {
   invoice_amount: number | null;
@@ -65,6 +65,15 @@ export function InvoiceCard({
           <p className="font-mono text-base font-bold gradient-text-accent">{reference}</p>
         </div>
       </div>
+
+      <a
+        href={`/api/invoices/${projectId}/pdf`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 inline-flex items-center gap-2 rounded-btn border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:border-sky/40 hover:bg-white/[0.05]"
+      >
+        <Download className="h-4 w-4" /> Download PDF invoice
+      </a>
 
       {status === "issued" && (
         <>
