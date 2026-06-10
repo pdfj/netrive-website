@@ -1,7 +1,12 @@
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+// hello@ = warm, human onboarding. info@ = automated brand concierge
+// (invoices, confirmations, internal alerts). Automated mail sets
+// reply-to: hello@ so a client who hits "reply" still reaches a human.
 const FROM = "NetRive <hello@netrive.com>";
+const INFO_FROM = "NetRive <info@netrive.com>";
+const REPLY_TO = "hello@netrive.com";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "hello@netrive.com";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.netrive.com";
 const BANNER_URL = `${SITE_URL}/images/email/welcome-banner.png`;
@@ -187,7 +192,8 @@ export async function sendAdminNotificationEmail({
   `;
 
   await resend.emails.send({
-    from: FROM,
+    from: INFO_FROM,
+    replyTo: REPLY_TO,
     to: ADMIN_EMAIL,
     subject: `New project: ${projectTitle}`,
     html: emailShell(content),
@@ -241,7 +247,8 @@ export async function sendInvoiceEmail({
   `;
 
   await resend.emails.send({
-    from: FROM,
+    from: INFO_FROM,
+    replyTo: REPLY_TO,
     to,
     subject: `🧾 Invoice ${reference} — R${amount.toLocaleString("en-ZA")} · ${projectTitle}`,
     html: emailShell(content, true),
@@ -278,7 +285,8 @@ export async function sendInvoicePaidClaimEmail({
   `;
 
   await resend.emails.send({
-    from: FROM,
+    from: INFO_FROM,
+    replyTo: REPLY_TO,
     to: ADMIN_EMAIL,
     subject: `💰 Payment claimed — ${reference} · ${projectTitle}`,
     html: emailShell(content),
@@ -313,7 +321,8 @@ export async function sendPaymentConfirmedEmail({
   `;
 
   await resend.emails.send({
-    from: FROM,
+    from: INFO_FROM,
+    replyTo: REPLY_TO,
     to,
     subject: `🎉 Payment confirmed — ${reference} · your site is on the way`,
     html: emailShell(content, true),

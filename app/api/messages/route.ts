@@ -62,7 +62,8 @@ export async function POST(request: NextRequest) {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.netrive.com";
       const resend = new Resend(process.env.RESEND_API_KEY);
       await resend.emails.send({
-        from: "NetRive <hello@netrive.com>",
+        from: "NetRive <info@netrive.com>",
+        replyTo: "hello@netrive.com",
         to: process.env.ADMIN_EMAIL ?? "hello@netrive.com",
         subject: `💬 New message from ${senderProfile?.full_name ?? "a client"} — ${project?.reference ?? project?.title ?? "project"}`,
         html: `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;background:#0a0a0a;color:#fff;border-radius:16px;">
