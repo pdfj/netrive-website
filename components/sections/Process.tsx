@@ -13,7 +13,7 @@ export function Process() {
       <SectionHeading
         label="The Process"
         title="Discovery → Design → Build → Launch"
-        subtitle="Four steps. Zero friction. Your site live in as little as 12 hours."
+        subtitle="Four steps. Zero friction. Your site live in as little as 24 hours."
       />
 
       <div className="relative mt-16">

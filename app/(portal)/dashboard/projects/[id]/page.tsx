@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { ArrowLeft, CheckCircle2, Hammer, Hash } from "lucide-react";
 import { ChatBox } from "@/components/portal/ChatBox";
+import { InvoiceCard } from "@/components/portal/InvoiceCard";
 
 const STATUS_STEPS = [
   { key: "submitted", label: "Submitted" },
@@ -79,6 +80,17 @@ export default async function ProjectPage({
       <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-5">
         {/* Left col — progress + updates */}
         <div className="space-y-5 sm:space-y-6 lg:col-span-3">
+          {/* Invoice (shows once issued) */}
+          <InvoiceCard
+            projectId={project.id}
+            reference={reference ?? `#${project.id.slice(0, 8).toUpperCase()}`}
+            invoice={{
+              invoice_amount: project.invoice_amount ?? null,
+              invoice_monthly: project.invoice_monthly ?? null,
+              invoice_status: project.invoice_status ?? "none",
+            }}
+          />
+
           {/* Progress */}
           <div className="rounded-card glass p-5 sm:p-6">
             <h2 className="mb-4 font-display text-lg font-semibold text-white">Progress</h2>

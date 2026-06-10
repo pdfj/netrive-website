@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const VALUES = [
   {
     title: "Speed without compromise",
-    body: "We deliver in as little as 12 hours — not by cutting corners, but by working smarter with the best tools available.",
+    body: "We deliver in as little as 24 hours — not by cutting corners, but by working smarter with the best tools available.",
   },
   {
     title: "Real business focus",

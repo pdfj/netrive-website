@@ -5,7 +5,7 @@ const ICONS: Record<string, typeof Star> = {
   "4.9 Google Rating": Star,
   "50+ Projects Delivered": CheckCircle2,
   "Secured by Yoco": Lock,
-  "Up to 48hr Delivery": Zap,
+  "24–72hr Delivery": Zap,
 };
 
 export function TrustMarquee() {

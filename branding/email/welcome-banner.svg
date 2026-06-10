@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#0066ff"/>
+    </linearGradient>
+    <filter id="bsoft" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="70"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="400" fill="#0a0a0a"/>
+  <circle cx="1060" cy="60" r="190" fill="url(#bg)" opacity="0.4" filter="url(#bsoft)"/>
+  <circle cx="120" cy="380" r="160" fill="#00d4ff" opacity="0.25" filter="url(#bsoft)"/>
+  <g transform="translate(95,105) scale(0.37)">
+    <g fill="url(#bg)">
+      <rect x="160" y="150" width="46" height="212"/>
+      <rect x="306" y="150" width="46" height="212"/>
+      <polygon points="160,150 206,150 296,256 250,256"/>
+      <polygon points="216,256 262,256 352,362 306,362"/>
+    </g>
+  </g>
+  <text x="290" y="195" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="bold" fill="#ffffff">Welcome to NetRive</text>
+  <text x="292" y="248" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#9aa3b2">Websites that work. Businesses that grow.</text>
+  <rect x="292" y="290" width="270" height="6" rx="3" fill="url(#bg)"/>
+</svg>

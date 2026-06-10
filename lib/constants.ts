@@ -46,7 +46,7 @@ export const SERVICES = [
   { name: "Google Ads Management", description: "Targeted campaigns that turn ad spend into real revenue." },
   { name: "Meta Ads Campaigns", description: "Reach your customers on Instagram and Facebook." },
   { name: "Social Media Management", description: "Consistent, professional presence across all platforms." },
-  { name: "Website Maintenance", description: "We keep your site secure, updated, and always running." },
+  { name: "Website Maintenance", description: "We keep your site secure, updated, and always running. From R250/month, scaled to your project." },
   { name: "Booking Systems", description: "Let clients book appointments directly through your site." },
   { name: "Payment Integration", description: "Accept payments online with Yoco, PayFast, or Stripe." },
   { name: "Custom Web Applications", description: "Complex tools and dashboards built to your exact specs." },
@@ -65,7 +65,7 @@ export const SERVICES_GRID = [
   { icon: "CalendarCheck", title: "Booking Systems", desc: "Let clients book appointments through your site." },
   { icon: "CreditCard", title: "Payment Integration", desc: "Yoco, PayFast or Stripe, fully integrated." },
   { icon: "Smartphone", title: "Mobile Web Apps", desc: "Responsive apps that feel native on any device." },
-  { icon: "Wrench", title: "Website Maintenance", desc: "Secure, updated and always running." },
+  { icon: "Wrench", title: "Website Maintenance", desc: "Secure, updated and always running — from R250/mo." },
   { icon: "MessageCircle", title: "WhatsApp Integration", desc: "Turn visitors into WhatsApp conversations." },
   { icon: "Boxes", title: "Custom Applications", desc: "Dashboards and tools built to your exact specs." },
 ] as const;
@@ -75,7 +75,7 @@ export const PROCESS = [
   { icon: "Search", title: "Discovery", desc: "We listen. We learn your business, goals, and target audience." },
   { icon: "Palette", title: "Design", desc: "We create a custom design that reflects your brand and converts visitors." },
   { icon: "Zap", title: "Build", desc: "We code your site clean, fast, and fully responsive." },
-  { icon: "Rocket", title: "Launch", desc: "Your site goes live — fast. Up to 48 hours from start to finish." },
+  { icon: "Rocket", title: "Launch", desc: "Your site goes live — fast. From 24 to 72 hours depending on your plan." },
 ] as const;
 
 // Section 7 — portfolio (real projects, cards link to the live sites)
@@ -122,7 +122,7 @@ export const PRICING = [
     usd: 81,
     tagline: "Single-page landing site. Fast, clean, professional.",
     features: ["1-page website", "Mobile responsive", "Contact button & WhatsApp", "Basic SEO"],
-    delivery: "Up to 12 hours",
+    delivery: "Up to 24 hours",
     cta: "Get Started — R1,500",
     featured: false,
     custom: false,
@@ -139,7 +139,7 @@ export const PRICING = [
       "Google Maps integration",
       "SEO setup",
     ],
-    delivery: "Up to 18 hours",
+    delivery: "Up to 24 hours",
     cta: "Get Started — R2,800",
     featured: false,
     custom: false,
@@ -157,7 +157,7 @@ export const PRICING = [
       "Social media links",
       "Full SEO optimisation",
     ],
-    delivery: "Up to 24 hours",
+    delivery: "Up to 48 hours",
     cta: "Get Started — R3,500",
     featured: false,
     custom: false,
@@ -175,7 +175,7 @@ export const PRICING = [
       "Google Analytics setup",
       "3 months free support",
     ],
-    delivery: "Up to 36 hours",
+    delivery: "Up to 72 hours",
     cta: "Get Started — R5,000",
     featured: true,
     custom: false,
@@ -193,7 +193,7 @@ export const PRICING = [
       "Customer accounts",
       "Priority support (6 months)",
     ],
-    delivery: "Up to 48 hours",
+    delivery: "Up to 72 hours",
     cta: "Get Started — R8,000",
     featured: false,
     custom: false,
@@ -254,7 +254,7 @@ export const TESTIMONIALS = [
 
 // Section 10 — stats
 export const STATS = [
-  { icon: "Zap", value: "Up to 48hrs", label: "Delivery" },
+  { icon: "Zap", value: "24–72hrs", label: "Delivery" },
   { icon: "CheckCircle2", value: "50+", label: "Sites Launched" },
   { icon: "Star", value: "4.9", label: "Google Rating" },
   { icon: "Globe", value: "SA & Beyond", label: "Clients Served" },
@@ -273,7 +273,8 @@ export const MARQUEE_ITEMS = [
   "Atlantic Bay Consulting",
   "50+ Projects Delivered",
   "Secured by Yoco",
-  "Up to 48hr Delivery",
+  "24–72hr Delivery",
+  "Maintenance from R250/mo",
 ] as const;
 
 // Blog page — posts go live here when published (layout ships empty by design)

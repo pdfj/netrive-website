@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
     // 3. Notifications (best-effort, never block submission)
     const dashboardLink = `${siteUrl}/dashboard`;
     await Promise.allSettled([
-      sendProjectConfirmationEmail({ to: cleanEmail, name, projectTitle, dashboardLink, isNewUser }),
+      sendProjectConfirmationEmail({ to: cleanEmail, name, projectTitle, dashboardLink, isNewUser, reference }),
       phone ? sendProjectConfirmationWhatsApp({ to: phone, name, projectTitle }) : Promise.resolve(),
       sendAdminNotificationEmail({
         clientName: name,

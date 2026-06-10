@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { ArrowLeft } from "lucide-react";
 import { AdminProjectControls } from "@/components/admin/AdminProjectControls";
+import { AdminInvoiceCard } from "@/components/admin/AdminInvoiceCard";
 import { AdminChatBox } from "@/components/admin/AdminChatBox";
 
 export default async function AdminProjectDetailPage({
@@ -99,9 +100,32 @@ export default async function AdminProjectDetailPage({
             </div>
           )}
 
+          {/* Invoice */}
+          <AdminInvoiceCard
+            projectId={project.id}
+            reference={project.reference ?? `#${String(project.id).slice(0, 8).toUpperCase()}`}
+            invoice={{
+              invoice_amount: project.invoice_amount ?? null,
+              invoice_monthly: project.invoice_monthly ?? null,
+              invoice_status: project.invoice_status ?? "none",
+              invoice_issued_at: project.invoice_issued_at ?? null,
+              invoice_paid_claimed_at: project.invoice_paid_claimed_at ?? null,
+              invoice_confirmed_at: project.invoice_confirmed_at ?? null,
+            }}
+          />
+
           {/* Admin controls */}
           <AdminProjectControls
-            project={{ id: project.id, status: project.status, progress: project.progress, admin_notes: project.admin_notes ?? "" }}
+            project={{
+              id: project.id,
+              status: project.status,
+              progress: project.progress,
+              admin_notes: project.admin_notes ?? "",
+              preview_url: project.preview_url ?? "",
+              quoted_price: project.quoted_price ?? "",
+              monthly_maintenance: project.monthly_maintenance ?? "",
+              customer_message: project.customer_message ?? "",
+            }}
             existingUpdates={updates ?? []}
           />
         </div>

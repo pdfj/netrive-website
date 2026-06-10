@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Check, Lock, Zap } from "lucide-react";
+import { Check, Lock, Wrench, Zap } from "lucide-react";
 import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { PRICING } from "@/lib/constants";
@@ -93,18 +93,24 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
         ))}
       </div>
 
+      {/* Maintenance banner */}
+      <div className="glass-electric mx-auto mt-12 flex max-w-2xl flex-col items-center justify-center gap-2 rounded-card px-6 py-5 text-center sm:flex-row sm:gap-3">
+        <Wrench className="h-5 w-5 shrink-0 text-sky" />
+        <p className="text-sm leading-[1.6] text-white/85">
+          <span className="font-semibold text-white">Monthly maintenance from R250/month</span>
+          {" "}— security, updates and uptime handled for you, priced to the size of your project.
+        </p>
+      </div>
+
       {/* Trust footer */}
-      <div className="mt-12 flex flex-col items-center justify-center gap-4 text-center text-sm text-haze sm:flex-row sm:gap-8">
+      <div className="mt-8 flex flex-col items-center justify-center gap-4 text-center text-sm text-haze sm:flex-row sm:gap-8">
         <span className="inline-flex items-center gap-2">
           <Lock className="h-4 w-4 text-sky" />
-          All payments securely processed by{" "}
-          <span className="rounded-md bg-white px-2 py-0.5 font-display text-xs font-bold text-black">
-            Yoco
-          </span>
+          Free preview first — pay only when you approve
         </span>
         <span className="inline-flex items-center gap-2">
           <Zap className="h-4 w-4 text-sky" />
-          Fastest delivery in Cape Town — from 12 to 48 hours
+          Fastest delivery in Cape Town — from 24 to 72 hours
         </span>
       </div>
     </section>

@@ -4,8 +4,45 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = "NetRive <hello@netrive.com>";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "hello@netrive.com";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.netrive.com";
+const BANNER_URL = `${SITE_URL}/images/email/welcome-banner.png`;
 
-function emailShell(content: string) {
+// EFT banking details shown on invoices.
+// Leave fields empty ("") to hide the block until real details are added.
+export const BANKING = {
+  bank: "",
+  accountName: "",
+  accountNumber: "",
+  branchCode: "",
+};
+
+function bankingBlock(reference: string) {
+  const hasDetails = BANKING.bank && BANKING.accountNumber;
+  if (!hasDetails) {
+    return `<p style="margin:0;font-size:13px;color:#9aa3b2;">
+      We'll send our EFT banking details to you on WhatsApp — use reference
+      <strong style="color:#ffffff;">${reference}</strong> when you pay.
+    </p>`;
+  }
+  return `<table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;">
+    ${[
+      ["Bank", BANKING.bank],
+      ["Account name", BANKING.accountName],
+      ["Account number", BANKING.accountNumber],
+      ["Branch code", BANKING.branchCode],
+      ["Payment reference", reference],
+    ]
+      .map(
+        ([label, value]) => `
+    <tr>
+      <td style="padding:6px 0;color:#9aa3b2;width:150px;">${label}</td>
+      <td style="padding:6px 0;color:#ffffff;font-weight:600;">${value}</td>
+    </tr>`
+      )
+      .join("")}
+  </table>`;
+}
+
+function emailShell(content: string, withBanner = false) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,21 +50,24 @@ function emailShell(content: string) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>NetRive</title>
 </head>
-<body style="margin:0;padding:0;background:#000000;font-family:'Inter',Arial,sans-serif;color:#ffffff;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#000000;">
+<body style="margin:0;padding:0;background:#0a0a0a;font-family:'Inter',Arial,sans-serif;color:#ffffff;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;">
   <tr><td align="center" style="padding:40px 16px;">
     <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
-      <!-- Logo -->
-      <tr><td style="padding-bottom:32px;text-align:center;">
-        <span style="font-family:'Arial Black',Arial,sans-serif;font-size:22px;font-weight:900;letter-spacing:-0.5px;color:#ffffff;">Net<span style="color:#2c5fff;">Rive</span></span>
-      </td></tr>
-      <!-- Card -->
+      ${
+        withBanner
+          ? `<tr><td style="padding-bottom:24px;">
+              <img src="${BANNER_URL}" alt="Welcome to NetRive" width="600" style="width:100%;height:auto;border-radius:20px;display:block;" />
+            </td></tr>`
+          : `<tr><td style="padding-bottom:32px;text-align:center;">
+              <span style="font-family:'Arial Black',Arial,sans-serif;font-size:22px;font-weight:900;letter-spacing:-0.5px;color:#ffffff;">Net<span style="color:#00a8ff;">Rive</span></span>
+            </td></tr>`
+      }
       <tr><td style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:40px 36px;">
         ${content}
       </td></tr>
-      <!-- Footer -->
-      <tr><td style="padding-top:28px;text-align:center;font-size:12px;color:#a0aaba;">
-        NetRive · Cape Town, South Africa · <a href="${SITE_URL}" style="color:#2c5fff;text-decoration:none;">netrive.com</a>
+      <tr><td style="padding-top:28px;text-align:center;font-size:12px;color:#9aa3b2;">
+        NetRive · Cape Town, South Africa · <a href="${SITE_URL}" style="color:#00a8ff;text-decoration:none;">netrive.com</a>
       </td></tr>
     </table>
   </td></tr>
@@ -36,49 +76,52 @@ function emailShell(content: string) {
 </html>`;
 }
 
+const CTA_STYLE =
+  "display:inline-block;background:linear-gradient(120deg,#00d4ff,#0066ff);color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 36px;border-radius:50px;letter-spacing:0.02em;";
+
 export async function sendProjectConfirmationEmail({
   to,
   name,
   projectTitle,
   dashboardLink,
   isNewUser,
+  reference,
 }: {
   to: string;
   name: string;
   projectTitle: string;
   dashboardLink: string;
   isNewUser: boolean;
+  reference?: string | null;
 }) {
   const content = `
     <h1 style="margin:0 0 8px;font-size:26px;font-weight:700;color:#ffffff;">
-      Your project is in good hands 🚀
+      ${isNewUser ? `Welcome aboard, ${name}! 🎉` : "Your project is in good hands 🚀"}
     </h1>
-    <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#a0aaba;">
-      Hi ${name}, we've received your project and our team is already reviewing it. Here's what happens next:
+    <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#9aa3b2;">
+      ${
+        isNewUser
+          ? "Your NetRive client account is ready, and your project is already with our team. Here's what happens next:"
+          : `Hi ${name}, we've received your new project and our team is already reviewing it.`
+      }
     </p>
-    <div style="background:rgba(44,95,255,0.08);border:1px solid rgba(44,95,255,0.2);border-radius:14px;padding:20px 24px;margin-bottom:28px;">
-      <p style="margin:0;font-size:13px;color:#a0aaba;text-transform:uppercase;letter-spacing:0.1em;">Project Received</p>
+    <div style="background:rgba(0,150,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:14px;padding:20px 24px;margin-bottom:28px;">
+      <p style="margin:0;font-size:13px;color:#9aa3b2;text-transform:uppercase;letter-spacing:0.1em;">Project received</p>
       <p style="margin:6px 0 0;font-size:17px;font-weight:600;color:#ffffff;">${projectTitle}</p>
+      ${reference ? `<p style="margin:6px 0 0;font-family:monospace;font-size:14px;font-weight:700;color:#00d4ff;">${reference}</p>` : ""}
     </div>
-    <p style="margin:0 0 8px;font-size:14px;color:#a0aaba;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">What happens next</p>
-    <ol style="margin:0 0 28px;padding-left:20px;font-size:14px;line-height:2;color:#a0aaba;">
+    <p style="margin:0 0 8px;font-size:14px;color:#9aa3b2;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">What happens next</p>
+    <ol style="margin:0 0 28px;padding-left:20px;font-size:14px;line-height:2;color:#9aa3b2;">
       <li>We review your brief <span style="color:#ffffff;">(usually within a few hours)</span></li>
-      <li>We'll reach out on WhatsApp or email to confirm details</li>
-      <li>Work begins — you can track every update in your dashboard</li>
+      <li>We build your <span style="color:#ffffff;">free preview</span> — no payment until you approve it</li>
+      <li>Track everything and chat with us in your dashboard</li>
     </ol>
-    ${isNewUser ? `
-    <p style="margin:0 0 16px;font-size:14px;color:#a0aaba;">
-      We've created your client dashboard. Click below to ${isNewUser ? "set your password and " : ""}access your project:
-    </p>` : `
-    <p style="margin:0 0 16px;font-size:14px;color:#a0aaba;">
-      Track your new project in your dashboard:
-    </p>`}
     <div style="text-align:center;margin-bottom:28px;">
-      <a href="${dashboardLink}" style="display:inline-block;background:#2c5fff;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 36px;border-radius:50px;letter-spacing:0.02em;">
-        ${isNewUser ? "Set Password & View Dashboard" : "View My Dashboard"} →
+      <a href="${dashboardLink}" style="${CTA_STYLE}">
+        Go to my dashboard →
       </a>
     </div>
-    <p style="margin:0;font-size:13px;color:#a0aaba;text-align:center;">
+    <p style="margin:0;font-size:13px;color:#9aa3b2;text-align:center;">
       Questions? Reply to this email or WhatsApp us at ${process.env.ADMIN_WHATSAPP_NUMBER ?? "+27656538435"}
     </p>
   `;
@@ -86,8 +129,10 @@ export async function sendProjectConfirmationEmail({
   await resend.emails.send({
     from: FROM,
     to,
-    subject: `🚀 Project received — ${projectTitle}`,
-    html: emailShell(content),
+    subject: isNewUser
+      ? `🎉 Welcome to NetRive — ${projectTitle} received`
+      : `🚀 Project received — ${projectTitle}`,
+    html: emailShell(content, true),
   });
 }
 
@@ -112,7 +157,7 @@ export async function sendAdminNotificationEmail({
     <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;color:#ffffff;">
       New project submission 📥
     </h1>
-    <p style="margin:0 0 24px;font-size:15px;color:#a0aaba;">A new project has been submitted via netrive.com</p>
+    <p style="margin:0 0 24px;font-size:15px;color:#9aa3b2;">A new project has been submitted via netrive.com</p>
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
       ${[
         ["Client", clientName],
@@ -124,19 +169,19 @@ export async function sendAdminNotificationEmail({
         .map(
           ([label, value]) => `
       <tr>
-        <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:#a0aaba;width:130px;">${label}</td>
+        <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:#9aa3b2;width:130px;">${label}</td>
         <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;color:#ffffff;font-weight:500;">${value}</td>
       </tr>`
         )
         .join("")}
     </table>
     ${description ? `
-    <p style="margin:0 0 8px;font-size:13px;color:#a0aaba;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Project Brief</p>
+    <p style="margin:0 0 8px;font-size:13px;color:#9aa3b2;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Project brief</p>
     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:14px;line-height:1.7;color:#ffffff;">${description}</div>
     ` : ""}
     <div style="text-align:center;">
-      <a href="${SITE_URL}/admin" style="display:inline-block;background:#2c5fff;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 28px;border-radius:50px;">
-        Open Admin Dashboard →
+      <a href="${SITE_URL}/admin" style="${CTA_STYLE}">
+        Open admin dashboard →
       </a>
     </div>
   `;
@@ -146,5 +191,131 @@ export async function sendAdminNotificationEmail({
     to: ADMIN_EMAIL,
     subject: `New project: ${projectTitle}`,
     html: emailShell(content),
+  });
+}
+
+// ── Invoice emails ────────────────────────────────────────────────
+
+export async function sendInvoiceEmail({
+  to,
+  name,
+  projectTitle,
+  reference,
+  amount,
+  monthly,
+}: {
+  to: string;
+  name: string;
+  projectTitle: string;
+  reference: string;
+  amount: number;
+  monthly?: number | null;
+}) {
+  const content = `
+    <h1 style="margin:0 0 8px;font-size:26px;font-weight:700;color:#ffffff;">
+      Your invoice from NetRive 🧾
+    </h1>
+    <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#9aa3b2;">
+      Hi ${name}, you approved your preview — amazing! Here's your invoice. Once paid, your live site goes out within 12–24 hours of confirmation.
+    </p>
+    <div style="background:rgba(0,150,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:14px;padding:24px;margin-bottom:24px;text-align:center;">
+      <p style="margin:0;font-size:13px;color:#9aa3b2;text-transform:uppercase;letter-spacing:0.1em;">${projectTitle}</p>
+      <p style="margin:10px 0 0;font-size:38px;font-weight:800;color:#ffffff;">R${amount.toLocaleString("en-ZA")}</p>
+      ${monthly ? `<p style="margin:6px 0 0;font-size:14px;color:#9aa3b2;">+ R${monthly.toLocaleString("en-ZA")}/month maintenance</p>` : ""}
+      <p style="margin:12px 0 0;font-family:monospace;font-size:16px;font-weight:700;color:#00d4ff;">${reference}</p>
+    </div>
+    <p style="margin:0 0 10px;font-size:14px;color:#9aa3b2;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">How to pay (EFT)</p>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px 20px;margin-bottom:24px;">
+      ${bankingBlock(reference)}
+    </div>
+    <ol style="margin:0 0 28px;padding-left:20px;font-size:14px;line-height:2;color:#9aa3b2;">
+      <li>Pay by EFT using reference <strong style="color:#ffffff;">${reference}</strong></li>
+      <li>Open your dashboard and tap <strong style="color:#ffffff;">"I've paid this invoice"</strong></li>
+      <li>We confirm within <strong style="color:#ffffff;">12–24 hours</strong> and deliver your live site 🎉</li>
+    </ol>
+    <div style="text-align:center;">
+      <a href="${SITE_URL}/dashboard" style="${CTA_STYLE}">
+        View invoice in my dashboard →
+      </a>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `🧾 Invoice ${reference} — R${amount.toLocaleString("en-ZA")} · ${projectTitle}`,
+    html: emailShell(content, true),
+  });
+}
+
+export async function sendInvoicePaidClaimEmail({
+  clientName,
+  projectTitle,
+  reference,
+  amount,
+  projectId,
+}: {
+  clientName: string;
+  projectTitle: string;
+  reference: string;
+  amount: number | null;
+  projectId: string;
+}) {
+  const content = `
+    <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;color:#ffffff;">
+      💰 ${clientName} says they've paid
+    </h1>
+    <p style="margin:0 0 20px;font-size:15px;line-height:1.7;color:#9aa3b2;">
+      Check your bank for reference <strong style="color:#00d4ff;font-family:monospace;">${reference}</strong>
+      ${amount ? `(R${amount.toLocaleString("en-ZA")})` : ""} — then confirm in the admin so they get their live site.
+    </p>
+    <p style="margin:0 0 24px;font-size:14px;color:#ffffff;font-weight:600;">${projectTitle}</p>
+    <div style="text-align:center;">
+      <a href="${SITE_URL}/admin/projects/${projectId}" style="${CTA_STYLE}">
+        Review &amp; confirm payment →
+      </a>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: FROM,
+    to: ADMIN_EMAIL,
+    subject: `💰 Payment claimed — ${reference} · ${projectTitle}`,
+    html: emailShell(content),
+  });
+}
+
+export async function sendPaymentConfirmedEmail({
+  to,
+  name,
+  projectTitle,
+  reference,
+}: {
+  to: string;
+  name: string;
+  projectTitle: string;
+  reference: string;
+}) {
+  const content = `
+    <h1 style="margin:0 0 8px;font-size:26px;font-weight:700;color:#ffffff;">
+      Payment confirmed — you're live soon! 🎉
+    </h1>
+    <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#9aa3b2;">
+      Hi ${name}, we've received your payment for <strong style="color:#ffffff;">${projectTitle}</strong>
+      (<span style="font-family:monospace;color:#00d4ff;">${reference}</span>).
+      Your live website is being delivered now — we'll be in touch with the final details.
+    </p>
+    <div style="text-align:center;">
+      <a href="${SITE_URL}/dashboard" style="${CTA_STYLE}">
+        Go to my dashboard →
+      </a>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `🎉 Payment confirmed — ${reference} · your site is on the way`,
+    html: emailShell(content, true),
   });
 }

@@ -1,6 +1,7 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { DeleteClientButton } from "@/components/admin/DeleteClientButton";
 
 export default async function AdminClientsPage() {
   const supabase = createClient();
@@ -29,12 +30,13 @@ export default async function AdminClientsPage() {
               <th className="px-5 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-haze">Business</th>
               <th className="hidden px-5 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-haze sm:table-cell">Phone</th>
               <th className="px-5 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-haze">Joined</th>
+              <th className="px-5 py-3.5 text-right text-xs font-medium uppercase tracking-wider text-haze">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/[0.04]">
             {!clients?.length ? (
               <tr>
-                <td colSpan={4} className="px-5 py-10 text-center text-haze">No clients yet.</td>
+                <td colSpan={5} className="px-5 py-10 text-center text-haze">No clients yet.</td>
               </tr>
             ) : (
               clients.map((c) => (
@@ -55,6 +57,9 @@ export default async function AdminClientsPage() {
                   </td>
                   <td className="px-5 py-4 text-haze">
                     {new Date(c.created_at).toLocaleDateString("en-ZA", { day: "numeric", month: "short", year: "numeric" })}
+                  </td>
+                  <td className="px-5 py-4 text-right">
+                    <DeleteClientButton clientId={c.id} clientName={c.full_name ?? "client"} />
                   </td>
                 </tr>
               ))

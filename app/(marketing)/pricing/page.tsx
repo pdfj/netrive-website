@@ -7,7 +7,7 @@ import { Contact } from "@/components/sections/Contact";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Simple, transparent pricing from R1,500. No hidden fees — websites delivered in as little as 12 hours.",
+    "Simple, transparent pricing from R1,500. No hidden fees — websites delivered in as little as 24 hours. Monthly maintenance from R250.",
 };
 
 export default function PricingPage() {
