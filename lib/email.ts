@@ -12,12 +12,13 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.netrive.com";
 const BANNER_URL = `${SITE_URL}/images/email/welcome-banner.png`;
 
 // EFT banking details shown on invoices.
-// Leave fields empty ("") to hide the block until real details are added.
+// Keep in sync with lib/invoice-pdf.tsx BANKING.
 export const BANKING = {
-  bank: "",
-  accountName: "",
-  accountNumber: "",
-  branchCode: "",
+  bank: "Capitec",
+  accountName: "Ms SB Nantale",
+  accountNumber: "1617463203",
+  accountType: "Savings Account",
+  branchCode: "470010",
 };
 
 function bankingBlock(reference: string) {
@@ -33,6 +34,7 @@ function bankingBlock(reference: string) {
       ["Bank", BANKING.bank],
       ["Account name", BANKING.accountName],
       ["Account number", BANKING.accountNumber],
+      ["Account type", BANKING.accountType],
       ["Branch code", BANKING.branchCode],
       ["Payment reference", reference],
     ]
@@ -44,7 +46,10 @@ function bankingBlock(reference: string) {
     </tr>`
       )
       .join("")}
-  </table>`;
+  </table>
+  <p style="margin:12px 0 0;font-size:13px;font-weight:600;color:#00d4ff;">
+    Please send immediate / real-time payment so we can confirm without delay.
+  </p>`;
 }
 
 function emailShell(content: string, withBanner = false) {

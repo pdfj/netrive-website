@@ -77,10 +77,34 @@ export function InvoiceCard({
 
       {status === "issued" && (
         <>
-          <p className="mt-4 text-sm leading-[1.7] text-white/80">
-            Pay by EFT using your reference above. Once you&apos;ve paid, tap the button below —
-            we&apos;ll confirm within <span className="font-semibold text-white">12–24 hours</span> and
-            deliver your live site.
+          {/* Banking details — pay by immediate EFT */}
+          <div className="mt-4 rounded-input border border-white/10 bg-white/[0.03] p-4">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-sky">
+              Pay by EFT to
+            </p>
+            <dl className="space-y-1 text-sm">
+              {[
+                ["Bank", "Capitec"],
+                ["Account name", "Ms SB Nantale"],
+                ["Account number", "1617463203"],
+                ["Account type", "Savings Account"],
+                ["Branch code", "470010"],
+                ["Reference", reference],
+              ].map(([k, v]) => (
+                <div key={k} className="flex justify-between gap-4">
+                  <dt className="text-haze">{k}</dt>
+                  <dd className={k === "Reference" ? "font-mono font-bold text-sky" : "font-medium text-white"}>{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-3 text-xs font-semibold text-sky">
+              Please send an immediate / real-time payment, and use the reference above.
+            </p>
+          </div>
+
+          <p className="mt-3 text-sm leading-[1.7] text-white/80">
+            Once you&apos;ve paid, tap the button below — we&apos;ll confirm within{" "}
+            <span className="font-semibold text-white">12–24 hours</span> and deliver your live site.
           </p>
           <button
             onClick={markPaid}

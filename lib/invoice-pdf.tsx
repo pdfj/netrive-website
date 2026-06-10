@@ -29,10 +29,11 @@ export type InvoiceData = {
 // EFT banking details — keep in sync with lib/email.ts BANKING.
 // Empty fields => the invoice tells the client details come via WhatsApp.
 const BANKING = {
-  bank: "",
-  accountName: "",
-  accountNumber: "",
-  branchCode: "",
+  bank: "Capitec",
+  accountName: "Ms SB Nantale",
+  accountNumber: "1617463203",
+  accountType: "Savings Account",
+  branchCode: "470010",
 };
 
 const CYAN = "#00d4ff";
@@ -42,7 +43,7 @@ const HAZE = "#6b7280";
 const LINE = "#e5e7eb";
 
 const s = StyleSheet.create({
-  page: { padding: 40, fontSize: 10, color: "#111827", fontFamily: "Helvetica", lineHeight: 1.5 },
+  page: { paddingHorizontal: 40, paddingVertical: 30, fontSize: 10, color: "#111827", fontFamily: "Helvetica", lineHeight: 1.45 },
   row: { flexDirection: "row", justifyContent: "space-between" },
   brandName: { fontSize: 18, fontFamily: "Helvetica-Bold", color: INK },
   brandSub: { fontSize: 8, color: HAZE, marginTop: 2 },
@@ -52,9 +53,9 @@ const s = StyleSheet.create({
   refValue: { fontSize: 12, fontFamily: "Helvetica-Bold", color: BLUE },
   sectionLabel: { fontSize: 8, color: HAZE, textTransform: "uppercase", marginBottom: 4, letterSpacing: 0.5 },
   billBox: { backgroundColor: "#f9fafb", borderRadius: 8, padding: 14, width: "48%" },
-  tableHead: { flexDirection: "row", borderBottomWidth: 1.5, borderBottomColor: INK, paddingBottom: 6, marginTop: 28 },
+  tableHead: { flexDirection: "row", borderBottomWidth: 1.5, borderBottomColor: INK, paddingBottom: 6, marginTop: 18 },
   th: { fontSize: 8, fontFamily: "Helvetica-Bold", color: INK, textTransform: "uppercase" },
-  tr: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: LINE, paddingVertical: 10 },
+  tr: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: LINE, paddingVertical: 8 },
   td: { fontSize: 10, color: "#111827" },
   totalRow: { flexDirection: "row", justifyContent: "flex-end", marginTop: 16 },
   totalBox: { width: "45%" },
@@ -62,7 +63,7 @@ const s = StyleSheet.create({
   grandTotal: { flexDirection: "row", justifyContent: "space-between", marginTop: 6, paddingTop: 8, borderTopWidth: 1.5, borderTopColor: INK },
   grandLabel: { fontSize: 12, fontFamily: "Helvetica-Bold", color: INK },
   grandValue: { fontSize: 16, fontFamily: "Helvetica-Bold", color: BLUE },
-  payBox: { marginTop: 28, backgroundColor: "#f0f7ff", borderRadius: 8, padding: 16, borderLeftWidth: 3, borderLeftColor: BLUE },
+  payBox: { marginTop: 18, backgroundColor: "#f0f7ff", borderRadius: 8, padding: 14, borderLeftWidth: 3, borderLeftColor: BLUE },
   payTitle: { fontSize: 11, fontFamily: "Helvetica-Bold", color: INK, marginBottom: 8 },
   payLine: { flexDirection: "row", marginBottom: 3 },
   payKey: { width: 110, color: HAZE, fontSize: 9 },
@@ -117,7 +118,7 @@ function InvoiceDoc({ data }: { data: InvoiceData }) {
         </View>
 
         {/* From + meta */}
-        <View style={[s.row, { marginTop: 28 }]}>
+        <View style={[s.row, { marginTop: 20 }]}>
           <View style={{ width: "48%" }}>
             <Text style={s.sectionLabel}>From</Text>
             <Text style={{ fontFamily: "Helvetica-Bold" }}>NetRive</Text>
@@ -135,7 +136,7 @@ function InvoiceDoc({ data }: { data: InvoiceData }) {
         </View>
 
         {/* Bill to */}
-        <View style={{ marginTop: 24 }}>
+        <View style={{ marginTop: 16 }}>
           <Text style={s.sectionLabel}>Bill to</Text>
           <View style={s.billBox}>
             <Text style={{ fontFamily: "Helvetica-Bold" }}>{data.businessName || data.clientName}</Text>
@@ -197,8 +198,12 @@ function InvoiceDoc({ data }: { data: InvoiceData }) {
               <View style={s.payLine}><Text style={s.payKey}>Bank</Text><Text style={s.payVal}>{BANKING.bank}</Text></View>
               <View style={s.payLine}><Text style={s.payKey}>Account name</Text><Text style={s.payVal}>{BANKING.accountName}</Text></View>
               <View style={s.payLine}><Text style={s.payKey}>Account number</Text><Text style={s.payVal}>{BANKING.accountNumber}</Text></View>
+              <View style={s.payLine}><Text style={s.payKey}>Account type</Text><Text style={s.payVal}>{BANKING.accountType}</Text></View>
               <View style={s.payLine}><Text style={s.payKey}>Branch code</Text><Text style={s.payVal}>{BANKING.branchCode}</Text></View>
               <View style={s.payLine}><Text style={s.payKey}>Payment reference</Text><Text style={s.payVal}>{data.reference}</Text></View>
+              <Text style={{ fontSize: 9, fontFamily: "Helvetica-Bold", color: BLUE, marginTop: 8 }}>
+                Please send IMMEDIATE / real-time payment so we can confirm without delay.
+              </Text>
             </>
           ) : (
             <Text style={{ fontSize: 9, color: "#1f2937" }}>
@@ -207,8 +212,9 @@ function InvoiceDoc({ data }: { data: InvoiceData }) {
             </Text>
           )}
           <Text style={{ fontSize: 8, color: HAZE, marginTop: 8 }}>
-            After paying, tap &quot;I&apos;ve paid this invoice&quot; in your dashboard. We confirm within
-            12–24 hours and deliver your live site.
+            Use the payment reference above so we can match your payment. After paying, tap
+            &quot;I&apos;ve paid this invoice&quot; in your dashboard — we confirm within 12–24 hours
+            and deliver your live site.
           </Text>
         </View>
 
