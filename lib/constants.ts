@@ -264,48 +264,15 @@ export const MARQUEE_ITEMS = [
   "Up to 48hr Delivery",
 ] as const;
 
-// Blog page — seed posts
-export const BLOG_POSTS = [
-  {
-    title: "5 Reasons Your Business Needs a Website in 2026",
-    category: "Strategy",
-    date: "May 28, 2025",
-    excerpt:
-      "If you're still relying on word of mouth alone, you're leaving money on the table. Here's why a website is non-negotiable.",
-  },
-  {
-    title: "How to Choose the Right Web Package for Your Business",
-    category: "Guides",
-    date: "May 20, 2025",
-    excerpt:
-      "Landing page or full e-commerce store? We break down exactly which package fits your goals and budget.",
-  },
-  {
-    title: "SEO Basics: How to Get Found on Google in South Africa",
-    category: "SEO",
-    date: "May 12, 2025",
-    excerpt:
-      "Ranking locally isn't luck. These foundational SEO moves help Cape Town businesses show up first.",
-  },
-  {
-    title: "Why Fast Websites Make More Money",
-    category: "Performance",
-    date: "May 4, 2025",
-    excerpt:
-      "Every second of load time costs you conversions. Here's the data — and how we hit sub-second loads.",
-  },
-  {
-    title: "What to Look for in a Web Design Agency",
-    category: "Strategy",
-    date: "April 26, 2025",
-    excerpt:
-      "Not all agencies are equal. The green flags (and red flags) to watch for before you sign anything.",
-  },
-  {
-    title: "E-commerce vs Landing Page: Which Does Your Business Need?",
-    category: "Guides",
-    date: "April 18, 2025",
-    excerpt:
-      "Selling products or capturing leads? The right format depends on one key question. Let's answer it.",
-  },
-] as const;
+// Blog page — posts go live here when published (layout ships empty by design)
+export type BlogPost = {
+  title: string;
+  category: string;
+  date: string;
+  excerpt: string;
+};
+
+export const BLOG_POSTS: readonly BlogPost[] = [] as const;
+
+// Blog categories shown in the layout even before posts exist
+export const BLOG_CATEGORIES = ["Strategy", "Guides", "SEO", "Performance"] as const;

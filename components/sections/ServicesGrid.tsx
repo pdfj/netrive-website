@@ -53,9 +53,15 @@ export function ServicesGrid() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
               style={{ willChange: "transform, opacity" }}
-              className="group relative rounded-card glass p-6 transition-all duration-300 hover:-translate-y-1 hover:border-electric/40 hover:shadow-glow"
+              className="group relative overflow-hidden rounded-card glass p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-sky/30 hover:shadow-glow-cyan"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-electric/10 text-electric transition-colors duration-300 group-hover:bg-electric/20">
+              {/* Hover corner glow */}
+              <div
+                className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full opacity-0 blur-[50px] transition-opacity duration-500 group-hover:opacity-25"
+                style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)" }}
+                aria-hidden
+              />
+              <div className="gradient-bg relative flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-glow-cyan transition-transform duration-300 group-hover:scale-110">
                 {Icon ? <Icon className="h-6 w-6" /> : null}
               </div>
               <h3 className="mt-5 font-display text-lg font-medium text-white">

@@ -9,31 +9,37 @@ const ICONS: Record<string, typeof Star> = {
 };
 
 export function TrustMarquee() {
-  const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
+  const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS]; // doubled for a seamless loop
 
   return (
-    <section className="relative border-y border-white/10 bg-night/50 py-6">
-      <div className="group relative overflow-hidden [-webkit-mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)] [mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)]">
-        <div className="flex w-max animate-marquee gap-3 group-hover:[animation-play-state:paused]">
+    <section className="relative border-y border-white/[0.07] bg-night/40 py-6">
+      {/* Edge fade masks */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-28 bg-gradient-to-r from-ink to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-28 bg-gradient-to-l from-ink to-transparent" />
+
+      <div className="overflow-hidden">
+        <div className="animate-marquee flex w-max items-center">
           {items.map((item, i) => {
             const Icon = ICONS[item];
-            const isRating = item === "4.9 Google Rating";
             return (
-              <div
-                key={i}
-                className="flex shrink-0 items-center gap-2 rounded-pill glass px-5 py-2 text-sm text-white/55"
+              <span
+                key={`${item}-${i}`}
+                className="inline-flex shrink-0 items-center font-grotesk text-sm text-haze"
               >
-                {Icon ? (
-                  <Icon
-                    className={
-                      isRating ? "h-4 w-4 fill-yellow-400 text-yellow-400" : "h-4 w-4 text-electric"
-                    }
-                  />
-                ) : (
-                  <span className="h-1 w-1 rounded-full bg-electric/70" />
-                )}
-                {item}
-              </div>
+                <span className="inline-flex items-center gap-2">
+                  {Icon && (
+                    <Icon
+                      className={
+                        item.includes("Rating")
+                          ? "h-3.5 w-3.5 fill-yellow-400 text-yellow-400"
+                          : "h-3.5 w-3.5 text-sky"
+                      }
+                    />
+                  )}
+                  {item}
+                </span>
+                <span className="mx-8 h-1 w-1 rounded-full bg-gradient-to-r from-sky to-electric" />
+              </span>
             );
           })}
         </div>

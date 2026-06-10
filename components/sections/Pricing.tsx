@@ -28,12 +28,14 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
             transition={{ duration: 0.5, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
             style={{ willChange: "transform, opacity" }}
             className={cn(
-              "relative flex flex-col rounded-card glass p-7",
-              plan.featured && "border-electric/50 shadow-glow lg:-mt-4 lg:mb-4",
+              "relative flex flex-col rounded-card p-7 transition-colors duration-300",
+              plan.featured
+                ? "glass-electric shadow-glow lg:-mt-4 lg:mb-4"
+                : "glass hover:border-white/[0.16]",
             )}
           >
             {plan.featured && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-pill bg-electric px-4 py-1 text-xs font-semibold uppercase tracking-wider text-white shadow-glow">
+              <span className="gradient-bg absolute -top-3 left-1/2 -translate-x-1/2 rounded-pill px-4 py-1 text-xs font-semibold uppercase tracking-wider text-white shadow-glow">
                 Most Popular
               </span>
             )}
@@ -44,7 +46,9 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
 
             <div className="mt-4 flex items-end gap-2">
               {plan.custom ? (
-                <span className="font-display text-4xl font-bold text-white">Let&apos;s Talk</span>
+                <span className="font-display text-4xl font-bold gradient-text">
+                  Let&apos;s Talk
+                </span>
               ) : (
                 <>
                   <span className="font-display text-4xl font-bold text-white">
@@ -58,7 +62,7 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
             <p className="mt-3 text-sm leading-[1.6] text-haze">{plan.tagline}</p>
 
             {plan.delivery && (
-              <div className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-pill bg-electric/10 px-3 py-1 text-xs font-medium text-sky">
+              <div className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-pill border border-sky/20 bg-sky/[0.08] px-3 py-1 text-xs font-medium text-sky">
                 <Zap className="h-3.5 w-3.5" /> Delivered in {plan.delivery}
               </div>
             )}
@@ -66,7 +70,7 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
             <ul className="mt-6 space-y-3 border-t border-white/10 pt-6">
               {plan.features.map((feature) => (
                 <li key={feature} className="flex items-start gap-2.5 text-sm text-white/85">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-electric" />
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-sky" />
                   {feature}
                 </li>
               ))}
@@ -77,9 +81,9 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
               className={cn(
                 "mt-7 inline-flex w-full cursor-pointer items-center justify-center rounded-btn px-6 py-3 text-sm font-semibold transition-all duration-200 hover:scale-[1.02]",
                 plan.featured
-                  ? "bg-electric text-white shadow-glow hover:shadow-glow-lg"
+                  ? "gradient-bg text-white shadow-glow hover:shadow-glow-lg"
                   : plan.custom
-                    ? "border border-white/20 text-white hover:border-electric"
+                    ? "gradient-border bg-transparent text-white"
                     : "glass text-white hover:bg-white/[0.08]",
               )}
             >
@@ -92,14 +96,14 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
       {/* Trust footer */}
       <div className="mt-12 flex flex-col items-center justify-center gap-4 text-center text-sm text-haze sm:flex-row sm:gap-8">
         <span className="inline-flex items-center gap-2">
-          <Lock className="h-4 w-4 text-electric" />
+          <Lock className="h-4 w-4 text-sky" />
           All payments securely processed by{" "}
           <span className="rounded-md bg-white px-2 py-0.5 font-display text-xs font-bold text-black">
             Yoco
           </span>
         </span>
         <span className="inline-flex items-center gap-2">
-          <Zap className="h-4 w-4 text-electric" />
+          <Zap className="h-4 w-4 text-sky" />
           Fastest delivery in Cape Town — from 12 to 48 hours
         </span>
       </div>

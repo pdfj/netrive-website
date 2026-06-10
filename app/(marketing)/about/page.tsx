@@ -7,8 +7,24 @@ import { Contact } from "@/components/sections/Contact";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "NetRive is Cape Town's premier web agency — human-led, AI-powered, delivering fast modern websites for ambitious businesses.",
+  description:
+    "NetRive is Cape Town's premier web agency — human-led, AI-powered, delivering fast modern websites for ambitious businesses.",
 };
+
+const VALUES = [
+  {
+    title: "Speed without compromise",
+    body: "We deliver in as little as 12 hours — not by cutting corners, but by working smarter with the best tools available.",
+  },
+  {
+    title: "Real business focus",
+    body: "Every pixel and line of code exists to grow your business. We build for conversions, not just aesthetics.",
+  },
+  {
+    title: "Transparent & honest",
+    body: "Clear pricing, clear timelines, no surprises. We do what we say, when we say it.",
+  },
+];
 
 export default function AboutPage() {
   return (
@@ -17,28 +33,39 @@ export default function AboutPage() {
         <div className="relative overflow-hidden">
           <div
             className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"
-            style={{ background: "radial-gradient(ellipse 100% 100% at 50% 0%, rgba(44,95,255,0.25) 0%, transparent 70%)" }}
+            style={{
+              background:
+                "radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,150,255,0.22) 0%, transparent 70%)",
+            }}
             aria-hidden
           />
-          <div className="mx-auto max-w-content px-6 py-20 text-center">
-            <span className="font-grotesk text-xs uppercase tracking-[0.18em] text-electric">About NetRive</span>
+          <div className="relative mx-auto max-w-content px-6 py-20 text-center">
+            <span className="font-grotesk text-xs uppercase tracking-[0.18em] gradient-text-accent">
+              About NetRive
+            </span>
             <h1 className="mt-3 font-display text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.1] tracking-tight gradient-text">
               Human-led. AI-Powered.
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-[1.7] text-haze sm:text-lg">
-              NetRive is a Cape Town-based web agency built on one idea: every business deserves a website that actually works. We combine expert human creativity with AI precision to deliver better websites, faster than anyone else.
+              NetRive is a Cape Town-based web agency built on one idea: every business
+              deserves a website that actually works. We combine expert human creativity
+              with AI precision to deliver better websites, faster than anyone else.
             </p>
           </div>
         </div>
 
         <section className="mx-auto max-w-content px-6 py-16">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {[
-              { title: "Speed without compromise", body: "We deliver in as little as 12 hours — not by cutting corners, but by working smarter with the best tools available." },
-              { title: "Real business focus", body: "Every pixel and line of code exists to grow your business. We build for conversions, not just aesthetics." },
-              { title: "Transparent & honest", body: "Clear pricing, clear timelines, no surprises. We do what we say, when we say it." },
-            ].map((v) => (
-              <div key={v.title} className="rounded-card glass p-7">
+            {VALUES.map((v) => (
+              <div
+                key={v.title}
+                className="group relative overflow-hidden rounded-card glass p-7 transition-all duration-300 hover:-translate-y-1 hover:border-sky/25"
+              >
+                <div
+                  className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-0 blur-[50px] transition-opacity duration-500 group-hover:opacity-25"
+                  style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)" }}
+                  aria-hidden
+                />
                 <h3 className="font-display text-xl font-semibold text-white">{v.title}</h3>
                 <p className="mt-3 text-sm leading-[1.7] text-haze">{v.body}</p>
               </div>

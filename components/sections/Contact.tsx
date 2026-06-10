@@ -7,7 +7,7 @@ import { PRICING, SITE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
-  "w-full rounded-input border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/30 transition-colors focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric";
+  "w-full rounded-input border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/30 transition-colors focus:border-sky focus:outline-none focus:ring-1 focus:ring-sky";
 
 export function Contact() {
   const [submitted, setSubmitted] = useState(false);
@@ -65,30 +65,37 @@ export function Contact() {
 
   return (
     <section id="contact" className="relative mx-auto max-w-content px-6 py-24 sm:py-32">
+      {/* Ambient glow behind the form */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-24 h-72 w-[70%] -translate-x-1/2 rounded-full opacity-[0.08] blur-[100px]"
+        style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)" }}
+        aria-hidden
+      />
+
       <SectionHeading
         title="Ready to Build Something Remarkable?"
         subtitle="Start your project below — we build a free preview first, and you only pay once you approve it."
       />
 
-      <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-5">
+      <div className="relative mt-16 grid grid-cols-1 gap-8 lg:grid-cols-5">
         {/* Form */}
-        <div className="rounded-card glass p-7 sm:p-8 lg:col-span-3">
+        <div className="rounded-card glass-strong p-7 sm:p-8 lg:col-span-3">
           {submitted ? (
             <div className="flex h-full min-h-[400px] flex-col items-center justify-center text-center">
-              <CheckCircle2 className="h-14 w-14 text-electric" />
+              <CheckCircle2 className="h-14 w-14 text-sky" />
               <h3 className="mt-5 font-display text-2xl font-semibold text-white">
                 Project received! 🚀
               </h3>
               {reference && (
-                <div className="mt-4 rounded-input border border-electric/20 bg-electric/[0.06] px-5 py-3">
+                <div className="glass-electric mt-4 rounded-input px-5 py-3">
                   <p className="text-xs uppercase tracking-wider text-haze">Your project reference</p>
-                  <p className="mt-1 font-mono text-lg font-bold text-white">{reference}</p>
+                  <p className="mt-1 font-mono text-lg font-bold gradient-text-accent">{reference}</p>
                 </div>
               )}
               <p className="mt-4 max-w-sm text-sm leading-[1.7] text-haze">
                 Your account is ready — taking you to your dashboard now…
               </p>
-              <Loader2 className="mt-3 h-5 w-5 animate-spin text-electric" />
+              <Loader2 className="mt-3 h-5 w-5 animate-spin text-sky" />
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -185,7 +192,7 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={loading}
-                className="group inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-btn bg-electric px-7 py-3.5 text-sm font-semibold text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-glow-lg disabled:cursor-not-allowed disabled:opacity-70"
+                className="gradient-bg-animated group inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-btn px-7 py-3.5 text-sm font-semibold text-white shadow-glow transition-all duration-200 hover:scale-[1.02] hover:shadow-glow-lg disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {loading ? (
                   <><Loader2 className="h-4 w-4 animate-spin" /> Creating your account…</>
@@ -199,8 +206,8 @@ export function Contact() {
 
         {/* Details */}
         <div className="flex flex-col gap-4 lg:col-span-2">
-          <div className="flex items-start gap-4 rounded-card border border-electric/20 bg-electric/[0.06] p-5">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-electric/15 text-electric">
+          <div className="glass-electric flex items-start gap-4 rounded-card p-5">
+            <span className="gradient-bg flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-glow-cyan">
               <Eye className="h-5 w-5" />
             </span>
             <span>
@@ -215,9 +222,9 @@ export function Contact() {
             href={SITE.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-4 rounded-card glass p-5 transition-colors hover:bg-white/[0.06]"
+            className="group flex items-center gap-4 rounded-card glass p-5 transition-all hover:border-sky/25 hover:bg-white/[0.06]"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-electric/15 text-electric">
+            <span className="gradient-bg flex h-11 w-11 items-center justify-center rounded-full text-white shadow-glow-cyan">
               <Phone className="h-5 w-5" />
             </span>
             <span>
@@ -228,9 +235,9 @@ export function Contact() {
 
           <a
             href={`mailto:${SITE.email}`}
-            className="group flex items-center gap-4 rounded-card glass p-5 transition-colors hover:bg-white/[0.06]"
+            className="group flex items-center gap-4 rounded-card glass p-5 transition-all hover:border-sky/25 hover:bg-white/[0.06]"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-electric/15 text-electric">
+            <span className="gradient-bg flex h-11 w-11 items-center justify-center rounded-full text-white shadow-glow-cyan">
               <Mail className="h-5 w-5" />
             </span>
             <span>
@@ -240,7 +247,7 @@ export function Contact() {
           </a>
 
           <div className="flex items-center gap-4 rounded-card glass p-5">
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-electric/15 text-electric">
+            <span className="gradient-bg flex h-11 w-11 items-center justify-center rounded-full text-white shadow-glow-cyan">
               <MapPin className="h-5 w-5" />
             </span>
             <span>
@@ -250,7 +257,7 @@ export function Contact() {
           </div>
 
           <div className="mt-auto inline-flex items-center gap-2 rounded-pill glass px-4 py-2.5 text-xs text-white/70">
-            <Lock className="h-4 w-4 text-electric" /> Pay by EFT invoice · Cape Town, South Africa
+            <Lock className="h-4 w-4 text-sky" /> Pay by EFT invoice · Cape Town, South Africa
           </div>
         </div>
       </div>

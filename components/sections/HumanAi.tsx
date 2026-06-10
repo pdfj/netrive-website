@@ -9,60 +9,70 @@ const ICONS: Record<string, LucideIcon> = { Zap, CheckCircle2, Star, Globe };
 export function HumanAi() {
   return (
     <section className="relative overflow-hidden py-28 sm:py-36">
-      {/* Full-intensity arch gradient behind the statement */}
+      {/* Cyan-blue light field */}
       <div className="absolute inset-0 -z-10">
         <div
           className="absolute inset-x-0 top-0 h-full"
           style={{
             background:
-              "radial-gradient(ellipse 120% 90% at 50% 0%, rgba(240,248,255,0.45) 0%, rgba(147,180,255,0.5) 18%, rgba(44,95,255,0.55) 38%, rgba(10,22,40,0.9) 66%, #000 88%)",
+              "radial-gradient(ellipse 120% 90% at 50% 0%, rgba(235,250,255,0.4) 0%, rgba(0,212,255,0.42) 18%, rgba(0,102,255,0.5) 38%, rgba(10,15,28,0.92) 66%, #0a0a0a 88%)",
           }}
         />
+        <div className="grid-bg absolute inset-0 opacity-30 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_30%,black_20%,transparent_70%)]" />
       </div>
 
-      <div className="mx-auto max-w-4xl px-6 text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
+      <div className="mx-auto max-w-content px-6 text-center">
+        <motion.span
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display text-[clamp(3rem,9vw,6.5rem)] font-bold leading-[0.95] tracking-tight"
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="font-grotesk text-xs uppercase tracking-[0.2em] text-white/80"
         >
-          <span className="block gradient-text">Human-led.</span>
-          <span className="block gradient-text">AI-Powered.</span>
+          The NetRive Difference
+        </motion.span>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="mx-auto mt-4 max-w-3xl font-display text-[clamp(2.2rem,5.5vw,4rem)] font-bold leading-[1.08] tracking-tight text-white"
+        >
+          Human-led.{" "}
+          <span className="gradient-text">AI-Powered.</span>
         </motion.h2>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mx-auto mt-8 max-w-xl text-base leading-[1.7] text-white/80 sm:text-lg"
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="mx-auto mt-6 max-w-2xl text-base leading-[1.8] text-white/75 sm:text-lg"
         >
-          We combine expert human creativity and strategy with the precision and speed of
-          AI — delivering better websites, faster than anyone else.
+          Expert human creativity, multiplied by AI precision. That&apos;s how we
+          deliver agency-quality websites in days, not months — without ever
+          compromising on craft.
         </motion.p>
 
-        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {/* Stats row */}
+        <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
           {STATS.map((stat, i) => {
             const Icon = ICONS[stat.icon];
             return (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                style={{ willChange: "transform, opacity" }}
-                className="rounded-card glass p-5"
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.25 + i * 0.08 }}
+                className="rounded-card glass-strong p-5"
               >
-                <Icon className="mx-auto h-6 w-6 text-sky" />
-                <div className="mt-3 font-display text-2xl font-bold text-white">
-                  {stat.value}
-                </div>
-                <div className="mt-1 text-xs uppercase tracking-wider text-haze">
+                {Icon && <Icon className="mx-auto h-5 w-5 text-sky" />}
+                <p className="mt-3 font-display text-xl font-bold text-white">{stat.value}</p>
+                <p className="mt-1 text-xs uppercase tracking-wider text-white/60">
                   {stat.label}
-                </div>
+                </p>
               </motion.div>
             );
           })}

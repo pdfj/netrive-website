@@ -4,59 +4,108 @@ import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SERVICES } from "@/lib/constants";
-import { ServiceScrollWheel } from "./ServiceScrollWheel";
+import { cn } from "@/lib/utils";
 
 export function ServicesInteractive() {
   const [active, setActive] = useState(0);
   const service = SERVICES[active];
 
   return (
-    <section className="relative overflow-hidden bg-night py-24 sm:py-32">
+    <section className="relative overflow-hidden bg-night/50 py-24 sm:py-32">
+      {/* Ambient top glow */}
       <div
-        className="pointer-events-none absolute inset-0 -z-10"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"
         style={{
-          background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(44,95,255,0.18), transparent 60%)",
+          background:
+            "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0,150,255,0.14), transparent 65%)",
         }}
         aria-hidden
       />
 
-      <div className="mx-auto grid max-w-content grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
-        {/* Left — static heading + dynamic description */}
-        <div>
-          <span className="font-grotesk text-xs uppercase tracking-[0.18em] text-electric">
-            Our Services
-          </span>
-          <h2 className="mt-3 font-display text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.1] tracking-tight gradient-text">
-            What Can We Do For Your Business?
-          </h2>
+      <div className="relative mx-auto max-w-content px-6">
+        <SectionHeading
+          label="What We Do"
+          title="Pick a Service. We Handle the Rest."
+          subtitle="Sixteen capabilities, one team. Tap any service to see how it grows your business."
+        />
 
-          <div className="mt-7 min-h-[96px] max-w-md">
+        <div className="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-2">
+          {/* Service list */}
+          <div className="no-scrollbar flex max-h-[440px] flex-col gap-1.5 overflow-y-auto pr-1">
+            {SERVICES.map((s, i) => (
+              <button
+                key={s.name}
+                type="button"
+                onClick={() => setActive(i)}
+                className={cn(
+                  "group flex shrink-0 items-center justify-between rounded-input px-5 py-3.5 text-left transition-all duration-200",
+                  i === active
+                    ? "glass-electric text-white"
+                    : "text-haze hover:bg-white/[0.04] hover:text-white",
+                )}
+              >
+                <span className="flex items-center gap-4">
+                  <span
+                    className={cn(
+                      "font-grotesk text-xs tabular-nums",
+                      i === active ? "gradient-text-accent font-bold" : "text-white/30",
+                    )}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm font-medium">{s.name}</span>
+                </span>
+                <ArrowRight
+                  className={cn(
+                    "h-4 w-4 transition-all duration-200",
+                    i === active
+                      ? "translate-x-0 text-sky opacity-100"
+                      : "-translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-60",
+                  )}
+                />
+              </button>
+            ))}
+          </div>
+
+          {/* Detail panel */}
+          <div className="relative flex min-h-[320px] items-center overflow-hidden rounded-card glass-strong p-8 sm:p-10">
+            {/* Panel corner glow */}
+            <div
+              className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full opacity-20 blur-[90px]"
+              style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)" }}
+              aria-hidden
+            />
             <AnimatePresence mode="wait">
               <motion.div
-                key={active}
-                initial={{ opacity: 0, y: 12 }}
+                key={service.name}
+                initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
+                exit={{ opacity: 0, y: -14 }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="relative"
               >
-                <h3 className="font-display text-xl font-medium text-white">{service.name}</h3>
-                <p className="mt-2 text-base leading-[1.7] text-haze">{service.description}</p>
+                <span className="font-display text-7xl font-bold gradient-text-accent opacity-30">
+                  {String(active + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-3 font-display text-3xl font-semibold text-white">
+                  {service.name}
+                </h3>
+                <p className="mt-4 max-w-md text-base leading-[1.8] text-haze">
+                  {service.description}
+                </p>
+                <Link
+                  href="/contact"
+                  className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-sky transition-colors hover:text-white"
+                >
+                  Start with {service.name}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </motion.div>
             </AnimatePresence>
           </div>
-
-          <Link
-            href="/services"
-            className="group mt-8 inline-flex items-center gap-2 rounded-btn glass px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/[0.08]"
-          >
-            Explore All Services
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </Link>
         </div>
-
-        {/* Right — the iOS scroll wheel */}
-        <ServiceScrollWheel active={active} onActiveChange={setActive} />
       </div>
     </section>
   );

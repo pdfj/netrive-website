@@ -13,7 +13,7 @@ const PROJECT_IMAGES = [
   "/images/portfolio/summit-health.jpg",
 ];
 
-const HUES = [220, 200, 245, 190];
+const HUES = [200, 190, 215, 185];
 
 export function Portfolio() {
   return (
@@ -33,15 +33,17 @@ export function Portfolio() {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.55, delay: (i % 2) * 0.1, ease: [0.22, 1, 0.36, 1] }}
             style={{ willChange: "transform, opacity" }}
-            className="group cursor-pointer rounded-[24px] glass p-3 transition-all duration-300 hover:scale-[1.02] hover:shadow-glow"
+            className="group cursor-pointer rounded-[24px] glass p-3 transition-all duration-300 hover:scale-[1.02] hover:border-sky/25 hover:shadow-glow"
           >
             {/* Browser chrome */}
             <div className="overflow-hidden rounded-card border border-white/10 bg-night">
               <div className="flex items-center gap-1.5 border-b border-white/10 bg-white/[0.03] px-4 py-3">
-                <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
-                <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
-                <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
-                <span className="ml-3 h-4 flex-1 rounded-full bg-white/[0.04]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/20 transition-colors group-hover:bg-red-400/70" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/20 transition-colors group-hover:bg-yellow-400/70" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/20 transition-colors group-hover:bg-green-400/70" />
+                <span className="ml-3 flex h-4 flex-1 items-center rounded-full bg-white/[0.04] px-2.5 text-[8px] text-white/25">
+                  {project.name.toLowerCase().replace(/[^a-z]/g, "")}.co.za
+                </span>
               </div>
 
               {/* Image with hover overlay */}
@@ -52,7 +54,7 @@ export function Portfolio() {
                   hue={HUES[i % HUES.length]}
                 />
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-ink/55 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="inline-flex items-center gap-2 rounded-btn bg-white px-5 py-2.5 text-sm font-semibold text-black">
+                  <span className="gradient-bg inline-flex items-center gap-2 rounded-btn px-5 py-2.5 text-sm font-semibold text-white shadow-glow">
                     View Project <ArrowUpRight className="h-4 w-4" />
                   </span>
                 </div>
@@ -64,7 +66,7 @@ export function Portfolio() {
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-pill border border-electric/30 bg-electric/10 px-3 py-1 text-xs font-medium text-sky"
+                    className="rounded-pill border border-sky/25 bg-sky/[0.08] px-3 py-1 text-xs font-medium text-sky"
                   >
                     {tag}
                   </span>

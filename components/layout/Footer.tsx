@@ -30,12 +30,28 @@ function LinkedinIcon({ className }: { className?: string }) {
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/10 bg-night/50">
-      <div className="mx-auto grid max-w-content grid-cols-1 gap-12 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-night/60">
+      {/* Top gradient hairline */}
+      <div
+        className="absolute inset-x-0 top-0 h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.6) 35%, rgba(0,102,255,0.6) 65%, transparent 100%)",
+        }}
+        aria-hidden
+      />
+      {/* Faint corner glow */}
+      <div
+        className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[60%] -translate-x-1/2 rounded-full opacity-[0.07] blur-[80px]"
+        style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)" }}
+        aria-hidden
+      />
+
+      <div className="relative mx-auto grid max-w-content grid-cols-1 gap-12 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4">
         {/* Brand */}
         <div>
-          <span className="font-display text-2xl font-bold tracking-tight">
-            Net<span className="gradient-text">Rive</span>
+          <span className="font-display text-2xl font-bold tracking-tight text-white">
+            Net<span className="gradient-text-accent">Rive</span>
           </span>
           <p className="mt-4 max-w-xs text-sm leading-[1.7] text-haze">
             {SITE.tagline} {SITE.positioning} Cape Town&apos;s premier web agency.
@@ -50,7 +66,7 @@ export function Footer() {
                 key={label}
                 href="#"
                 aria-label={`NetRive on ${label}`}
-                className="flex h-9 w-9 items-center justify-center rounded-full glass text-white/70 transition-colors hover:text-electric"
+                className="flex h-9 w-9 items-center justify-center rounded-full glass text-white/70 transition-colors hover:text-sky"
               >
                 <Icon className="h-4 w-4" />
               </a>
@@ -98,6 +114,11 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href="/auth/login" className="text-sm text-haze transition-colors hover:text-white">
+                Client Login
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -114,7 +135,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 transition-colors hover:text-white"
               >
-                <Phone className="h-4 w-4 text-electric" /> {SITE.phoneDisplay}
+                <Phone className="h-4 w-4 text-sky" /> {SITE.phoneDisplay}
               </a>
             </li>
             <li>
@@ -122,22 +143,22 @@ export function Footer() {
                 href={`mailto:${SITE.email}`}
                 className="flex items-center gap-2 transition-colors hover:text-white"
               >
-                <Mail className="h-4 w-4 text-electric" /> {SITE.email}
+                <Mail className="h-4 w-4 text-sky" /> {SITE.email}
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-electric" /> {SITE.location}
+              <MapPin className="h-4 w-4 text-sky" /> {SITE.location}
             </li>
           </ul>
           <div className="mt-5 inline-flex items-center gap-2 rounded-pill glass px-3 py-1.5 text-xs text-white/70">
-            <Lock className="h-3.5 w-3.5 text-electric" /> Secured by Yoco
+            <Lock className="h-3.5 w-3.5 text-sky" /> Secured by Yoco
           </div>
         </div>
       </div>
 
-      <div className="border-t border-white/10">
+      <div className="relative border-t border-white/10">
         <div className="mx-auto max-w-content px-6 py-6 text-center text-xs text-haze">
-          © 2025 NetRive. All rights reserved. Built by NetRive — Cape Town, South Africa.
+          © 2026 NetRive. All rights reserved. Built by NetRive — Cape Town, South Africa.
         </div>
       </div>
     </footer>
