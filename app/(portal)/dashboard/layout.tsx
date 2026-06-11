@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { LogOut, FolderOpen, User, ExternalLink } from "lucide-react";
+import { AiChat } from "@/components/AiChat";
 
 export default async function DashboardLayout({
   children,
@@ -142,6 +143,9 @@ export default async function DashboardLayout({
 
       {/* Main content */}
       <main className="flex-1 p-4 sm:p-6 md:ml-60 md:p-8">{children}</main>
+
+      {/* Project-aware assistant (reads the project id from the URL) */}
+      <AiChat />
     </div>
   );
 }

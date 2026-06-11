@@ -32,6 +32,12 @@ export default async function AdminProjectDetailPage({
     .eq("project_id", project.id)
     .order("created_at", { ascending: false });
 
+  const { data: aiLogs } = await db
+    .from("ai_chat_logs")
+    .select("id, role, content, created_at")
+    .eq("project_id", project.id)
+    .order("created_at", { ascending: true });
+
   const client = project.profiles as {
     id: string;
     full_name: string | null;
@@ -130,11 +136,56 @@ export default async function AdminProjectDetailPage({
           />
         </div>
 
-        {/* Right col — chat */}
-        <div className="lg:col-span-2">
+        {/* Right col — chat + AI logs */}
+        <div className="space-y-6 lg:col-span-2">
           <div className="rounded-card glass p-6">
             <h2 className="mb-4 font-display text-lg font-semibold text-white">Chat with Client</h2>
             <AdminChatBox projectId={project.id} adminUserId={user.id} clientId={client?.id ?? ""} />
+          </div>
+
+          {/* AI assistant chat history */}
+          <div className="rounded-card glass p-6">
+            <h2 className="mb-1 font-display text-lg font-semibold text-white">AI chat history</h2>
+            <p className="mb-4 text-xs text-haze">
+              What the client asked the website assistant.
+            </p>
+            {!aiLogs?.length ? (
+              <p className="text-sm text-haze">No AI conversations on this project yet.</p>
+            ) : (
+              <div className="max-h-[420px] space-y-3 overflow-y-auto pr-1">
+                {aiLogs.map((m) => {
+                  if (m.role === "note") {
+                    return (
+                      <p
+                        key={m.id}
+                        className="rounded-input border border-yellow-400/20 bg-yellow-400/[0.07] px-3 py-2 text-center text-xs font-medium text-yellow-300"
+                      >
+                        {m.content}
+                      </p>
+                    );
+                  }
+                  const isUser = m.role === "user";
+                  return (
+                    <div key={m.id} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+                      <div
+                        className={`max-w-[85%] rounded-[14px] px-3.5 py-2 text-sm leading-[1.6] ${
+                          isUser
+                            ? "rounded-br-sm bg-white/[0.08] text-white"
+                            : "rounded-bl-sm bg-sky/[0.1] text-white/90"
+                        }`}
+                      >
+                        {!isUser && (
+                          <span className="mb-0.5 block text-[10px] uppercase tracking-wider text-sky">
+                            Assistant
+                          </span>
+                        )}
+                        {m.content}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -338,3 +338,67 @@ export async function sendPaymentConfirmedEmail({
     html: emailShell(content, true),
   });
 }
+
+// Live-agent request — goes to the OWNER's personal inbox so they can jump in.
+export async function sendLiveAgentRequestEmail({
+  clientName,
+  clientEmail,
+  projectTitle,
+  reference,
+  projectId,
+  recent,
+}: {
+  clientName: string;
+  clientEmail: string | null;
+  projectTitle: string | null;
+  reference: string | null;
+  projectId: string | null;
+  recent: string;
+}) {
+  const to = process.env.LIVE_AGENT_EMAIL ?? "malgasuser@gmail.com";
+  const adminLink = projectId
+    ? `${SITE_URL}/admin/projects/${projectId}`
+    : `${SITE_URL}/admin`;
+
+  const content = `
+    <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;color:#ffffff;">
+      🙋 ${clientName} wants to talk to a real person
+    </h1>
+    <p style="margin:0 0 18px;font-size:15px;line-height:1.7;color:#9aa3b2;">
+      Someone asked to speak to the live team in the website chat. Jump in and reply to them in their project chat.
+    </p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
+      ${[
+        ["Name", clientName],
+        ["Contact", clientEmail || "—"],
+        ["Project", projectTitle || "Not a logged-in client (general visitor)"],
+        ["Reference", reference || "—"],
+      ]
+        .map(
+          ([label, value]) => `
+      <tr>
+        <td style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:#9aa3b2;width:110px;">${label}</td>
+        <td style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;color:#ffffff;font-weight:500;">${value}</td>
+      </tr>`
+        )
+        .join("")}
+    </table>
+    ${recent ? `
+    <p style="margin:0 0 8px;font-size:13px;color:#9aa3b2;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Recent chat</p>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:14px 18px;margin-bottom:22px;font-size:13px;line-height:1.7;color:#ffffff;white-space:pre-wrap;">${recent.replace(/</g, "&lt;")}</div>
+    ` : ""}
+    <div style="text-align:center;">
+      <a href="${adminLink}" style="${CTA_STYLE}">
+        Open in admin &amp; reply →
+      </a>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: FROM, // from hello@ (human-facing alert)
+    replyTo: clientEmail || REPLY_TO,
+    to,
+    subject: `🙋 Live chat request from ${clientName}${reference ? ` · ${reference}` : ""}`,
+    html: emailShell(content),
+  });
+}
