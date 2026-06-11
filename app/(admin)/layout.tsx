@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { LayoutDashboard, FolderOpen, Users, ExternalLink, LogOut } from "lucide-react";
+import { LayoutDashboard, FolderOpen, Users, ExternalLink, LogOut, MonitorPlay } from "lucide-react";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
@@ -45,6 +45,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           {[
             { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
             { href: "/admin/projects", icon: FolderOpen, label: "Projects" },
+            { href: "/admin/previews", icon: MonitorPlay, label: "Previews" },
             { href: "/admin/clients", icon: Users, label: "Clients" },
           ].map(({ href, icon: Icon, label }) => (
             <Link
@@ -92,6 +93,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           >
             <FolderOpen className="h-4 w-4" />
             All Projects
+          </Link>
+          <Link
+            href="/admin/previews"
+            className="flex items-center gap-3 rounded-input px-3 py-2.5 text-sm text-haze transition hover:bg-white/[0.05] hover:text-white"
+          >
+            <MonitorPlay className="h-4 w-4" />
+            Previews
           </Link>
           <Link
             href="/admin/clients"
