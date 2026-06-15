@@ -84,11 +84,11 @@ export function InvoiceCard({
             </p>
             <dl className="space-y-1 text-sm">
               {[
-                ["Bank", "Capitec"],
-                ["Account name", "Ms SB Nantale"],
-                ["Account number", "1617463203"],
-                ["Account type", "Savings Account"],
-                ["Branch code", "470010"],
+                ["Bank", "GoTyme Bank"],
+                ["Account name", "Bushirah Bongani Jamirah"],
+                ["Account number", "51010767417"],
+                ["Account type", "Current Account"],
+                ["Branch code", "678910"],
                 ["Reference", reference],
               ].map(([k, v]) => (
                 <div key={k} className="flex justify-between gap-4">

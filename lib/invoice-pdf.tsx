@@ -29,11 +29,11 @@ export type InvoiceData = {
 // EFT banking details — keep in sync with lib/email.ts BANKING.
 // Empty fields => the invoice tells the client details come via WhatsApp.
 const BANKING = {
-  bank: "Capitec",
-  accountName: "Ms SB Nantale",
-  accountNumber: "1617463203",
-  accountType: "Savings Account",
-  branchCode: "470010",
+  bank: "GoTyme Bank",
+  accountName: "Bushirah Bongani Jamirah",
+  accountNumber: "51010767417",
+  accountType: "Current Account",
+  branchCode: "678910",
 };
 
 const CYAN = "#00d4ff";

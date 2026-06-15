@@ -14,11 +14,11 @@ const BANNER_URL = `${SITE_URL}/images/email/welcome-banner.png`;
 // EFT banking details shown on invoices.
 // Keep in sync with lib/invoice-pdf.tsx BANKING.
 export const BANKING = {
-  bank: "Capitec",
-  accountName: "Ms SB Nantale",
-  accountNumber: "1617463203",
-  accountType: "Savings Account",
-  branchCode: "470010",
+  bank: "GoTyme Bank",
+  accountName: "Bushirah Bongani Jamirah",
+  accountNumber: "51010767417",
+  accountType: "Current Account",
+  branchCode: "678910",
 };
 
 function bankingBlock(reference: string) {
