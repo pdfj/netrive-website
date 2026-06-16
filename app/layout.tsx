@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
+import { FluidBackground } from "@/components/FluidBackground";
 import { SITE } from "@/lib/constants";
 
 const inter = Inter({
@@ -75,6 +76,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${clashDisplay.variable}`}>
       <body className="bg-ink font-sans text-white antialiased">
+        <FluidBackground />
         <Providers>
           {children}
         </Providers>

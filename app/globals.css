@@ -58,19 +58,19 @@ body {
   /* Glassmorphism — cards, nav, modals */
   .glass {
     background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
     border: 1px solid rgba(255, 255, 255, 0.09);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
   /* Stronger glass — key cards that need to pop */
   .glass-strong {
     background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(28px) saturate(1.6);
-    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    backdrop-filter: blur(28px) saturate(1.7);
+    -webkit-backdrop-filter: blur(28px) saturate(1.7);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   /* Cyan-tinted glass — highlighted / active cards */
@@ -176,6 +176,98 @@ body {
   .preserve-3d {
     transform-style: preserve-3d;
   }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Aurora Drift — site-wide moving fluid background.
+   Compositor-only: blur is rasterised ONCE, animation touches only
+   transform/opacity, so it shares zero work with scroll. Fixed behind
+   all content; the frosted-glass cards sample its colour through.
+   ───────────────────────────────────────────────────────────── */
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: #0a0a0a;
+}
+.aurora[data-paused="true"] .aurora-blob {
+  animation-play-state: paused;
+}
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+.aurora-1 {
+  width: 62vw;
+  height: 62vw;
+  left: -12vw;
+  top: -14vh;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.42) 0%, rgba(0, 212, 255, 0) 70%);
+  animation: aurora-1 26s ease-in-out infinite;
+}
+.aurora-2 {
+  width: 66vw;
+  height: 66vw;
+  right: -16vw;
+  top: 18vh;
+  background: radial-gradient(circle, rgba(0, 102, 255, 0.44) 0%, rgba(0, 102, 255, 0) 70%);
+  animation: aurora-2 32s ease-in-out infinite;
+}
+.aurora-3 {
+  width: 56vw;
+  height: 56vw;
+  left: 26vw;
+  bottom: -22vh;
+  background: radial-gradient(circle, rgba(90, 150, 255, 0.34) 0%, rgba(90, 150, 255, 0) 70%);
+  animation: aurora-3 38s ease-in-out infinite;
+}
+/* Bottom-and-edge vignette: sinks the field into pure black so cards
+   always have true #0a0a0a to read against (grafted from the SVG-mesh idea). */
+.aurora-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 95% 75% at 50% 38%, transparent 45%, rgba(10, 10, 10, 0.55) 78%, #0a0a0a 100%);
+}
+/* Faint static grain to kill OLED gradient banding (desktop only). */
+.aurora-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes aurora-1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(13vw, 9vh, 0) scale(1.16); }
+  66% { transform: translate3d(-7vw, 15vh, 0) scale(0.94); }
+}
+@keyframes aurora-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+  40% { transform: translate3d(-14vw, 10vh, 0) scale(0.9); }
+  70% { transform: translate3d(6vw, -8vh, 0) scale(1.18); }
+}
+@keyframes aurora-3 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  35% { transform: translate3d(10vw, -12vh, 0) scale(1.2); }
+  68% { transform: translate3d(-12vw, -4vh, 0) scale(0.92); }
+}
+
+/* Mobile: fewer, larger, softer-but-cheaper orbs; drop compositor pinning
+   and the grain layer; slow the (already cheap) motion to tick less. */
+@media (max-width: 768px) {
+  .aurora-blob {
+    filter: blur(46px);
+    will-change: auto;
+  }
+  .aurora-1 { width: 88vw; height: 88vw; animation-duration: 40s; }
+  .aurora-2 { width: 94vw; height: 94vw; animation-duration: 50s; }
+  .aurora-3 { width: 82vw; height: 82vw; animation-duration: 46s; }
+  .aurora-noise { display: none; }
 }
 
 /* Mobile: backdrop-filter is the #1 scroll-jank source — lighten it.
