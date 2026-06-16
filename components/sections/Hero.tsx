@@ -125,7 +125,11 @@ export function Hero() {
         {/* Desktop hero video — covers the arch on wide screens. Hidden on
             mobile and for reduced-motion, where the aurora/arch shows instead. */}
         <video
-          className="absolute inset-0 hidden h-full w-full object-cover motion-reduce:!hidden md:block"
+          className="absolute inset-0 hidden h-full w-full object-cover opacity-50 motion-reduce:!hidden md:block"
+          // Soft, blurred, recessed — the video sits quietly behind the
+          // headline rather than competing with it. scale keeps the blurred
+          // edges off-screen. Static blur (not animated) stays GPU-cheap.
+          style={{ filter: "blur(16px)", transform: "scale(1.15)" }}
           autoPlay
           muted
           loop
@@ -135,11 +139,11 @@ export function Hero() {
         >
           <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>
-        {/* Legibility veil over the video so the white headline stays crisp */}
-        <div className="absolute inset-0 hidden bg-black/25 md:block motion-reduce:!hidden" aria-hidden />
+        {/* Darker legibility veil so the headline reads clearly over the video */}
+        <div className="absolute inset-0 hidden bg-black/55 md:block motion-reduce:!hidden" aria-hidden />
         <div
           className="absolute inset-0 hidden md:block motion-reduce:!hidden"
-          style={{ background: "radial-gradient(ellipse 80% 70% at 50% 45%, transparent 28%, rgba(10,10,10,0.6) 100%)" }}
+          style={{ background: "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 18%, rgba(10,10,10,0.85) 100%)" }}
           aria-hidden
         />
 
