@@ -108,17 +108,38 @@ export function Hero() {
       ref={sectionRef}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
-      className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden"
+      className="relative isolate flex min-h-[100svh] w-full items-center justify-center overflow-hidden"
     >
       {/* ── Background layers ─────────────────────────────── */}
-      <div className="absolute inset-0">
-        {/* Arch light field */}
+      <div className="absolute inset-0 z-0">
+        {/* Arch light field — also the fallback on mobile / reduced-motion / no-video */}
         <div className="arch-gradient animate-breathe absolute inset-[-5%] will-change-transform" />
         {/* Deepen lower corners back to black */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_60%_at_50%_120%,rgba(10,10,10,0.96),transparent_70%)]" />
         {/* Blueprint grid, faded by mask */}
         <div
           className="grid-bg absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_70%_55%_at_50%_45%,black_30%,transparent_75%)]"
+          aria-hidden
+        />
+
+        {/* Desktop hero video — covers the arch on wide screens. Hidden on
+            mobile and for reduced-motion, where the aurora/arch shows instead. */}
+        <video
+          className="absolute inset-0 hidden h-full w-full object-cover motion-reduce:!hidden md:block"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden
+        >
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+        </video>
+        {/* Legibility veil over the video so the white headline stays crisp */}
+        <div className="absolute inset-0 hidden bg-black/25 md:block motion-reduce:!hidden" aria-hidden />
+        <div
+          className="absolute inset-0 hidden md:block motion-reduce:!hidden"
+          style={{ background: "radial-gradient(ellipse 80% 70% at 50% 45%, transparent 28%, rgba(10,10,10,0.6) 100%)" }}
           aria-hidden
         />
 
@@ -168,24 +189,22 @@ export function Hero() {
           Cape Town&apos;s Premier Web Agency
         </motion.div>
 
-        {/* 3D tilting, floating headline */}
+        {/* Gentle mouse tilt. No preserve-3d / translateZ: those create a 3D
+            rendering context that mis-composites against the hero <video> layer
+            in Chrome and can hide the headline. The parent perspective still
+            gives the rotateX/rotateY a subtle depth. */}
         <motion.h1
-          style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+          style={{ rotateX, rotateY }}
           className="font-display text-[clamp(2.6rem,8vw,5.75rem)] font-bold leading-[1.04] tracking-tight will-change-transform"
         >
-          <span
-            className="block"
-            style={{ transform: "translateZ(30px)" }}
-          >
+          <span className="block">
             {LINE_ONE.map((word, i) => (
               <Word key={word} index={i}>
                 {word}
               </Word>
             ))}
           </span>
-          {/* No drop-shadow here: a filter over continuously-moving words
-              re-rasterizes every frame and causes scroll jank */}
-          <span className="block" style={{ transform: "translateZ(60px)" }}>
+          <span className="block">
             {LINE_TWO.map((word, i) => (
               <Word key={word} index={LINE_ONE.length + i} gradient>
                 {word}
