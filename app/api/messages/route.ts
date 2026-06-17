@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
           <p style="margin:0 0 4px;font-size:12px;color:#9aa3b2;text-transform:uppercase;letter-spacing:0.1em;">New chat message</p>
           <p style="margin:0 0 16px;font-size:16px;font-weight:bold;">${senderProfile?.full_name ?? "Client"} · ${project?.title ?? ""} ${project?.reference ? `(${project.reference})` : ""}</p>
           <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:14px 18px;font-size:14px;line-height:1.7;">${content.trim().replace(/</g, "&lt;")}</div>
-          <a href="${siteUrl}/admin/projects/${projectId}" style="display:inline-block;margin-top:18px;background:linear-gradient(120deg,#00d4ff,#0066ff);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 24px;border-radius:50px;">Reply in Admin →</a>
+          <a href="${siteUrl}/admin/projects/${projectId}" style="display:inline-block;margin-top:18px;background:linear-gradient(120deg,#ff7a1a,#d97757);color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 24px;border-radius:50px;">Reply in Admin →</a>
         </div>`,
       });
     }

@@ -58,7 +58,7 @@ export function ServicesGrid() {
               {/* Hover corner glow */}
               <div
                 className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full opacity-0 blur-[50px] transition-opacity duration-500 group-hover:opacity-25"
-                style={{ background: "linear-gradient(135deg, #00d4ff, #2563eb)" }}
+                style={{ background: "linear-gradient(135deg, #ff7a1a, #d97757)" }}
                 aria-hidden
               />
               <div className="gradient-bg relative flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-glow-cyan transition-transform duration-300 group-hover:scale-110">

@@ -32,7 +32,7 @@ export default async function DashboardLayout({
         className="pointer-events-none fixed inset-y-0 left-0 hidden w-80 md:block"
         style={{
           background:
-            "radial-gradient(ellipse 100% 60% at 0% 50%, rgba(0,150,255,0.07) 0%, transparent 70%)",
+            "radial-gradient(ellipse 100% 60% at 0% 50%, rgba(255,122,26,0.06) 0%, transparent 70%)",
         }}
         aria-hidden
       />

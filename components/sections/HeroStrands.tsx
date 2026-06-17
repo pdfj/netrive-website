@@ -29,7 +29,7 @@ export function HeroStrands() {
     <div ref={ref} className="absolute inset-0 hidden md:block motion-reduce:!hidden" aria-hidden>
       {enabled && inView && (
         <Strands
-          colors={["#00d4ff", "#38bdf8", "#2563eb"]}
+          colors={["#ff7a1a", "#ffb37a", "#d97757"]}
           count={10}
           speed={0.18}
           amplitude={0.95}

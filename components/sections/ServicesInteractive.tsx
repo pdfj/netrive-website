@@ -19,7 +19,7 @@ export function ServicesInteractive() {
         className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"
         style={{
           background:
-            "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(56,189,248,0.16), transparent 65%)",
+            "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255,122,26,0.16), transparent 65%)",
         }}
         aria-hidden
       />
@@ -74,7 +74,7 @@ export function ServicesInteractive() {
             {/* Panel corner glow */}
             <div
               className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full opacity-20 blur-[90px]"
-              style={{ background: "linear-gradient(135deg, #00d4ff, #2563eb)" }}
+              style={{ background: "linear-gradient(135deg, #ff7a1a, #d97757)" }}
               aria-hidden
             />
             <AnimatePresence mode="wait">

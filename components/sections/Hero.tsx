@@ -9,32 +9,6 @@ import {
 } from "motion/react";
 import { ArrowRight, ChevronDown, Star } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { HeroStrands } from "@/components/sections/HeroStrands";
-import { cn } from "@/lib/utils";
-
-// Deterministic particle field — hardcoded so SSR and client markup match.
-const PARTICLES = [
-  { left: 6, size: 2, delay: 0, duration: 16, drift: 20 },
-  { left: 13, size: 3, delay: 3, duration: 19, drift: -15 },
-  { left: 19, size: 2, delay: 6, duration: 14, drift: 10 },
-  { left: 25, size: 2, delay: 1.5, duration: 18, drift: -25 },
-  { left: 31, size: 3, delay: 8, duration: 20, drift: 15 },
-  { left: 37, size: 2, delay: 4, duration: 15, drift: -10 },
-  { left: 43, size: 2, delay: 9.5, duration: 17, drift: 30 },
-  { left: 49, size: 3, delay: 2, duration: 19, drift: -20 },
-  { left: 55, size: 2, delay: 6.5, duration: 14, drift: 12 },
-  { left: 60, size: 2, delay: 11, duration: 18, drift: -30 },
-  { left: 66, size: 3, delay: 0.8, duration: 16, drift: 18 },
-  { left: 72, size: 2, delay: 5, duration: 20, drift: -12 },
-  { left: 78, size: 2, delay: 8.5, duration: 15, drift: 25 },
-  { left: 83, size: 3, delay: 3.5, duration: 19, drift: -18 },
-  { left: 88, size: 2, delay: 7, duration: 17, drift: 14 },
-  { left: 92, size: 2, delay: 10, duration: 14, drift: -22 },
-  { left: 96, size: 3, delay: 1.2, duration: 18, drift: 16 },
-  { left: 3, size: 2, delay: 12, duration: 20, drift: -8 },
-  { left: 46, size: 2, delay: 13.5, duration: 16, drift: 28 },
-  { left: 70, size: 3, delay: 9, duration: 19, drift: -16 },
-];
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -66,74 +40,19 @@ export function Hero() {
       onMouseLeave={onMouseLeave}
       className="relative isolate flex min-h-[100svh] w-full items-center justify-center overflow-hidden"
     >
-      {/* ── Background layers ─────────────────────────────── */}
+      {/* ── Background: soft, STATIC orange blur-gradient (no glow, no Strands) ── */}
       <div className="absolute inset-0 z-0">
-        {/* Luminous top-glow light field — lit from above, fades into the base
-            (not a mid-page black wall). Also the mobile / reduced-motion ambient. */}
-        <div className="arch-gradient animate-breathe absolute inset-[-5%] will-change-transform" />
-        {/* Blueprint grid, faded by mask */}
+        <div className="arch-gradient absolute inset-0" />
+        {/* Subtle blueprint grid, faded by mask */}
         <div
           className="grid-bg absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_70%_55%_at_50%_42%,black_30%,transparent_75%)]"
           aria-hidden
         />
-
-        {/* Desktop Strands WebGL backdrop — flowing cyan/blue light ribbons.
-            Desktop + non-reduced-motion only; mobile shows the glow instead. */}
-        <HeroStrands />
-        {/* Legibility veil over Strands only (desktop). Lighter than before so
-            the luminous look survives, with a centre radial for the headline. */}
-        <div
-          className="absolute inset-0 hidden md:block motion-reduce:!hidden"
-          style={{ background: "linear-gradient(180deg, rgba(10,10,10,0.30) 0%, rgba(10,10,10,0.5) 58%, #0a0a0a 100%)" }}
-          aria-hidden
-        />
-        <div
-          className="absolute inset-0 hidden md:block motion-reduce:!hidden"
-          style={{ background: "radial-gradient(ellipse 85% 75% at 50% 48%, rgba(10,10,10,0) 20%, rgba(10,10,10,0.78) 100%)" }}
-          aria-hidden
-        />
-
-        {/* Drifting gradient orbs — desktop only; cyan + blue (no violet) */}
-        <div
-          className="animate-orb-drift absolute left-[12%] top-[20%] hidden h-72 w-72 rounded-full opacity-30 blur-[70px] md:block"
-          style={{ background: "radial-gradient(circle, #00d4ff 0%, transparent 70%)" }}
-          aria-hidden
-        />
-        <div
-          className="animate-orb-drift absolute right-[10%] top-[42%] hidden h-80 w-80 rounded-full opacity-25 blur-[70px] md:block"
-          style={{
-            background: "radial-gradient(circle, #2563eb 0%, transparent 70%)",
-            animationDelay: "-9s",
-          }}
-          aria-hidden
-        />
-
-        {/* Rising particles — desktop only (cyan / sky-blue) */}
-        <div className="absolute inset-0 hidden overflow-hidden sm:block" aria-hidden>
-          {PARTICLES.map((p, i) => (
-            <span
-              key={i}
-              className={cn(
-                "animate-float-up absolute bottom-[-12px] rounded-full will-change-transform",
-                i % 2 === 0 ? "bg-sky/40" : "bg-[#38bdf8]/35",
-              )}
-              style={{
-                left: `${p.left}%`,
-                width: `${p.size}px`,
-                height: `${p.size}px`,
-                animationDelay: `${p.delay}s`,
-                animationDuration: `${p.duration}s`,
-                ["--drift" as string]: `${p.drift}px`,
-              }}
-            />
-          ))}
-        </div>
       </div>
 
       {/* ── Foreground ────────────────────────────────────── */}
       <div className="relative z-10 mx-auto max-w-5xl px-6 pb-24 pt-32 text-center">
-        {/* Local scrim — keeps white text crisp over the bright glow without
-            dimming the overall luminosity. */}
+        {/* Local scrim — keeps text crisp on the dark canvas */}
         <div className="hero-text-scrim pointer-events-none absolute inset-0 -z-10" aria-hidden />
 
         <motion.div
@@ -174,11 +93,11 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.72, ease: [0.22, 1, 0.36, 1] }}
           className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <Button href="/contact" variant="glassCta" className="w-full sm:w-auto">
+          <Button href="/contact" variant="primary" className="w-full sm:w-auto">
             Start Your Project
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Button>
-          <Button href="/portfolio" variant="glassBright" className="w-full sm:w-auto">
+          <Button href="/portfolio" variant="glass" className="w-full sm:w-auto">
             See Our Work
           </Button>
         </motion.div>

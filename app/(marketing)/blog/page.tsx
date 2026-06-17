@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Strategy: "from-[#00d4ff] to-[#2563eb]",
-  Guides: "from-[#00e5c0] to-[#00a2ff]",
-  SEO: "from-[#34d399] to-[#0d9488]",
-  Performance: "from-[#38bdf8] to-[#2563eb]",
+  Strategy: "from-[#ff7a1a] to-[#d97757]",
+  Guides: "from-[#ffb37a] to-[#ff7a1a]",
+  SEO: "from-[#ff9a4d] to-[#b5532e]",
+  Performance: "from-[#ffc99e] to-[#d97757]",
 };
 
 export default function BlogPage() {
@@ -27,7 +27,7 @@ export default function BlogPage() {
             className="pointer-events-none absolute inset-x-0 top-0 h-[380px]"
             style={{
               background:
-                "radial-gradient(ellipse 80% 80% at 50% 0%, rgba(56,189,248,0.2) 0%, transparent 70%)",
+                "radial-gradient(ellipse 80% 80% at 50% 0%, rgba(255,122,26,0.2) 0%, transparent 70%)",
             }}
             aria-hidden
           />
@@ -62,7 +62,7 @@ export default function BlogPage() {
             <div className="relative mx-auto max-w-xl overflow-hidden rounded-card glass-strong p-12 text-center">
               <div
                 className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-20 blur-[80px]"
-                style={{ background: "linear-gradient(135deg, #00d4ff, #2563eb)" }}
+                style={{ background: "linear-gradient(135deg, #ff7a1a, #d97757)" }}
                 aria-hidden
               />
               <span className="gradient-bg mx-auto flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-glow-cyan">
@@ -95,7 +95,7 @@ export default function BlogPage() {
           ) : (
             <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
               {BLOG_POSTS.map((post) => {
-                const color = CATEGORY_COLORS[post.category] ?? "from-[#00d4ff] to-[#2563eb]";
+                const color = CATEGORY_COLORS[post.category] ?? "from-[#ff7a1a] to-[#d97757]";
                 return (
                   <article
                     key={post.title}

@@ -15,7 +15,7 @@ export function HumanAi() {
           className="absolute inset-x-0 top-0 h-full"
           style={{
             background:
-              "radial-gradient(ellipse 120% 90% at 50% 0%, rgba(235,250,255,0.42) 0%, rgba(0,212,255,0.42) 16%, rgba(56,189,248,0.44) 34%, rgba(37,99,235,0.4) 52%, rgba(10,15,28,0.92) 72%, #0a0a0a 90%)",
+              "radial-gradient(ellipse 120% 90% at 50% 0%, rgba(255,236,225,0.42) 0%, rgba(255,138,61,0.4) 16%, rgba(255,122,26,0.42) 34%, rgba(181,83,46,0.38) 52%, rgba(20,16,14,0.92) 72%, #0c0a09 90%)",
           }}
         />
         <div className="grid-bg absolute inset-0 opacity-30 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_30%,black_20%,transparent_70%)]" />

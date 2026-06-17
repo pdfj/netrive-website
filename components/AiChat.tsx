@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, X, Send, Loader2, Headphones, Check } from "lucide-react";
-import GlassSurface from "@/components/reactbits/GlassSurface";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -90,34 +89,16 @@ export function AiChat() {
 
   return (
     <>
-      {/* Launcher (bottom-left; WhatsApp lives bottom-right).
-          Real refractive GlassSurface so the page is visible — and distorts —
-          through the glass as you scroll. Falls back to a CSS glass on
-          Safari/Firefox/mobile (still see-through). */}
+      {/* Launcher (bottom-left; WhatsApp lives bottom-right) */}
       {!open && (
         <button
           type="button"
           onClick={() => setOpen(true)}
           aria-label="Chat with us"
-          title="Chat with us"
-          className="group fixed bottom-6 left-6 z-40 rounded-full shadow-glow-cyan transition-transform duration-200 hover:scale-[1.06]"
+          className="gradient-bg group fixed bottom-6 left-6 z-40 inline-flex items-center gap-2 rounded-pill px-4 py-3 font-semibold text-white shadow-glow transition-transform duration-200 hover:scale-[1.04] sm:px-5"
         >
-          <GlassSurface
-            width={60}
-            height={60}
-            borderRadius={30}
-            blur={12}
-            displace={1}
-            distortionScale={-140}
-            backgroundOpacity={0.08}
-            saturation={1.5}
-            brightness={58}
-          >
-            <span className="relative flex items-center justify-center">
-              <MessageCircle className="h-6 w-6 text-white drop-shadow" />
-              <span className="absolute -right-1.5 -top-1.5 h-2.5 w-2.5 rounded-full bg-sky ring-2 ring-[#0a0a0a]" />
-            </span>
-          </GlassSurface>
+          <MessageCircle className="h-5 w-5" />
+          <span className="hidden text-sm sm:inline">Chat with us</span>
         </button>
       )}
 
