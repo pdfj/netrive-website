@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Lock, Mail, MapPin, Phone } from "lucide-react";
 import { NAV_LINKS, SERVICES_GRID, SITE } from "@/lib/constants";
+import { LogoMark } from "@/components/ui/Logo";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -42,8 +43,11 @@ export function Footer() {
       <div className="relative mx-auto grid max-w-content grid-cols-1 gap-12 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4">
         {/* Brand */}
         <div>
-          <span className="font-display text-2xl font-bold tracking-tight text-white">
-            Net<span className="gradient-text-accent">Rive</span>
+          <span className="inline-flex items-center gap-2.5">
+            <LogoMark className="h-8 w-auto" />
+            <span className="font-display text-2xl font-bold tracking-tight text-white">
+              Net<span className="gradient-text-accent">Rive</span>
+            </span>
           </span>
           <p className="mt-4 max-w-xs text-sm leading-[1.7] text-haze">
             {SITE.tagline} {SITE.positioning} Built in Cape Town — serving businesses

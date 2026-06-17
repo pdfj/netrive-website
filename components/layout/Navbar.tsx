@@ -5,12 +5,16 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
+import { LogoMark } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 
 function Wordmark({ className }: { className?: string }) {
   return (
-    <span className={cn("font-display text-2xl font-bold tracking-tight text-white", className)}>
-      Net<span className="gradient-text-accent">Rive</span>
+    <span className={cn("inline-flex items-center gap-2.5", className)}>
+      <LogoMark className="h-8 w-auto" />
+      <span className="font-display text-2xl font-bold tracking-tight text-white">
+        Net<span className="gradient-text-accent">Rive</span>
+      </span>
     </span>
   );
 }
