@@ -10,8 +10,6 @@ import {
 import { ArrowRight, ChevronDown, Star } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { HeroStrands } from "@/components/sections/HeroStrands";
-import { useMotionOK } from "@/lib/useMotionOK";
-import TrueFocus from "@/components/reactbits/TrueFocus";
 import { cn } from "@/lib/utils";
 
 // Deterministic particle field — hardcoded so SSR and client markup match.
@@ -40,9 +38,6 @@ const PARTICLES = [
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  // Swap to the kinetic TrueFocus headline once the client confirms motion is
-  // OK (works on mobile too); SSR + reduced-motion render the plain <h1>.
-  const showFocus = useMotionOK();
 
   // Mouse-tracking parallax for the sub-copy — springs keep it silky
   const mx = useMotionValue(0);
@@ -151,28 +146,15 @@ export function Hero() {
           4.9 rating · 50+ sites shipped · SA &amp; US
         </motion.div>
 
-        {/* Kinetic TrueFocus headline (motion) / plain legible <h1> (SSR + reduced) */}
-        <div className="relative">
-          {showFocus ? (
-            <div
-              aria-label="We Build Websites That Get You Paid"
-              className="font-display text-[clamp(2.1rem,7.5vw,5.5rem)] font-bold leading-[1.05] tracking-tight text-white text-shadow-hero"
-            >
-              <TrueFocus
-                sentence="We Build Websites That Get You Paid"
-                borderColor="#38bdf8"
-                glowColor="rgba(56,189,248,0.65)"
-                blurAmount={4}
-                animationDuration={0.6}
-                pauseBetweenAnimations={1.1}
-              />
-            </div>
-          ) : (
-            <h1 className="font-display text-[clamp(2.1rem,7.5vw,5.5rem)] font-bold leading-[1.05] tracking-tight text-white text-shadow-hero">
-              We Build Websites <span className="gradient-text">That Get You Paid.</span>
-            </h1>
-          )}
-        </div>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="font-display text-[clamp(2.4rem,7.5vw,5.5rem)] font-bold leading-[1.05] tracking-tight text-white text-shadow-hero"
+        >
+          We Build Websites <br className="hidden sm:block" />
+          <span className="gradient-text">That Get You Paid.</span>
+        </motion.h1>
 
         <motion.p
           style={{ x: subX, y: subY }}

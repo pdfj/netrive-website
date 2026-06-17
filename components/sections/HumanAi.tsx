@@ -3,16 +3,10 @@
 import { CheckCircle2, Globe, Star, Zap, type LucideIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { STATS } from "@/lib/constants";
-import { useMotionOK } from "@/lib/useMotionOK";
-import TrueFocus from "@/components/reactbits/TrueFocus";
 
 const ICONS: Record<string, LucideIcon> = { Zap, CheckCircle2, Star, Globe };
 
 export function HumanAi() {
-  // TrueFocus runs on mobile too now (motion-only gating). The blur transition
-  // only fires on word change (~every 1.8s), not per frame — light enough for
-  // phones. Reduced-motion + SSR fall back to a plain, legible <h2>.
-  const showFocus = useMotionOK();
   return (
     <section className="relative overflow-hidden py-28 sm:py-36">
       {/* Cyan-blue light field */}
@@ -38,31 +32,16 @@ export function HumanAi() {
           The NetRive Difference
         </motion.span>
 
-        <motion.div
+        <motion.h2
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="mx-auto mt-4 max-w-3xl"
+          className="mx-auto mt-4 max-w-3xl font-display text-[clamp(2.2rem,5.5vw,4rem)] font-bold leading-[1.08] tracking-tight text-white"
         >
-          {showFocus ? (
-            <div className="font-display text-[clamp(2.2rem,5.5vw,4rem)] font-bold leading-[1.08] tracking-tight text-white">
-              <TrueFocus
-                sentence="Human-led AI-Powered"
-                borderColor="#00d4ff"
-                glowColor="rgba(56,189,248,0.6)"
-                blurAmount={3}
-                animationDuration={0.6}
-                pauseBetweenAnimations={1.2}
-              />
-            </div>
-          ) : (
-            <h2 className="font-display text-[clamp(2.2rem,5.5vw,4rem)] font-bold leading-[1.08] tracking-tight text-white">
-              Human-led.{" "}
-              <span className="gradient-text">AI-Powered.</span>
-            </h2>
-          )}
-        </motion.div>
+          Human-led.{" "}
+          <span className="gradient-text">AI-Powered.</span>
+        </motion.h2>
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
