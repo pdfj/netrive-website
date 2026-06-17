@@ -59,64 +59,77 @@ body {
 }
 
 @layer components {
-  /* ── Surfaces ──────────────────────────────────────────────────
-     Clean translucent cards — NO backdrop blur (removed per feedback).
-     Just a subtle fill + warm hairline + soft shadow so blocks read
-     crisp against the dark canvas. */
+  /* ── Frosted glass (reference style) ───────────────────────────
+     Subtle dark fill + backdrop blur + a thin light hairline — the
+     refined frosted look from the brief (badge, buttons, cards). */
   .glass {
-    background: rgba(255, 255, 255, 0.035);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    background: rgba(255, 255, 255, 0.045);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
   }
 
   .glass-strong {
-    background: rgba(255, 255, 255, 0.055);
-    border: 1px solid rgba(255, 255, 255, 0.11);
-    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.45);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(20px) saturate(1.3);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
   }
 
   /* Elevated card */
   .glass-bright {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.055);
+    backdrop-filter: blur(16px) saturate(1.25);
+    -webkit-backdrop-filter: blur(16px) saturate(1.25);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.42);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   .glass-bright:hover {
     border-color: rgba(255, 122, 26, 0.45);
-    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.45), 0 0 26px rgba(255, 122, 26, 0.14);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.48), 0 0 26px rgba(255, 122, 26, 0.14);
   }
 
   /* Orange-tinted surface — highlighted / active cards */
   .glass-electric {
-    background: rgba(217, 119, 87, 0.1);
+    background: rgba(255, 122, 26, 0.1);
+    backdrop-filter: blur(16px) saturate(1.3);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
     border: 1px solid rgba(255, 122, 26, 0.3);
-    box-shadow: 0 6px 26px rgba(217, 119, 87, 0.16);
+    box-shadow: 0 8px 30px rgba(217, 119, 87, 0.16);
   }
 
-  /* Secondary button — translucent, warms up on hover */
+  /* Secondary button — dark frosted glass (like "See Projects") */
   .glass-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     transition: border-color 0.2s ease, background 0.2s ease;
   }
   .glass-btn:hover {
-    border-color: rgba(255, 122, 26, 0.6);
+    border-color: rgba(255, 122, 26, 0.55);
     background: rgba(255, 122, 26, 0.08);
   }
 
-  /* Primary orange button */
+  /* Primary button — orange frosted glass (like "Get Started Now") */
   .glass-cta {
-    background: linear-gradient(135deg, #ff8a3d 0%, #d97757 100%);
-    border: 1px solid rgba(255, 170, 110, 0.45);
-    box-shadow: 0 8px 30px rgba(217, 119, 87, 0.4), 0 0 26px rgba(255, 122, 26, 0.22);
+    background: rgba(255, 122, 26, 0.18);
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    border: 1px solid rgba(255, 170, 110, 0.5);
+    box-shadow: 0 8px 28px rgba(217, 119, 87, 0.34), 0 0 26px rgba(255, 122, 26, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
     color: #fff;
-    transition: box-shadow 0.2s ease, filter 0.2s ease;
+    transition: box-shadow 0.2s ease, background 0.2s ease;
   }
   .glass-cta:hover {
-    box-shadow: 0 10px 36px rgba(217, 119, 87, 0.5), 0 0 36px rgba(255, 122, 26, 0.32);
-    filter: brightness(1.06);
+    background: rgba(255, 122, 26, 0.26);
+    box-shadow: 0 10px 34px rgba(217, 119, 87, 0.44), 0 0 36px rgba(255, 122, 26, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
   }
 
   /* Signature gradient text: white → light → bright orange → clay */
@@ -229,11 +242,15 @@ body {
   pointer-events: none;
   background: #0c0a09;
 }
+.aurora[data-paused="true"] .aurora-blob {
+  animation-play-state: paused;
+}
 .aurora-blob {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
   mix-blend-mode: screen;
+  will-change: transform;
 }
 .aurora-1 {
   width: 60vw;
@@ -241,6 +258,7 @@ body {
   left: -14vw;
   top: -16vh;
   background: radial-gradient(circle, rgba(217, 119, 87, 0.4) 0%, rgba(217, 119, 87, 0) 70%);
+  animation: aurora-1 34s ease-in-out infinite;
 }
 .aurora-2 {
   width: 64vw;
@@ -248,6 +266,7 @@ body {
   right: -18vw;
   top: 14vh;
   background: radial-gradient(circle, rgba(255, 122, 26, 0.34) 0%, rgba(255, 122, 26, 0) 70%);
+  animation: aurora-2 42s ease-in-out infinite;
 }
 .aurora-3 {
   width: 56vw;
@@ -255,6 +274,22 @@ body {
   left: 28vw;
   bottom: -24vh;
   background: radial-gradient(circle, rgba(181, 83, 46, 0.3) 0%, rgba(181, 83, 46, 0) 70%);
+  animation: aurora-3 48s ease-in-out infinite;
+}
+@keyframes aurora-1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(10vw, 8vh, 0) scale(1.12); }
+  66% { transform: translate3d(-6vw, 12vh, 0) scale(0.95); }
+}
+@keyframes aurora-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.04); }
+  40% { transform: translate3d(-11vw, 8vh, 0) scale(0.92); }
+  70% { transform: translate3d(5vw, -6vh, 0) scale(1.14); }
+}
+@keyframes aurora-3 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  35% { transform: translate3d(8vw, -10vh, 0) scale(1.15); }
+  68% { transform: translate3d(-10vw, -3vh, 0) scale(0.93); }
 }
 /* Vignette sinks the field into the base so cards read crisply. */
 .aurora-vignette {
@@ -278,6 +313,19 @@ body {
   .aurora-2 { width: 96vw; height: 96vw; }
   .aurora-3 { width: 84vw; height: 84vw; }
   .aurora-noise { display: none; }
+}
+
+/* Mobile: cap frosted-glass blur so scroll stays smooth */
+@media (max-width: 768px) {
+  .glass,
+  .glass-strong,
+  .glass-electric,
+  .glass-bright,
+  .glass-btn,
+  .glass-cta {
+    backdrop-filter: blur(10px) saturate(1.2);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  }
 }
 
 /* Accessibility: honor reduced-motion globally */
