@@ -94,7 +94,7 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
       </div>
 
       {/* Maintenance banner */}
-      <div className="glass-electric mx-auto mt-12 flex max-w-2xl flex-col items-center justify-center gap-2 rounded-card px-6 py-5 text-center sm:flex-row sm:gap-3">
+      <div className="glass-bright mx-auto mt-12 flex max-w-2xl flex-col items-center justify-center gap-2 rounded-card px-6 py-5 text-center sm:flex-row sm:gap-3">
         <Wrench className="h-5 w-5 shrink-0 text-sky" />
         <p className="text-sm leading-[1.6] text-white/85">
           <span className="font-semibold text-white">Monthly maintenance from R250/month</span>

@@ -2,14 +2,16 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "white" | "glass" | "ghost";
+type Variant = "primary" | "white" | "glass" | "glassBright" | "glassCta" | "ghost";
 
 const variants: Record<Variant, string> = {
   primary:
     "gradient-bg-animated text-white shadow-glow hover:shadow-glow-lg hover:brightness-110",
   white: "bg-white text-black hover:shadow-[0_10px_30px_rgba(255,255,255,0.18)]",
   glass: "glass-btn text-white",
-  ghost: "border border-white/20 text-white hover:border-iris/60",
+  glassBright: "glass-bright text-white",
+  glassCta: "glass-cta text-white",
+  ghost: "border border-white/20 text-white hover:border-sky/60",
 };
 
 interface ButtonProps {

@@ -7,13 +7,12 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import { ArrowRight, ChevronDown, Sparkles, Star } from "lucide-react";
+import { ArrowRight, ChevronDown, Star } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { HeroStrands } from "@/components/sections/HeroStrands";
+import { useMotionOK } from "@/lib/useMotionOK";
+import TrueFocus from "@/components/reactbits/TrueFocus";
 import { cn } from "@/lib/utils";
-
-const LINE_ONE = ["We", "Build", "Websites"];
-const LINE_TWO = ["That", "Get", "You", "Paid."];
 
 // Deterministic particle field — hardcoded so SSR and client markup match.
 const PARTICLES = [
@@ -39,56 +38,17 @@ const PARTICLES = [
   { left: 70, size: 3, delay: 9, duration: 19, drift: -16 },
 ];
 
-/**
- * A single headline word: entrance mask + perpetual float.
- * Outer span = overflow mask, middle = entrance slide, inner = CSS float loop.
- */
-function Word({
-  children,
-  index,
-  gradient,
-}: {
-  children: string;
-  index: number;
-  gradient?: boolean;
-}) {
-  return (
-    <span className="mr-[0.22em] inline-block overflow-visible align-bottom last:mr-0">
-      <motion.span
-        className="inline-block will-change-transform"
-        initial={{ y: "120%", opacity: 0 }}
-        animate={{ y: "0%", opacity: 1 }}
-        transition={{
-          duration: 0.9,
-          delay: 0.15 + index * 0.08,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-      >
-        <span
-          className={cn(
-            "animate-word-float inline-block will-change-transform",
-            gradient && "gradient-text",
-          )}
-          style={{ animationDelay: `${index * 0.35}s` }}
-        >
-          {children}
-        </span>
-      </motion.span>
-    </span>
-  );
-}
-
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  // Swap to the kinetic TrueFocus headline once the client confirms motion is
+  // OK (works on mobile too); SSR + reduced-motion render the plain <h1>.
+  const showFocus = useMotionOK();
 
-  // Mouse-tracking 3D tilt — springs keep it silky
+  // Mouse-tracking parallax for the sub-copy — springs keep it silky
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const smx = useSpring(mx, { stiffness: 60, damping: 18 });
   const smy = useSpring(my, { stiffness: 60, damping: 18 });
-  const rotateX = useTransform(smy, [-0.5, 0.5], [7, -7]);
-  const rotateY = useTransform(smx, [-0.5, 0.5], [-9, 9]);
-  // Parallax for the sub-copy (moves slightly less = depth)
   const subX = useTransform(smx, [-0.5, 0.5], [-8, 8]);
   const subY = useTransform(smy, [-0.5, 0.5], [-5, 5]);
 
@@ -113,63 +73,54 @@ export function Hero() {
     >
       {/* ── Background layers ─────────────────────────────── */}
       <div className="absolute inset-0 z-0">
-        {/* Arch light field — also the fallback on mobile / reduced-motion / no-video */}
+        {/* Luminous top-glow light field — lit from above, fades into the base
+            (not a mid-page black wall). Also the mobile / reduced-motion ambient. */}
         <div className="arch-gradient animate-breathe absolute inset-[-5%] will-change-transform" />
-        {/* Deepen lower corners back to black */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_60%_at_50%_120%,rgba(10,10,10,0.96),transparent_70%)]" />
         {/* Blueprint grid, faded by mask */}
         <div
-          className="grid-bg absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_70%_55%_at_50%_45%,black_30%,transparent_75%)]"
+          className="grid-bg absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_70%_55%_at_50%_42%,black_30%,transparent_75%)]"
           aria-hidden
         />
 
-        {/* Desktop Strands WebGL backdrop — flowing cyan/violet light ribbons.
-            Mounts on desktop + non-reduced-motion only; mobile shows the
-            arch/aurora instead. */}
+        {/* Desktop Strands WebGL backdrop — flowing cyan/blue light ribbons.
+            Desktop + non-reduced-motion only; mobile shows the glow instead. */}
         <HeroStrands />
-        {/* Mandatory dark legibility veil over Strands (it's brighter than the
-            old video). Linear top→bottom + radial center so the headline wins. */}
+        {/* Legibility veil over Strands only (desktop). Lighter than before so
+            the luminous look survives, with a centre radial for the headline. */}
         <div
           className="absolute inset-0 hidden md:block motion-reduce:!hidden"
-          style={{ background: "linear-gradient(180deg, rgba(10,10,10,0.38) 0%, rgba(10,10,10,0.62) 55%, #0a0a0a 100%)" }}
+          style={{ background: "linear-gradient(180deg, rgba(10,10,10,0.30) 0%, rgba(10,10,10,0.5) 58%, #0a0a0a 100%)" }}
           aria-hidden
         />
         <div
           className="absolute inset-0 hidden md:block motion-reduce:!hidden"
-          style={{ background: "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 16%, rgba(10,10,10,0.86) 100%)" }}
-          aria-hidden
-        />
-        {/* Subtle violet wash above the veil, behind the text — plants violet
-            without hurting readability. */}
-        <div
-          className="absolute inset-0 hidden md:block"
-          style={{ background: "radial-gradient(ellipse 60% 50% at 72% 30%, rgba(124,58,237,0.12), transparent 65%)" }}
+          style={{ background: "radial-gradient(ellipse 85% 75% at 50% 48%, rgba(10,10,10,0) 20%, rgba(10,10,10,0.78) 100%)" }}
           aria-hidden
         />
 
-        {/* Drifting gradient orbs — desktop only; large blur radii choke mobile GPUs */}
+        {/* Drifting gradient orbs — desktop only; cyan + blue (no violet) */}
         <div
-          className="animate-orb-drift absolute left-[12%] top-[22%] hidden h-72 w-72 rounded-full opacity-25 blur-[70px] md:block"
+          className="animate-orb-drift absolute left-[12%] top-[20%] hidden h-72 w-72 rounded-full opacity-30 blur-[70px] md:block"
           style={{ background: "radial-gradient(circle, #00d4ff 0%, transparent 70%)" }}
           aria-hidden
         />
         <div
-          className="animate-orb-drift absolute right-[10%] top-[40%] hidden h-80 w-80 rounded-full opacity-25 blur-[70px] md:block"
+          className="animate-orb-drift absolute right-[10%] top-[42%] hidden h-80 w-80 rounded-full opacity-25 blur-[70px] md:block"
           style={{
-            background: "radial-gradient(circle, #7C3AED 0%, transparent 70%)",
+            background: "radial-gradient(circle, #2563eb 0%, transparent 70%)",
             animationDelay: "-9s",
           }}
           aria-hidden
         />
 
-        {/* Rising particles — desktop only (20 animated layers is too many for phones) */}
+        {/* Rising particles — desktop only (cyan / sky-blue) */}
         <div className="absolute inset-0 hidden overflow-hidden sm:block" aria-hidden>
           {PARTICLES.map((p, i) => (
             <span
               key={i}
               className={cn(
                 "animate-float-up absolute bottom-[-12px] rounded-full will-change-transform",
-                i % 2 === 0 ? "bg-sky/40" : "bg-[#7C3AED]/35",
+                i % 2 === 0 ? "bg-sky/40" : "bg-[#38bdf8]/35",
               )}
               style={{
                 left: `${p.left}%`,
@@ -185,64 +136,67 @@ export function Hero() {
       </div>
 
       {/* ── Foreground ────────────────────────────────────── */}
-      <div className="perspective-1000 relative z-10 mx-auto max-w-5xl px-6 pb-24 pt-32 text-center">
+      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-24 pt-32 text-center">
+        {/* Local scrim — keeps white text crisp over the bright glow without
+            dimming the overall luminosity. */}
+        <div className="hero-text-scrim pointer-events-none absolute inset-0 -z-10" aria-hidden />
+
         <motion.div
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="mb-8 inline-flex items-center gap-2 rounded-pill glass px-4 py-2 font-grotesk text-[11px] uppercase tracking-[0.16em] text-white/90 shadow-glow-cyan"
         >
-          <Sparkles className="h-3.5 w-3.5 text-sky" />
-          Cape Town&apos;s Premier Web Agency
+          <Star className="h-3.5 w-3.5 fill-sky text-sky" />
+          4.9 rating · 50+ sites shipped · SA &amp; US
         </motion.div>
 
-        {/* Gentle mouse tilt. No preserve-3d / translateZ: those create a 3D
-            rendering context that mis-composites against the hero <video> layer
-            in Chrome and can hide the headline. The parent perspective still
-            gives the rotateX/rotateY a subtle depth. */}
-        <motion.h1
-          style={{ rotateX, rotateY }}
-          className="font-display text-[clamp(2.6rem,8vw,5.75rem)] font-bold leading-[1.04] tracking-tight will-change-transform"
-        >
-          <span className="block">
-            {LINE_ONE.map((word, i) => (
-              <Word key={word} index={i}>
-                {word}
-              </Word>
-            ))}
-          </span>
-          <span className="block">
-            {LINE_TWO.map((word, i) => (
-              <Word key={word} index={LINE_ONE.length + i} gradient>
-                {word}
-              </Word>
-            ))}
-          </span>
-        </motion.h1>
+        {/* Kinetic TrueFocus headline (motion) / plain legible <h1> (SSR + reduced) */}
+        <div className="relative">
+          {showFocus ? (
+            <div
+              aria-label="We Build Websites That Get You Paid"
+              className="font-display text-[clamp(2.1rem,7.5vw,5.5rem)] font-bold leading-[1.05] tracking-tight text-white text-shadow-hero"
+            >
+              <TrueFocus
+                sentence="We Build Websites That Get You Paid"
+                borderColor="#38bdf8"
+                glowColor="rgba(56,189,248,0.65)"
+                blurAmount={4}
+                animationDuration={0.6}
+                pauseBetweenAnimations={1.1}
+              />
+            </div>
+          ) : (
+            <h1 className="font-display text-[clamp(2.1rem,7.5vw,5.5rem)] font-bold leading-[1.05] tracking-tight text-white text-shadow-hero">
+              We Build Websites <span className="gradient-text">That Get You Paid.</span>
+            </h1>
+          )}
+        </div>
 
         <motion.p
           style={{ x: subX, y: subY }}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mt-7 max-w-xl text-balance text-base leading-[1.75] text-haze sm:text-lg"
+          transition={{ duration: 0.8, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="mx-auto mt-7 max-w-xl text-balance text-base leading-[1.75] text-white/80 text-shadow-hero sm:text-lg"
         >
           From landing pages to full e-commerce stores — NetRive delivers fast,
           modern, high-converting websites for ambitious businesses across South
-          Africa and beyond.
+          Africa, the US and beyond.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.8, delay: 0.72, ease: [0.22, 1, 0.36, 1] }}
           className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <Button href="/contact" variant="primary">
+          <Button href="/contact" variant="glassCta" className="w-full sm:w-auto">
             Start Your Project
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Button>
-          <Button href="/portfolio" variant="glass">
+          <Button href="/portfolio" variant="glassBright" className="w-full sm:w-auto">
             See Our Work
           </Button>
         </motion.div>
@@ -250,8 +204,8 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.1 }}
-          className="mt-9 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-haze"
+          transition={{ duration: 0.8, delay: 0.95 }}
+          className="mt-9 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-white/75"
         >
           <span className="inline-flex items-center gap-1.5">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
@@ -260,7 +214,7 @@ export function Hero() {
           <span className="text-white/20">·</span>
           <span>50+ Projects Delivered</span>
           <span className="text-white/20">·</span>
-          <span>Cape Town, SA</span>
+          <span>South Africa &amp; the US</span>
         </motion.div>
       </div>
 

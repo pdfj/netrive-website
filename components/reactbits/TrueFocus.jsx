@@ -19,19 +19,54 @@ const TrueFocus = ({
   const containerRef = useRef(null);
   const wordRefs = useRef([]);
   const [focusRect, setFocusRect] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  // True while the headline is off-screen or the tab is hidden — we keep a
+  // cheap timer ticking but skip advancing (so no blur transition fires and
+  // scroll stays smooth, especially on phones).
+  const pausedRef = useRef(false);
 
   useEffect(() => {
-    if (!manualMode) {
-      const interval = setInterval(
-        () => {
-          setCurrentIndex(prev => (prev + 1) % words.length);
-        },
-        (animationDuration + pauseBetweenAnimations) * 1000
-      );
+    if (manualMode) return;
 
-      return () => clearInterval(interval);
-    }
+    // Slower, calmer cadence on touch devices.
+    const coarse =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(pointer: coarse)').matches;
+    const pause = pauseBetweenAnimations + (coarse ? 0.6 : 0);
+    const period = (animationDuration + pause) * 1000;
+
+    const interval = setInterval(() => {
+      if (pausedRef.current) return;
+      setCurrentIndex(prev => (prev + 1) % words.length);
+    }, period);
+
+    return () => clearInterval(interval);
   }, [manualMode, animationDuration, pauseBetweenAnimations, words.length]);
+
+  // Pause the cycle when scrolled out of view or the tab is backgrounded.
+  useEffect(() => {
+    if (manualMode) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        pausedRef.current = !entry.isIntersecting || document.hidden;
+      },
+      { threshold: 0 }
+    );
+    io.observe(el);
+
+    const onVisibility = () => {
+      pausedRef.current = document.hidden || pausedRef.current;
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      io.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [manualMode]);
 
   useEffect(() => {
     if (currentIndex === null || currentIndex === -1) return;
@@ -72,13 +107,8 @@ const TrueFocus = ({
             ref={el => (wordRefs.current[index] = el)}
             className={`focus-word ${manualMode ? 'manual' : ''} ${isActive && !manualMode ? 'active' : ''}`}
             style={{
-              filter: manualMode
-                ? isActive
-                  ? `blur(0px)`
-                  : `blur(${blurAmount}px)`
-                : isActive
-                  ? `blur(0px)`
-                  : `blur(${blurAmount}px)`,
+              filter: isActive ? `blur(0px)` : `blur(${blurAmount}px)`,
+              transform: 'translateZ(0)',
               '--border-color': borderColor,
               '--glow-color': glowColor,
               transition: `filter ${animationDuration}s ease`

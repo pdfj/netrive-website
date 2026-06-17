@@ -20,7 +20,7 @@ export default function ServicesPage() {
             className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"
             style={{
               background:
-                "radial-gradient(ellipse 90% 90% at 50% 0%, rgba(99,102,241,0.2) 0%, transparent 70%)",
+                "radial-gradient(ellipse 90% 90% at 50% 0%, rgba(56,189,248,0.2) 0%, transparent 70%)",
             }}
             aria-hidden
           />

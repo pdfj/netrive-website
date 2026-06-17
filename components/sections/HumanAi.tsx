@@ -3,15 +3,16 @@
 import { CheckCircle2, Globe, Star, Zap, type LucideIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { STATS } from "@/lib/constants";
-import { useDesktopMotion } from "@/lib/useDesktopMotion";
+import { useMotionOK } from "@/lib/useMotionOK";
 import TrueFocus from "@/components/reactbits/TrueFocus";
 
 const ICONS: Record<string, LucideIcon> = { Zap, CheckCircle2, Star, Globe };
 
 export function HumanAi() {
-  // TrueFocus is a motion-heavy per-word blur effect — desktop + non-reduced-motion
-  // only. Everywhere else a plain, fully-legible <h2> renders (also what crawlers see).
-  const showFocus = useDesktopMotion();
+  // TrueFocus runs on mobile too now (motion-only gating). The blur transition
+  // only fires on word change (~every 1.8s), not per frame — light enough for
+  // phones. Reduced-motion + SSR fall back to a plain, legible <h2>.
+  const showFocus = useMotionOK();
   return (
     <section className="relative overflow-hidden py-28 sm:py-36">
       {/* Cyan-blue light field */}
@@ -20,7 +21,7 @@ export function HumanAi() {
           className="absolute inset-x-0 top-0 h-full"
           style={{
             background:
-              "radial-gradient(ellipse 120% 90% at 50% 0%, rgba(235,250,255,0.4) 0%, rgba(0,212,255,0.42) 16%, rgba(99,102,241,0.46) 34%, rgba(124,58,237,0.4) 50%, rgba(10,15,28,0.92) 70%, #0a0a0a 90%)",
+              "radial-gradient(ellipse 120% 90% at 50% 0%, rgba(235,250,255,0.42) 0%, rgba(0,212,255,0.42) 16%, rgba(56,189,248,0.44) 34%, rgba(37,99,235,0.4) 52%, rgba(10,15,28,0.92) 72%, #0a0a0a 90%)",
           }}
         />
         <div className="grid-bg absolute inset-0 opacity-30 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_30%,black_20%,transparent_70%)]" />
@@ -49,7 +50,7 @@ export function HumanAi() {
               <TrueFocus
                 sentence="Human-led AI-Powered"
                 borderColor="#00d4ff"
-                glowColor="rgba(124,58,237,0.6)"
+                glowColor="rgba(56,189,248,0.6)"
                 blurAmount={3}
                 animationDuration={0.6}
                 pauseBetweenAnimations={1.2}

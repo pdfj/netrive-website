@@ -22,7 +22,7 @@ export function Process() {
           className="absolute left-[12%] right-[12%] top-9 hidden h-px md:block"
           style={{
             background:
-              "linear-gradient(90deg, transparent, rgba(0,212,255,0.5) 12%, rgba(99,102,241,0.5) 50%, rgba(124,58,237,0.5) 88%, transparent)",
+              "linear-gradient(90deg, transparent, rgba(0,212,255,0.55) 12%, rgba(56,189,248,0.5) 50%, rgba(37,99,235,0.5) 88%, transparent)",
           }}
           aria-hidden
         />

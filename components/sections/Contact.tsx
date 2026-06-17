@@ -68,7 +68,7 @@ export function Contact() {
       {/* Ambient glow behind the form */}
       <div
         className="pointer-events-none absolute left-1/2 top-24 h-72 w-[70%] -translate-x-1/2 rounded-full opacity-[0.08] blur-[100px]"
-        style={{ background: "linear-gradient(135deg, #00d4ff, #7C3AED)" }}
+        style={{ background: "linear-gradient(135deg, #00d4ff, #2563eb)" }}
         aria-hidden
       />
 

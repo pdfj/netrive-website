@@ -28,14 +28,14 @@ export function Footer() {
         className="absolute inset-x-0 top-0 h-px"
         style={{
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.6) 30%, rgba(124,58,237,0.6) 70%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.6) 30%, rgba(37,99,235,0.6) 70%, transparent 100%)",
         }}
         aria-hidden
       />
       {/* Faint corner glow */}
       <div
         className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[60%] -translate-x-1/2 rounded-full opacity-[0.07] blur-[80px]"
-        style={{ background: "linear-gradient(135deg, #00d4ff, #7C3AED)" }}
+        style={{ background: "linear-gradient(135deg, #00d4ff, #2563eb)" }}
         aria-hidden
       />
 
@@ -46,7 +46,8 @@ export function Footer() {
             Net<span className="gradient-text-accent">Rive</span>
           </span>
           <p className="mt-4 max-w-xs text-sm leading-[1.7] text-haze">
-            {SITE.tagline} {SITE.positioning} Cape Town&apos;s premier web agency.
+            {SITE.tagline} {SITE.positioning} Built in Cape Town — serving businesses
+            across South Africa &amp; the US.
           </p>
           <div className="mt-5 flex gap-3">
             {[

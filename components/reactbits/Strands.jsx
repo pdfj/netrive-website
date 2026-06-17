@@ -179,7 +179,7 @@ const buildPalette = colors => {
 };
 
 export default function Strands({
-  colors = ['#FF4242', '#7C3AED', '#06B6D4', '#EAB308'],
+  colors = ['#00d4ff', '#38bdf8', '#2563eb'],
   count = 3,
   speed = 0.5,
   amplitude = 1,

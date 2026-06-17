@@ -35,7 +35,7 @@ export default function AboutPage() {
             className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"
             style={{
               background:
-                "radial-gradient(ellipse 100% 100% at 50% 0%, rgba(99,102,241,0.22) 0%, transparent 70%)",
+                "radial-gradient(ellipse 100% 100% at 50% 0%, rgba(56,189,248,0.22) 0%, transparent 70%)",
             }}
             aria-hidden
           />
@@ -47,9 +47,10 @@ export default function AboutPage() {
               Human-led. AI-Powered.
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-[1.7] text-haze sm:text-lg">
-              NetRive is a Cape Town-based web agency built on one idea: every business
-              deserves a website that actually works. We combine expert human creativity
-              with AI precision to deliver better websites, faster than anyone else.
+              NetRive is a web studio — built in Cape Town, serving businesses across
+              South Africa and the US — on one idea: every business deserves a website
+              that actually works. We combine expert human creativity with AI precision
+              to deliver better websites, faster than anyone else.
             </p>
           </div>
         </div>
@@ -63,7 +64,7 @@ export default function AboutPage() {
               >
                 <div
                   className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-0 blur-[50px] transition-opacity duration-500 group-hover:opacity-25"
-                  style={{ background: "linear-gradient(135deg, #00d4ff, #7C3AED)" }}
+                  style={{ background: "linear-gradient(135deg, #00d4ff, #2563eb)" }}
                   aria-hidden
                 />
                 <h3 className="font-display text-xl font-semibold text-white">{v.title}</h3>

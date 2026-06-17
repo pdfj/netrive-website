@@ -11,7 +11,7 @@ export const SITE = {
   tagline: "Websites That Work. Businesses That Grow.",
   positioning: "Human-led. AI-Powered.",
   description:
-    "NetRive is Cape Town's premier web agency, delivering fast, modern, high-converting websites for ambitious businesses across South Africa and beyond.",
+    "NetRive builds fast, modern, high-converting websites for ambitious businesses across South Africa, the United States and beyond.",
   phoneDisplay: "+27 65 653 8435",
   phoneRaw: "27656538435",
   whatsapp: "https://wa.me/27656538435",
@@ -257,7 +257,7 @@ export const STATS = [
   { icon: "Zap", value: "24–72hrs", label: "Delivery" },
   { icon: "CheckCircle2", value: "50+", label: "Sites Launched" },
   { icon: "Star", value: "4.9", label: "Google Rating" },
-  { icon: "Globe", value: "SA & Beyond", label: "Clients Served" },
+  { icon: "Globe", value: "SA · US", label: "Clients Served" },
 ] as const;
 
 // Section 3 — trust marquee items
