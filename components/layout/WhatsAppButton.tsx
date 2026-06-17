@@ -15,7 +15,7 @@ export function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with NetRive on WhatsApp"
-      className="group fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-pill bg-[#25D366] px-4 py-3 font-semibold text-white shadow-[0_8px_30px_rgba(37,211,102,0.35)] transition-transform duration-200 hover:scale-[1.04] sm:px-5"
+      className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-pill bg-[#25D366] px-4 py-3 font-semibold text-white shadow-[0_8px_30px_rgba(37,211,102,0.35)] transition-transform duration-200 hover:scale-[1.04] sm:bottom-6 sm:right-6 sm:px-5"
     >
       <span className="absolute inset-0 -z-10 rounded-pill bg-[#25D366] motion-safe:animate-pulse-glow" />
       <WhatsAppIcon className="h-6 w-6" />

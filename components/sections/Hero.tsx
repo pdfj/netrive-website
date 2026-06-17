@@ -51,7 +51,7 @@ export function Hero() {
       </div>
 
       {/* ── Foreground ────────────────────────────────────── */}
-      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-24 pt-32 text-center">
+      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-28 pt-28 text-center sm:pb-24 sm:pt-32">
         {/* Local scrim — keeps text crisp on the dark canvas */}
         <div className="hero-text-scrim pointer-events-none absolute inset-0 -z-10" aria-hidden />
 
@@ -93,11 +93,15 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.72, ease: [0.22, 1, 0.36, 1] }}
           className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <Button href="/contact" variant="glassCta" className="w-full sm:w-auto">
+          <Button
+            href="/contact"
+            variant="glassCta"
+            className="w-full py-4 text-base sm:w-auto sm:py-3.5 sm:text-sm"
+          >
             Start Your Project
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Button>
-          <Button href="/portfolio" variant="glass" className="w-full sm:w-auto">
+          <Button href="/portfolio" variant="glass" className="w-auto text-sm">
             See Our Work
           </Button>
         </motion.div>
@@ -106,7 +110,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.95 }}
-          className="mt-9 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-white/75"
+          className="mt-9 hidden flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-white/75 sm:flex"
         >
           <span className="inline-flex items-center gap-1.5">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
@@ -119,8 +123,8 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2">
+      {/* Scroll indicator — desktop only (declutters the mobile bottom) */}
+      <div className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 sm:block">
         <ChevronDown className="animate-bounce-arrow h-6 w-6 text-sky/70" />
       </div>
     </section>

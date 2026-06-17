@@ -95,7 +95,7 @@ export function AiChat() {
           type="button"
           onClick={() => setOpen(true)}
           aria-label="Chat with us"
-          className="gradient-bg group fixed bottom-6 left-6 z-40 inline-flex items-center gap-2 rounded-pill px-4 py-3 font-semibold text-white shadow-glow transition-transform duration-200 hover:scale-[1.04] sm:px-5"
+          className="gradient-bg group fixed bottom-5 left-5 z-40 inline-flex items-center gap-2 rounded-pill px-4 py-3 font-semibold text-white shadow-glow transition-transform duration-200 hover:scale-[1.04] sm:bottom-6 sm:left-6 sm:px-5"
         >
           <MessageCircle className="h-5 w-5" />
           <span className="hidden text-sm sm:inline">Chat with us</span>
