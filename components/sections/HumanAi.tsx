@@ -3,10 +3,15 @@
 import { CheckCircle2, Globe, Star, Zap, type LucideIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { STATS } from "@/lib/constants";
+import { useDesktopMotion } from "@/lib/useDesktopMotion";
+import TrueFocus from "@/components/reactbits/TrueFocus";
 
 const ICONS: Record<string, LucideIcon> = { Zap, CheckCircle2, Star, Globe };
 
 export function HumanAi() {
+  // TrueFocus is a motion-heavy per-word blur effect — desktop + non-reduced-motion
+  // only. Everywhere else a plain, fully-legible <h2> renders (also what crawlers see).
+  const showFocus = useDesktopMotion();
   return (
     <section className="relative overflow-hidden py-28 sm:py-36">
       {/* Cyan-blue light field */}
@@ -15,7 +20,7 @@ export function HumanAi() {
           className="absolute inset-x-0 top-0 h-full"
           style={{
             background:
-              "radial-gradient(ellipse 120% 90% at 50% 0%, rgba(235,250,255,0.4) 0%, rgba(0,212,255,0.42) 18%, rgba(0,102,255,0.5) 38%, rgba(10,15,28,0.92) 66%, #0a0a0a 88%)",
+              "radial-gradient(ellipse 120% 90% at 50% 0%, rgba(235,250,255,0.4) 0%, rgba(0,212,255,0.42) 16%, rgba(99,102,241,0.46) 34%, rgba(124,58,237,0.4) 50%, rgba(10,15,28,0.92) 70%, #0a0a0a 90%)",
           }}
         />
         <div className="grid-bg absolute inset-0 opacity-30 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_30%,black_20%,transparent_70%)]" />
@@ -32,16 +37,31 @@ export function HumanAi() {
           The NetRive Difference
         </motion.span>
 
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="mx-auto mt-4 max-w-3xl font-display text-[clamp(2.2rem,5.5vw,4rem)] font-bold leading-[1.08] tracking-tight text-white"
+          className="mx-auto mt-4 max-w-3xl"
         >
-          Human-led.{" "}
-          <span className="gradient-text">AI-Powered.</span>
-        </motion.h2>
+          {showFocus ? (
+            <div className="font-display text-[clamp(2.2rem,5.5vw,4rem)] font-bold leading-[1.08] tracking-tight text-white">
+              <TrueFocus
+                sentence="Human-led AI-Powered"
+                borderColor="#00d4ff"
+                glowColor="rgba(124,58,237,0.6)"
+                blurAmount={3}
+                animationDuration={0.6}
+                pauseBetweenAnimations={1.2}
+              />
+            </div>
+          ) : (
+            <h2 className="font-display text-[clamp(2.2rem,5.5vw,4rem)] font-bold leading-[1.08] tracking-tight text-white">
+              Human-led.{" "}
+              <span className="gradient-text">AI-Powered.</span>
+            </h2>
+          )}
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}

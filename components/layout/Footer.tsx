@@ -28,14 +28,14 @@ export function Footer() {
         className="absolute inset-x-0 top-0 h-px"
         style={{
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.6) 35%, rgba(0,102,255,0.6) 65%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.6) 30%, rgba(124,58,237,0.6) 70%, transparent 100%)",
         }}
         aria-hidden
       />
       {/* Faint corner glow */}
       <div
         className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[60%] -translate-x-1/2 rounded-full opacity-[0.07] blur-[80px]"
-        style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)" }}
+        style={{ background: "linear-gradient(135deg, #00d4ff, #7C3AED)" }}
         aria-hidden
       />
 
@@ -59,7 +59,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`NetRive on ${label}`}
-                className="flex h-9 w-9 items-center justify-center rounded-full glass text-white/70 transition-colors hover:text-sky"
+                className="flex h-9 w-9 items-center justify-center rounded-full glass-btn text-white/70 transition-colors hover:text-sky"
               >
                 <Icon className="h-4 w-4" />
               </a>
@@ -143,7 +143,7 @@ export function Footer() {
               <MapPin className="h-4 w-4 text-sky" /> {SITE.location}
             </li>
           </ul>
-          <div className="mt-5 inline-flex items-center gap-2 rounded-pill glass px-3 py-1.5 text-xs text-white/70">
+          <div className="mt-5 inline-flex items-center gap-2 rounded-pill glass-btn px-3 py-1.5 text-xs text-white/70">
             <Lock className="h-3.5 w-3.5 text-sky" /> Secured by Yoco
           </div>
         </div>

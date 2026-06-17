@@ -8,8 +8,8 @@ const variants: Record<Variant, string> = {
   primary:
     "gradient-bg-animated text-white shadow-glow hover:shadow-glow-lg hover:brightness-110",
   white: "bg-white text-black hover:shadow-[0_10px_30px_rgba(255,255,255,0.18)]",
-  glass: "glass text-white hover:border-sky/40 hover:bg-white/[0.07]",
-  ghost: "border border-white/20 text-white hover:border-sky/60",
+  glass: "glass-btn text-white",
+  ghost: "border border-white/20 text-white hover:border-iris/60",
 };
 
 interface ButtonProps {

@@ -38,7 +38,7 @@ export function TrustMarquee() {
                   )}
                   {item}
                 </span>
-                <span className="mx-8 h-1 w-1 rounded-full bg-gradient-to-r from-sky to-electric" />
+                <span className="mx-8 h-1 w-1 rounded-full bg-gradient-to-r from-sky to-[#7C3AED]" />
               </span>
             );
           })}

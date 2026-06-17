@@ -57,7 +57,7 @@ export function Navbar() {
                   className="group relative text-sm text-haze transition-colors hover:text-white"
                 >
                   {link.label}
-                  <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-sky to-electric transition-all duration-300 group-hover:w-full" />
+                  <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-sky to-[#7C3AED] transition-all duration-300 group-hover:w-full" />
                 </Link>
               </li>
             ))}

@@ -84,7 +84,7 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
                   ? "gradient-bg text-white shadow-glow hover:shadow-glow-lg"
                   : plan.custom
                     ? "gradient-border bg-transparent text-white"
-                    : "glass text-white hover:bg-white/[0.08]",
+                    : "glass-btn text-white",
               )}
             >
               {plan.cta}

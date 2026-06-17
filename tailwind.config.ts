@@ -12,8 +12,11 @@ const config: Config = {
         ink: "#0a0a0a", // premium black base
         night: "#0a0f1c", // deep blue-black secondary
         navy: "#0d1830",
-        electric: "#0066ff", // primary blue
-        sky: "#00d4ff", // cyan accent
+        electric: "#0066ff", // legacy blue — kept for existing classes
+        sky: "#00d4ff", // cyan accent — the single bright functional colour
+        violet: "#7C3AED", // co-primary ambient accent (de-blue)
+        iris: "#a78bfa", // lighter violet for borders/hover/glow tints
+        cobalt: "#163cf9", // connective gradient mid-stop only
         haze: "#9aa3b2", // secondary text
       },
       fontFamily: {
@@ -28,9 +31,11 @@ const config: Config = {
         btn: "50px",
       },
       boxShadow: {
-        glow: "0 0 40px rgba(0,150,255,0.35)",
-        "glow-lg": "0 8px 60px rgba(0,170,255,0.45)",
+        glow: "0 0 40px rgba(94,84,237,0.32)",
+        "glow-lg": "0 8px 60px rgba(110,80,237,0.42)",
         "glow-cyan": "0 0 30px rgba(0,212,255,0.3)",
+        "glow-violet": "0 0 40px rgba(124,58,237,0.35)",
+        "glow-duo": "0 0 36px rgba(0,170,255,0.26), 0 0 48px rgba(124,58,237,0.26)",
         card: "0 8px 40px rgba(0,0,0,0.4)",
       },
       maxWidth: {

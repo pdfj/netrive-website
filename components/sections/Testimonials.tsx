@@ -30,13 +30,17 @@ export function Testimonials() {
             transition={{ duration: 0.5, delay: (i % 3) * 0.09, ease: [0.22, 1, 0.36, 1] }}
             style={{ willChange: "transform, opacity" }}
             className={cn(
-              "relative flex flex-col rounded-card glass p-7 transition-all duration-300 hover:-translate-y-1 hover:border-sky/25",
+              "relative flex flex-col rounded-card glass p-7 transition-all duration-300 hover:-translate-y-1",
+              i % 3 === 2 ? "hover:border-[#7C3AED]/35" : "hover:border-sky/25",
               // bento offset on large screens for a less template-y rhythm
               i === 1 && "lg:translate-y-6",
               i === 4 && "lg:translate-y-6",
             )}
           >
-            <Quote className="h-7 w-7 text-sky/40" aria-hidden />
+            <Quote
+              className={cn("h-7 w-7", i % 3 === 2 ? "text-[#a78bfa]/45" : "text-sky/40")}
+              aria-hidden
+            />
             <blockquote className="mt-4 flex-1 text-sm leading-[1.8] text-white/85">
               &ldquo;{t.quote}&rdquo;
             </blockquote>

@@ -35,7 +35,7 @@ export default function AboutPage() {
             className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"
             style={{
               background:
-                "radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,150,255,0.22) 0%, transparent 70%)",
+                "radial-gradient(ellipse 100% 100% at 50% 0%, rgba(99,102,241,0.22) 0%, transparent 70%)",
             }}
             aria-hidden
           />
@@ -63,7 +63,7 @@ export default function AboutPage() {
               >
                 <div
                   className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-0 blur-[50px] transition-opacity duration-500 group-hover:opacity-25"
-                  style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)" }}
+                  style={{ background: "linear-gradient(135deg, #00d4ff, #7C3AED)" }}
                   aria-hidden
                 />
                 <h3 className="font-display text-xl font-semibold text-white">{v.title}</h3>

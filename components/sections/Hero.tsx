@@ -9,6 +9,7 @@ import {
 } from "motion/react";
 import { ArrowRight, ChevronDown, Sparkles, Star } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { HeroStrands } from "@/components/sections/HeroStrands";
 import { cn } from "@/lib/utils";
 
 const LINE_ONE = ["We", "Build", "Websites"];
@@ -122,28 +123,27 @@ export function Hero() {
           aria-hidden
         />
 
-        {/* Desktop hero video — covers the arch on wide screens. Hidden on
-            mobile and for reduced-motion, where the aurora/arch shows instead. */}
-        <video
-          className="absolute inset-0 hidden h-full w-full object-cover opacity-50 motion-reduce:!hidden md:block"
-          // Soft, blurred, recessed — the video sits quietly behind the
-          // headline rather than competing with it. scale keeps the blurred
-          // edges off-screen. Static blur (not animated) stays GPU-cheap.
-          style={{ filter: "blur(16px)", transform: "scale(1.15)" }}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          aria-hidden
-        >
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
-        </video>
-        {/* Darker legibility veil so the headline reads clearly over the video */}
-        <div className="absolute inset-0 hidden bg-black/55 md:block motion-reduce:!hidden" aria-hidden />
+        {/* Desktop Strands WebGL backdrop — flowing cyan/violet light ribbons.
+            Mounts on desktop + non-reduced-motion only; mobile shows the
+            arch/aurora instead. */}
+        <HeroStrands />
+        {/* Mandatory dark legibility veil over Strands (it's brighter than the
+            old video). Linear top→bottom + radial center so the headline wins. */}
         <div
           className="absolute inset-0 hidden md:block motion-reduce:!hidden"
-          style={{ background: "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 18%, rgba(10,10,10,0.85) 100%)" }}
+          style={{ background: "linear-gradient(180deg, rgba(10,10,10,0.38) 0%, rgba(10,10,10,0.62) 55%, #0a0a0a 100%)" }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 hidden md:block motion-reduce:!hidden"
+          style={{ background: "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 16%, rgba(10,10,10,0.86) 100%)" }}
+          aria-hidden
+        />
+        {/* Subtle violet wash above the veil, behind the text — plants violet
+            without hurting readability. */}
+        <div
+          className="absolute inset-0 hidden md:block"
+          style={{ background: "radial-gradient(ellipse 60% 50% at 72% 30%, rgba(124,58,237,0.12), transparent 65%)" }}
           aria-hidden
         />
 
@@ -156,7 +156,7 @@ export function Hero() {
         <div
           className="animate-orb-drift absolute right-[10%] top-[40%] hidden h-80 w-80 rounded-full opacity-25 blur-[70px] md:block"
           style={{
-            background: "radial-gradient(circle, #0066ff 0%, transparent 70%)",
+            background: "radial-gradient(circle, #7C3AED 0%, transparent 70%)",
             animationDelay: "-9s",
           }}
           aria-hidden
@@ -167,7 +167,10 @@ export function Hero() {
           {PARTICLES.map((p, i) => (
             <span
               key={i}
-              className="animate-float-up absolute bottom-[-12px] rounded-full bg-sky/40 will-change-transform"
+              className={cn(
+                "animate-float-up absolute bottom-[-12px] rounded-full will-change-transform",
+                i % 2 === 0 ? "bg-sky/40" : "bg-[#7C3AED]/35",
+              )}
               style={{
                 left: `${p.left}%`,
                 width: `${p.size}px`,
