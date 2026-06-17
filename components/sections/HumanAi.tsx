@@ -3,6 +3,7 @@
 import { CheckCircle2, Globe, Star, Zap, type LucideIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { STATS } from "@/lib/constants";
+import { CountUp } from "@/components/ui/CountUp";
 
 const ICONS: Record<string, LucideIcon> = { Zap, CheckCircle2, Star, Globe };
 
@@ -69,7 +70,9 @@ export function HumanAi() {
                 className="rounded-card glass-strong p-5"
               >
                 {Icon && <Icon className="mx-auto h-5 w-5 text-sky" />}
-                <p className="mt-3 font-display text-xl font-bold text-white">{stat.value}</p>
+                <p className="mt-3 font-display text-xl font-bold text-white">
+                  <CountUp value={stat.value} />
+                </p>
                 <p className="mt-1 text-xs uppercase tracking-wider text-white/60">
                   {stat.label}
                 </p>

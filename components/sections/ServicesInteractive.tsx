@@ -14,6 +14,16 @@ export function ServicesInteractive() {
 
   return (
     <section className="relative overflow-hidden bg-night/50 py-24 sm:py-32">
+      {/* Gemini-generated services backdrop — masked + dark overlay so text stays readable */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-50 [mask-image:radial-gradient(ellipse_85%_75%_at_50%_45%,black_25%,transparent_85%)]"
+        style={{ backgroundImage: "url(/services-bg.webp)" }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0c0a09]/70 via-[#0c0a09]/45 to-[#0c0a09]/85"
+        aria-hidden
+      />
       {/* Ambient top glow */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"

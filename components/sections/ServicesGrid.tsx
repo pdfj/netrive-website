@@ -53,12 +53,20 @@ export function ServicesGrid() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
               style={{ willChange: "transform, opacity" }}
+              onMouseMove={(e) => {
+                const r = e.currentTarget.getBoundingClientRect();
+                e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+                e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+              }}
               className="group relative overflow-hidden rounded-card glass-bright p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-sky/40 hover:shadow-glow-cyan"
             >
-              {/* Hover corner glow */}
+              {/* Cursor-follow spotlight glow */}
               <div
-                className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full opacity-0 blur-[50px] transition-opacity duration-500 group-hover:opacity-25"
-                style={{ background: "linear-gradient(135deg, #ff7a1a, #d97757)" }}
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                style={{
+                  background:
+                    "radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), rgba(255,122,26,0.16), transparent 70%)",
+                }}
                 aria-hidden
               />
               <div className="gradient-bg relative flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-glow-cyan transition-transform duration-300 group-hover:scale-110">
