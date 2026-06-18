@@ -52,26 +52,37 @@ export async function POST(request: NextRequest) {
     const monthlyAmt = monthly ? Number(monthly) : null;
     const inst = Number(installments) === 3 || Number(installments) === 6 ? Number(installments) : null;
 
-    const { data, error } = await adminDb
+    const baseUpdate = {
+      invoice_amount: amt,
+      invoice_monthly: monthlyAmt,
+      invoice_status: "issued",
+      invoice_issued_at: new Date().toISOString(),
+      invoice_paid_claimed_at: null,
+      invoice_confirmed_at: null,
+    };
+
+    // Persist the installment plan. If the invoice_installments column hasn't
+    // been migrated yet, fall back to issuing WITHOUT it so invoicing never
+    // breaks — the plan still appears in the emailed invoice + PDF. (Run
+    // migration 006_installments.sql to also store it on the dashboard.)
+    let { data, error } = await adminDb
       .from("projects")
-      .update({
-        invoice_amount: amt,
-        invoice_monthly: monthlyAmt,
-        invoice_installments: inst,
-        invoice_status: "issued",
-        invoice_issued_at: new Date().toISOString(),
-        invoice_paid_claimed_at: null,
-        invoice_confirmed_at: null,
-      })
+      .update({ ...baseUpdate, invoice_installments: inst })
       .eq("id", projectId)
       .select()
       .single();
 
+    if (error && /invoice_installments|schema cache|column/i.test(error.message)) {
+      ({ data, error } = await adminDb
+        .from("projects")
+        .update(baseUpdate)
+        .eq("id", projectId)
+        .select()
+        .single());
+    }
+
     if (error) {
-      const hint = error.message.includes("column")
-        ? " — run supabase/migrations/002_invoices.sql in the Supabase SQL editor first"
-        : "";
-      return NextResponse.json({ error: error.message + hint }, { status: 500 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     if (clientEmail) {
