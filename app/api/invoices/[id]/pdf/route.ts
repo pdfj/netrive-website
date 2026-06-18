@@ -52,6 +52,7 @@ export async function GET(
     packageName: project.package,
     amount: Number(project.invoice_amount),
     monthly: project.invoice_monthly ? Number(project.invoice_monthly) : null,
+    installments: project.invoice_installments ? Number(project.invoice_installments) : null,
     clientName: clientProfile?.full_name ?? "Client",
     businessName: clientProfile?.business_name ?? null,
     clientEmail: authUser?.user?.email ?? null,

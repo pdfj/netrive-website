@@ -87,6 +87,7 @@ export default async function ProjectPage({
             invoice={{
               invoice_amount: project.invoice_amount ?? null,
               invoice_monthly: project.invoice_monthly ?? null,
+              invoice_installments: project.invoice_installments ?? null,
               invoice_status: project.invoice_status ?? "none",
             }}
           />

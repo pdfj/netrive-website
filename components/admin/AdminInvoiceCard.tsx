@@ -7,6 +7,7 @@ import { Loader2, Receipt, CheckCircle2, Clock, Send, Download } from "lucide-re
 type InvoiceState = {
   invoice_amount: number | null;
   invoice_monthly: number | null;
+  invoice_installments: number | null;
   invoice_status: string;
   invoice_issued_at: string | null;
   invoice_paid_claimed_at: string | null;
@@ -38,6 +39,7 @@ export function AdminInvoiceCard({
   const router = useRouter();
   const [amount, setAmount] = useState(invoice.invoice_amount?.toString() ?? "");
   const [monthly, setMonthly] = useState(invoice.invoice_monthly?.toString() ?? "");
+  const [installments, setInstallments] = useState(invoice.invoice_installments?.toString() ?? "1");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -104,6 +106,12 @@ export function AdminInvoiceCard({
               <span> + R{Number(invoice.invoice_monthly).toLocaleString("en-ZA")}/mo maintenance</span>
             ) : null}
           </p>
+          {invoice.invoice_installments ? (
+            <p className="mt-1 text-xs text-sky">
+              Plan: {invoice.invoice_installments} monthly installments of R
+              {Math.ceil(Number(invoice.invoice_amount) / invoice.invoice_installments).toLocaleString("en-ZA")}
+            </p>
+          ) : null}
           <a
             href={`/api/invoices/${projectId}/pdf`}
             target="_blank"
@@ -142,8 +150,33 @@ export function AdminInvoiceCard({
               />
             </div>
           </div>
+          <div>
+            <label className="mb-1.5 block text-sm text-white/80">Payment plan</label>
+            <select
+              value={installments}
+              onChange={(e) => setInstallments(e.target.value)}
+              className={inputClass}
+            >
+              <option value="1">Pay in full (one payment)</option>
+              <option value="3">3 monthly installments</option>
+              <option value="6">6 monthly installments</option>
+            </select>
+            {installments !== "1" && amount ? (
+              <p className="mt-1.5 text-xs text-haze">
+                ≈ R{Math.ceil(Number(amount) / Number(installments)).toLocaleString("en-ZA")}/month ×{" "}
+                {installments} months
+              </p>
+            ) : null}
+          </div>
           <button
-            onClick={() => call({ action: "issue", amount: Number(amount), monthly: monthly ? Number(monthly) : null })}
+            onClick={() =>
+              call({
+                action: "issue",
+                amount: Number(amount),
+                monthly: monthly ? Number(monthly) : null,
+                installments: Number(installments),
+              })
+            }
             disabled={busy || !amount}
             className="gradient-bg flex items-center gap-2 rounded-btn px-6 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 disabled:opacity-50"
           >

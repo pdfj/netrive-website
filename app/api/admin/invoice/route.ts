@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { projectId, action, amount, monthly } = await request.json();
+  const { projectId, action, amount, monthly, installments } = await request.json();
   if (!projectId || !action) {
     return NextResponse.json({ error: "projectId and action required" }, { status: 400 });
   }
@@ -50,12 +50,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "A valid amount is required" }, { status: 400 });
     }
     const monthlyAmt = monthly ? Number(monthly) : null;
+    const inst = Number(installments) === 3 || Number(installments) === 6 ? Number(installments) : null;
 
     const { data, error } = await adminDb
       .from("projects")
       .update({
         invoice_amount: amt,
         invoice_monthly: monthlyAmt,
+        invoice_installments: inst,
         invoice_status: "issued",
         invoice_issued_at: new Date().toISOString(),
         invoice_paid_claimed_at: null,
@@ -83,6 +85,7 @@ export async function POST(request: NextRequest) {
             packageName: project.package,
             amount: amt,
             monthly: monthlyAmt,
+            installments: inst,
             clientName,
             businessName: clientProfile?.business_name ?? null,
             clientEmail,
@@ -99,6 +102,7 @@ export async function POST(request: NextRequest) {
           reference,
           amount: amt,
           monthly: monthlyAmt,
+          installments: inst,
           pdf,
         });
       } catch (e) {

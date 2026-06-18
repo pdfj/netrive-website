@@ -7,6 +7,7 @@ import { Loader2, Receipt, CheckCircle2, Clock, Download } from "lucide-react";
 type InvoiceState = {
   invoice_amount: number | null;
   invoice_monthly: number | null;
+  invoice_installments: number | null;
   invoice_status: string;
 };
 
@@ -25,6 +26,10 @@ export function InvoiceCard({
 
   const status = invoice.invoice_status ?? "none";
   if (status === "none" || !invoice.invoice_amount) return null;
+
+  const perMonth = invoice.invoice_installments
+    ? Math.ceil(Number(invoice.invoice_amount) / invoice.invoice_installments)
+    : null;
 
   const markPaid = async () => {
     setBusy(true);
@@ -57,6 +62,11 @@ export function InvoiceCard({
           {invoice.invoice_monthly ? (
             <p className="mt-0.5 text-sm text-haze">
               + R{Number(invoice.invoice_monthly).toLocaleString("en-ZA")}/month maintenance
+            </p>
+          ) : null}
+          {perMonth ? (
+            <p className="mt-1 text-sm font-semibold text-sky">
+              Pay over {invoice.invoice_installments} months — R{perMonth.toLocaleString("en-ZA")}/month
             </p>
           ) : null}
         </div>
@@ -102,9 +112,18 @@ export function InvoiceCard({
             </p>
           </div>
 
+          {perMonth ? (
+            <p className="mt-3 rounded-input border border-sky/20 bg-sky/[0.06] px-4 py-3 text-sm text-sky">
+              Payment plan: pay <span className="font-semibold">R{perMonth.toLocaleString("en-ZA")}</span> now
+              and the same amount each month for {invoice.invoice_installments} months — always using the
+              reference above.
+            </p>
+          ) : null}
+
           <p className="mt-3 text-sm leading-[1.7] text-white/80">
-            Once you&apos;ve paid, tap the button below — we&apos;ll confirm within{" "}
-            <span className="font-semibold text-white">12–24 hours</span> and deliver your live site.
+            Once you&apos;ve paid {perMonth ? "your first installment" : ""}, tap the button below —
+            we&apos;ll confirm within <span className="font-semibold text-white">12–24 hours</span>
+            {perMonth ? " and get your project moving." : " and deliver your live site."}
           </p>
           <button
             onClick={markPaid}

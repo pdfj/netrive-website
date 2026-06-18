@@ -113,6 +113,7 @@ export default async function AdminProjectDetailPage({
             invoice={{
               invoice_amount: project.invoice_amount ?? null,
               invoice_monthly: project.invoice_monthly ?? null,
+              invoice_installments: project.invoice_installments ?? null,
               invoice_status: project.invoice_status ?? "none",
               invoice_issued_at: project.invoice_issued_at ?? null,
               invoice_paid_claimed_at: project.invoice_paid_claimed_at ?? null,

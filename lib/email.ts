@@ -214,6 +214,7 @@ export async function sendInvoiceEmail({
   reference,
   amount,
   monthly,
+  installments,
   pdf,
 }: {
   to: string;
@@ -222,8 +223,10 @@ export async function sendInvoiceEmail({
   reference: string;
   amount: number;
   monthly?: number | null;
+  installments?: number | null;
   pdf?: Buffer | null;
 }) {
+  const perMonth = installments ? Math.ceil(amount / installments) : null;
   const content = `
     <h1 style="margin:0 0 8px;font-size:26px;font-weight:700;color:#ffffff;">
       Your invoice from NetRive 🧾
@@ -235,14 +238,16 @@ export async function sendInvoiceEmail({
       <p style="margin:0;font-size:13px;color:#9aa3b2;text-transform:uppercase;letter-spacing:0.1em;">${projectTitle}</p>
       <p style="margin:10px 0 0;font-size:38px;font-weight:800;color:#ffffff;">R${amount.toLocaleString("en-ZA")}</p>
       ${monthly ? `<p style="margin:6px 0 0;font-size:14px;color:#9aa3b2;">+ R${monthly.toLocaleString("en-ZA")}/month maintenance</p>` : ""}
+      ${installments ? `<p style="margin:8px 0 0;font-size:14px;font-weight:700;color:#ff7a1a;">Pay over ${installments} months — R${perMonth!.toLocaleString("en-ZA")}/month</p>` : ""}
       <p style="margin:12px 0 0;font-family:monospace;font-size:16px;font-weight:700;color:#ff7a1a;">${reference}</p>
     </div>
     <p style="margin:0 0 10px;font-size:14px;color:#9aa3b2;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">How to pay (EFT)</p>
     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px 20px;margin-bottom:24px;">
       ${bankingBlock(reference)}
     </div>
+    ${installments ? `<p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#9aa3b2;">This invoice is on a <strong style="color:#ffffff;">${installments}-month payment plan</strong> — pay <strong style="color:#ffffff;">R${perMonth!.toLocaleString("en-ZA")}</strong> now and the same amount each month, always using reference <strong style="color:#ffffff;">${reference}</strong>.</p>` : ""}
     <ol style="margin:0 0 28px;padding-left:20px;font-size:14px;line-height:2;color:#9aa3b2;">
-      <li>Pay by EFT using reference <strong style="color:#ffffff;">${reference}</strong></li>
+      <li>${installments ? `Pay R${perMonth!.toLocaleString("en-ZA")} by EFT this month` : "Pay by EFT"} using reference <strong style="color:#ffffff;">${reference}</strong></li>
       <li>Open your dashboard and tap <strong style="color:#ffffff;">"I've paid this invoice"</strong></li>
       <li>We confirm within <strong style="color:#ffffff;">12–24 hours</strong> and deliver your live site 🎉</li>
     </ol>

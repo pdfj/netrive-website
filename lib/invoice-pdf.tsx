@@ -20,6 +20,7 @@ export type InvoiceData = {
   packageName?: string | null;
   amount: number;
   monthly?: number | null;
+  installments?: number | null;
   clientName: string;
   businessName?: string | null;
   clientEmail?: string | null;
@@ -187,6 +188,12 @@ function InvoiceDoc({ data }: { data: InvoiceData }) {
                 + {rand(data.monthly)}/month maintenance (billed separately)
               </Text>
             ) : null}
+            {data.installments ? (
+              <Text style={{ fontSize: 9, fontFamily: "Helvetica-Bold", color: BLUE, textAlign: "right", marginTop: 6 }}>
+                Payment plan: {data.installments} monthly installments of{" "}
+                {rand(Math.ceil(data.amount / data.installments))}
+              </Text>
+            ) : null}
           </View>
         </View>
 
@@ -211,6 +218,12 @@ function InvoiceDoc({ data }: { data: InvoiceData }) {
               <Text style={{ fontFamily: "Helvetica-Bold" }}>{data.reference}</Text> when you pay.
             </Text>
           )}
+          {data.installments ? (
+            <Text style={{ fontSize: 9, color: "#1f2937", marginTop: 8 }}>
+              Installment plan: pay {rand(Math.ceil(data.amount / data.installments))} now and the same
+              amount each month for {data.installments} months, always using reference {data.reference}.
+            </Text>
+          ) : null}
           <Text style={{ fontSize: 8, color: HAZE, marginTop: 8 }}>
             Use the payment reference above so we can match your payment. After paying, tap
             &quot;I&apos;ve paid this invoice&quot; in your dashboard — we confirm within 12–24 hours
