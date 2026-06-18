@@ -5,9 +5,11 @@ import { Check, Lock, Wrench, Zap } from "lucide-react";
 import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { PRICING } from "@/lib/constants";
+import { useCurrency } from "@/components/CurrencyProvider";
 import { cn } from "@/lib/utils";
 
 export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean } = {}) {
+  const { format, isZar } = useCurrency();
   return (
     <section id="pricing" className="relative mx-auto max-w-content px-6 py-12 sm:py-16">
       {!hideSectionHeading && (
@@ -52,9 +54,11 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
               ) : (
                 <>
                   <span className="font-display text-4xl font-bold text-white">
-                    R{plan.zar?.toLocaleString("en-ZA")}
+                    {format(plan.zar!)}
                   </span>
-                  <span className="mb-1 text-sm text-haze">~${plan.usd}</span>
+                  <span className="mb-1 text-sm text-haze">
+                    {isZar ? `~$${plan.usd}` : `≈ R${plan.zar!.toLocaleString("en-ZA")}`}
+                  </span>
                 </>
               )}
             </div>
@@ -87,7 +91,7 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
                     : "glass-btn text-white",
               )}
             >
-              {plan.cta}
+              {plan.custom ? plan.cta : "Get Started"}
             </Link>
           </motion.div>
         ))}
@@ -97,7 +101,7 @@ export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean }
       <div className="glass-bright mx-auto mt-12 flex max-w-2xl flex-col items-center justify-center gap-2 rounded-card px-6 py-5 text-center sm:flex-row sm:gap-3">
         <Wrench className="h-5 w-5 shrink-0 text-sky" />
         <p className="text-sm leading-[1.6] text-white/85">
-          <span className="font-semibold text-white">Monthly maintenance from R250/month</span>
+          <span className="font-semibold text-white">Monthly maintenance from {format(250)}/month</span>
           {" "}— security, updates and uptime handled for you, priced to the size of your project.
         </p>
       </div>

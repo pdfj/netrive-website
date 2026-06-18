@@ -51,7 +51,7 @@ export function Hero() {
       </div>
 
       {/* ── Foreground ────────────────────────────────────── */}
-      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-28 pt-28 text-center sm:pb-24 sm:pt-32">
+      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-16 pt-24 text-center sm:pb-24 sm:pt-32">
         {/* Local scrim — keeps text crisp on the dark canvas */}
         <div className="hero-text-scrim pointer-events-none absolute inset-0 -z-10" aria-hidden />
 
@@ -69,7 +69,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display text-[clamp(2.4rem,7.5vw,5.5rem)] font-bold leading-[1.05] tracking-tight text-white text-shadow-hero"
+          className="font-display text-[clamp(2.05rem,7.2vw,5.5rem)] font-bold leading-[1.06] tracking-tight text-white text-shadow-hero"
         >
           We Build Websites <br className="hidden sm:block" />
           <span className="gradient-text">That Get You Paid.</span>
@@ -91,7 +91,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.72, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+          className="mt-8 flex flex-col items-center justify-center gap-3.5 sm:mt-10 sm:flex-row sm:gap-4"
         >
           <Button
             href="/contact"
