@@ -10,8 +10,8 @@ export function LogoMark({ className }: { className?: string }) {
     <Image
       src="/logo-mark.png"
       alt="NetRive"
-      width={272}
-      height={161}
+      width={1051}
+      height={1008}
       priority
       className={className}
     />
