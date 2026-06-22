@@ -9,13 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#0c0a09", // warm near-black base
-        night: "#14100e", // warm dark secondary
-        navy: "#1a120d",
-        electric: "#d97757", // Claude clay — portal/admin accent
-        sky: "#ff7a1a", // bright orange — the functional accent
-        azure: "#ffb37a", // light orange
-        haze: "#a89a90", // warm secondary text
+        ink: "#0a0a0a", // near-black base
+        night: "#0a0f1c", // deep blue-black secondary
+        navy: "#0d1830",
+        electric: "#2563eb", // deep blue — portal/admin accent
+        sky: "#00d4ff", // cyan — the bright functional accent
+        azure: "#38bdf8", // sky-blue
+        haze: "#9aa3b2", // secondary text
       },
       fontFamily: {
         display: ["var(--font-clash)", "Clash Display", "system-ui", "sans-serif"],
@@ -29,10 +29,10 @@ const config: Config = {
         btn: "50px",
       },
       boxShadow: {
-        glow: "0 0 40px rgba(217,119,87,0.32)",
-        "glow-lg": "0 8px 60px rgba(217,119,87,0.42)",
-        "glow-cyan": "0 0 30px rgba(255,122,26,0.32)",
-        "glow-duo": "0 0 36px rgba(255,122,26,0.28), 0 0 48px rgba(217,119,87,0.26)",
+        glow: "0 0 40px rgba(37,99,235,0.30)",
+        "glow-lg": "0 8px 60px rgba(37,99,235,0.40)",
+        "glow-cyan": "0 0 30px rgba(0,212,255,0.3)",
+        "glow-duo": "0 0 36px rgba(0,170,255,0.28), 0 0 48px rgba(37,99,235,0.26)",
         card: "0 8px 40px rgba(0,0,0,0.4)",
       },
       maxWidth: {

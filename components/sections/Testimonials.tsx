@@ -31,14 +31,14 @@ export function Testimonials() {
             style={{ willChange: "transform, opacity" }}
             className={cn(
               "relative flex flex-col rounded-card glass p-7 transition-all duration-300 hover:-translate-y-1",
-              i % 3 === 2 ? "hover:border-[#d97757]/45" : "hover:border-sky/25",
+              i % 3 === 2 ? "hover:border-[#2563eb]/45" : "hover:border-sky/25",
               // bento offset on large screens for a less template-y rhythm
               i === 1 && "lg:translate-y-6",
               i === 4 && "lg:translate-y-6",
             )}
           >
             <Quote
-              className={cn("h-7 w-7", i % 3 === 2 ? "text-[#ffb37a]/55" : "text-sky/40")}
+              className={cn("h-7 w-7", i % 3 === 2 ? "text-[#38bdf8]/55" : "text-sky/40")}
               aria-hidden
             />
             <blockquote className="mt-4 flex-1 text-sm leading-[1.8] text-white/85">

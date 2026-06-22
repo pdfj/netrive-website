@@ -47,7 +47,7 @@ function bankingBlock(reference: string) {
       )
       .join("")}
   </table>
-  <p style="margin:12px 0 0;font-size:13px;font-weight:600;color:#ff7a1a;">
+  <p style="margin:12px 0 0;font-size:13px;font-weight:600;color:#00d4ff;">
     Please send immediate / real-time payment so we can confirm without delay.
   </p>`;
 }
@@ -87,7 +87,7 @@ function emailShell(content: string, withBanner = false) {
 }
 
 const CTA_STYLE =
-  "display:inline-block;background:linear-gradient(120deg,#ff7a1a,#d97757);color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 36px;border-radius:50px;letter-spacing:0.02em;";
+  "display:inline-block;background:linear-gradient(120deg,#00d4ff,#2563eb);color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 36px;border-radius:50px;letter-spacing:0.02em;";
 
 export async function sendProjectConfirmationEmail({
   to,
@@ -115,10 +115,10 @@ export async function sendProjectConfirmationEmail({
           : `Hi ${name}, we've received your new project and our team is already reviewing it.`
       }
     </p>
-    <div style="background:rgba(255,122,26,0.08);border:1px solid rgba(255,138,61,0.2);border-radius:14px;padding:20px 24px;margin-bottom:28px;">
+    <div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:14px;padding:20px 24px;margin-bottom:28px;">
       <p style="margin:0;font-size:13px;color:#9aa3b2;text-transform:uppercase;letter-spacing:0.1em;">Project received</p>
       <p style="margin:6px 0 0;font-size:17px;font-weight:600;color:#ffffff;">${projectTitle}</p>
-      ${reference ? `<p style="margin:6px 0 0;font-family:monospace;font-size:14px;font-weight:700;color:#ff7a1a;">${reference}</p>` : ""}
+      ${reference ? `<p style="margin:6px 0 0;font-family:monospace;font-size:14px;font-weight:700;color:#00d4ff;">${reference}</p>` : ""}
     </div>
     <p style="margin:0 0 8px;font-size:14px;color:#9aa3b2;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">What happens next</p>
     <ol style="margin:0 0 28px;padding-left:20px;font-size:14px;line-height:2;color:#9aa3b2;">
@@ -234,12 +234,12 @@ export async function sendInvoiceEmail({
     <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#9aa3b2;">
       Hi ${name}, you approved your preview — amazing! Here's your invoice. Once paid, your live site goes out within 12–24 hours of confirmation.
     </p>
-    <div style="background:rgba(255,122,26,0.08);border:1px solid rgba(255,138,61,0.2);border-radius:14px;padding:24px;margin-bottom:24px;text-align:center;">
+    <div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:14px;padding:24px;margin-bottom:24px;text-align:center;">
       <p style="margin:0;font-size:13px;color:#9aa3b2;text-transform:uppercase;letter-spacing:0.1em;">${projectTitle}</p>
       <p style="margin:10px 0 0;font-size:38px;font-weight:800;color:#ffffff;">R${amount.toLocaleString("en-ZA")}</p>
       ${monthly ? `<p style="margin:6px 0 0;font-size:14px;color:#9aa3b2;">+ R${monthly.toLocaleString("en-ZA")}/month maintenance</p>` : ""}
-      ${installments ? `<p style="margin:8px 0 0;font-size:14px;font-weight:700;color:#ff7a1a;">Pay over ${installments} months — R${perMonth!.toLocaleString("en-ZA")}/month</p>` : ""}
-      <p style="margin:12px 0 0;font-family:monospace;font-size:16px;font-weight:700;color:#ff7a1a;">${reference}</p>
+      ${installments ? `<p style="margin:8px 0 0;font-size:14px;font-weight:700;color:#00d4ff;">Pay over ${installments} months — R${perMonth!.toLocaleString("en-ZA")}/month</p>` : ""}
+      <p style="margin:12px 0 0;font-family:monospace;font-size:16px;font-weight:700;color:#00d4ff;">${reference}</p>
     </div>
     <p style="margin:0 0 10px;font-size:14px;color:#9aa3b2;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">How to pay (EFT)</p>
     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px 20px;margin-bottom:24px;">
@@ -288,7 +288,7 @@ export async function sendInvoicePaidClaimEmail({
       💰 ${clientName} says they've paid
     </h1>
     <p style="margin:0 0 20px;font-size:15px;line-height:1.7;color:#9aa3b2;">
-      Check your bank for reference <strong style="color:#ff7a1a;font-family:monospace;">${reference}</strong>
+      Check your bank for reference <strong style="color:#00d4ff;font-family:monospace;">${reference}</strong>
       ${amount ? `(R${amount.toLocaleString("en-ZA")})` : ""} — then confirm in the admin so they get their live site.
     </p>
     <p style="margin:0 0 24px;font-size:14px;color:#ffffff;font-weight:600;">${projectTitle}</p>
@@ -325,7 +325,7 @@ export async function sendPaymentConfirmedEmail({
     </h1>
     <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#9aa3b2;">
       Hi ${name}, we've received your payment for <strong style="color:#ffffff;">${projectTitle}</strong>
-      (<span style="font-family:monospace;color:#ff7a1a;">${reference}</span>).
+      (<span style="font-family:monospace;color:#00d4ff;">${reference}</span>).
       Your live website is being delivered now — we'll be in touch with the final details.
     </p>
     <div style="text-align:center;">

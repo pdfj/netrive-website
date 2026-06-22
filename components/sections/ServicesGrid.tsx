@@ -65,7 +65,7 @@ export function ServicesGrid() {
                 className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 style={{
                   background:
-                    "radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), rgba(255,122,26,0.16), transparent 70%)",
+                    "radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), rgba(0,212,255,0.16), transparent 70%)",
                 }}
                 aria-hidden
               />

@@ -37,9 +37,9 @@ const BANKING = {
   branchCode: "678910",
 };
 
-const CYAN = "#ff7a1a";
-const BLUE = "#d97757";
-const INK = "#0c0a09";
+const CYAN = "#00d4ff";
+const BLUE = "#2563eb";
+const INK = "#0a0a0a";
 const HAZE = "#6b7280";
 const LINE = "#e5e7eb";
 

@@ -3,17 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #0c0a09;
-  --bg-secondary: #14100e;
-  --navy: #1a120d;
-  --orange: #ff7a1a;
-  --clay: #d97757;
-  --deep: #b5532e;
-  --light: #ffb37a;
-  /* shadow-glow base — warm orange */
-  --blue-glow: rgba(217, 119, 87, 0.32);
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #0a0f1c;
+  --navy: #0d1830;
+  --cyan: #00d4ff;
+  --blue: #2563eb;
+  /* shadow-glow base — cyan→blue */
+  --blue-glow: rgba(56, 130, 246, 0.32);
   --text-primary: #ffffff;
-  --text-secondary: #a89a90;
+  --text-secondary: #9aa3b2;
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
 }
@@ -37,31 +35,30 @@ body {
 }
 
 ::selection {
-  background: rgba(255, 122, 26, 0.32);
+  background: rgba(56, 130, 246, 0.34);
   color: #fff;
 }
 
-/* Branded scrollbar — bright orange → clay */
+/* Branded scrollbar — cyan → blue */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0c0a09;
+  background: #0a0a0a;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(255, 122, 26, 0.6), rgba(217, 119, 87, 0.6));
+  background: linear-gradient(180deg, rgba(0, 212, 255, 0.6), rgba(37, 99, 235, 0.6));
   border-radius: 999px;
-  border: 2px solid #0c0a09;
+  border: 2px solid #0a0a0a;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, rgba(255, 122, 26, 0.9), rgba(217, 119, 87, 0.9));
+  background: linear-gradient(180deg, rgba(0, 212, 255, 0.9), rgba(37, 99, 235, 0.9));
 }
 
 @layer components {
-  /* ── Frosted glass (reference style) ───────────────────────────
-     Subtle dark fill + backdrop blur + a thin light hairline — the
-     refined frosted look from the brief (badge, buttons, cards). */
+  /* ── Frosted glass ─────────────────────────────────────────────
+     Subtle dark fill + backdrop blur + a thin light hairline. */
   .glass {
     background: rgba(255, 255, 255, 0.045);
     backdrop-filter: blur(14px) saturate(1.2);
@@ -88,20 +85,20 @@ body {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   .glass-bright:hover {
-    border-color: rgba(255, 122, 26, 0.45);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.48), 0 0 26px rgba(255, 122, 26, 0.14);
+    border-color: rgba(0, 212, 255, 0.45);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.48), 0 0 26px rgba(0, 212, 255, 0.14);
   }
 
-  /* Orange-tinted surface — highlighted / active cards */
+  /* Cyan-tinted surface — highlighted / active cards */
   .glass-electric {
-    background: rgba(255, 122, 26, 0.1);
+    background: rgba(0, 200, 255, 0.1);
     backdrop-filter: blur(16px) saturate(1.3);
     -webkit-backdrop-filter: blur(16px) saturate(1.3);
-    border: 1px solid rgba(255, 122, 26, 0.3);
-    box-shadow: 0 8px 30px rgba(217, 119, 87, 0.16);
+    border: 1px solid rgba(0, 212, 255, 0.28);
+    box-shadow: 0 8px 30px rgba(0, 150, 255, 0.16);
   }
 
-  /* Secondary button — dark frosted glass (like "See Projects") */
+  /* Secondary button — dark frosted glass */
   .glass-btn {
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(14px) saturate(1.2);
@@ -111,53 +108,53 @@ body {
     transition: border-color 0.2s ease, background 0.2s ease;
   }
   .glass-btn:hover {
-    border-color: rgba(255, 122, 26, 0.55);
-    background: rgba(255, 122, 26, 0.08);
+    border-color: rgba(0, 212, 255, 0.55);
+    background: rgba(0, 170, 255, 0.08);
   }
 
-  /* Primary button — orange frosted glass (like "Get Started Now") */
+  /* Primary button — cyan-blue frosted glass */
   .glass-cta {
-    background: rgba(255, 122, 26, 0.18);
+    background: rgba(0, 170, 255, 0.18);
     backdrop-filter: blur(14px) saturate(1.4);
     -webkit-backdrop-filter: blur(14px) saturate(1.4);
-    border: 1px solid rgba(255, 170, 110, 0.5);
-    box-shadow: 0 8px 28px rgba(217, 119, 87, 0.34), 0 0 26px rgba(255, 122, 26, 0.2),
+    border: 1px solid rgba(150, 210, 255, 0.5);
+    box-shadow: 0 8px 28px rgba(37, 99, 235, 0.34), 0 0 26px rgba(0, 212, 255, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.12);
     color: #fff;
     transition: box-shadow 0.2s ease, background 0.2s ease;
   }
   .glass-cta:hover {
-    background: rgba(255, 122, 26, 0.26);
-    box-shadow: 0 10px 34px rgba(217, 119, 87, 0.44), 0 0 36px rgba(255, 122, 26, 0.3),
+    background: rgba(0, 170, 255, 0.26);
+    box-shadow: 0 10px 34px rgba(37, 99, 235, 0.44), 0 0 36px rgba(0, 212, 255, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.16);
   }
 
-  /* Signature gradient text: white → light → bright orange → clay */
+  /* Signature gradient text: white → cyan → sky-blue → deep blue */
   .gradient-text {
-    background: linear-gradient(135deg, #ffffff 0%, #ffb37a 35%, #ff7a1a 65%, #d97757 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #22d3ee 38%, #38bdf8 62%, #2563eb 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
   }
 
-  /* Accent gradient text: light → bright orange → clay */
+  /* Accent gradient text: cyan → sky-blue → deep blue */
   .gradient-text-accent {
-    background: linear-gradient(135deg, #ffb37a 0%, #ff7a1a 50%, #d97757 100%);
+    background: linear-gradient(135deg, #22d3ee 0%, #38bdf8 50%, #2563eb 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
   }
 
-  /* Orange gradient surface — CTAs, badges */
+  /* Cyan → blue gradient surface — CTAs, badges */
   .gradient-bg {
-    background: linear-gradient(135deg, #ff8a3d 0%, #ff7a1a 50%, #d97757 100%);
+    background: linear-gradient(135deg, #06b6d4 0%, #2f8bf5 52%, #2563eb 100%);
   }
 
   /* Primary CTA surface — static gradient */
   .gradient-bg-animated {
-    background: linear-gradient(120deg, #ff8a3d 0%, #ff7a1a 50%, #d97757 100%);
+    background: linear-gradient(120deg, #06b6d4 0%, #2f8bf5 50%, #2563eb 100%);
   }
 
   /* Thin gradient border helper (uses padding hack) */
@@ -171,7 +168,7 @@ body {
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(255, 122, 26, 0.5), rgba(217, 119, 87, 0.5));
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.5), rgba(37, 99, 235, 0.5));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -180,20 +177,18 @@ body {
 }
 
 @layer utilities {
-  /* Hero field — soft, STATIC orange blur-gradient pools on warm near-black.
-     No bright glow, no animation. Fades end at rgba(12,10,9,0) (= base, 0
-     alpha) so browsers don't interpolate through grey. */
+  /* Hero field — soft, static cyan/blue blur-gradient pools on near-black. */
   .arch-gradient {
     background:
-      radial-gradient(ellipse 70% 55% at 18% 10%, rgba(217, 119, 87, 0.2) 0%, rgba(12, 10, 9, 0) 60%),
-      radial-gradient(ellipse 65% 50% at 86% 16%, rgba(255, 122, 26, 0.16) 0%, rgba(12, 10, 9, 0) 58%),
-      radial-gradient(ellipse 95% 70% at 50% 118%, rgba(181, 83, 46, 0.18) 0%, rgba(12, 10, 9, 0) 55%),
-      #0c0a09;
+      radial-gradient(ellipse 70% 55% at 18% 10%, rgba(0, 150, 255, 0.18) 0%, rgba(10, 10, 10, 0) 60%),
+      radial-gradient(ellipse 65% 50% at 86% 16%, rgba(0, 212, 255, 0.14) 0%, rgba(10, 10, 10, 0) 58%),
+      radial-gradient(ellipse 95% 70% at 50% 118%, rgba(37, 99, 235, 0.16) 0%, rgba(10, 10, 10, 0) 55%),
+      #0a0a0a;
   }
 
   /* Local scrim behind hero headline for crisp text on the dark canvas */
   .hero-text-scrim {
-    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(12, 10, 9, 0.5) 0%, rgba(12, 10, 9, 0) 70%);
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(10, 10, 10, 0.5) 0%, rgba(10, 10, 10, 0) 70%);
   }
 
   /* Subtle blueprint grid */
@@ -209,7 +204,7 @@ body {
   }
 
   .text-shadow-hero {
-    text-shadow: 0 1px 24px rgba(12, 10, 9, 0.5), 0 0 2px rgba(12, 10, 9, 0.6);
+    text-shadow: 0 1px 24px rgba(10, 10, 10, 0.5), 0 0 2px rgba(10, 10, 10, 0.6);
   }
 
   /* Hide scrollbar but keep scroll */
@@ -230,9 +225,9 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Soft orange "blur gradient" — site-wide STATIC background. Blurred
-   blobs sink into the warm near-black; no animation (per feedback).
-   Fixed behind all content.
+   Soft cyan/blue "blur gradient" — site-wide background. Blurred
+   blobs drift slowly and sink into the near-black. Fixed behind
+   all content.
    ───────────────────────────────────────────────────────────── */
 .aurora {
   position: fixed;
@@ -240,7 +235,7 @@ body {
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
-  background: #0c0a09;
+  background: #0a0a0a;
 }
 .aurora[data-paused="true"] .aurora-blob {
   animation-play-state: paused;
@@ -257,7 +252,7 @@ body {
   height: 60vw;
   left: -14vw;
   top: -16vh;
-  background: radial-gradient(circle, rgba(217, 119, 87, 0.4) 0%, rgba(217, 119, 87, 0) 70%);
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.38) 0%, rgba(0, 212, 255, 0) 70%);
   animation: aurora-1 34s ease-in-out infinite;
 }
 .aurora-2 {
@@ -265,7 +260,7 @@ body {
   height: 64vw;
   right: -18vw;
   top: 14vh;
-  background: radial-gradient(circle, rgba(255, 122, 26, 0.34) 0%, rgba(255, 122, 26, 0) 70%);
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.4) 0%, rgba(37, 99, 235, 0) 70%);
   animation: aurora-2 42s ease-in-out infinite;
 }
 .aurora-3 {
@@ -273,7 +268,7 @@ body {
   height: 56vw;
   left: 28vw;
   bottom: -24vh;
-  background: radial-gradient(circle, rgba(181, 83, 46, 0.3) 0%, rgba(181, 83, 46, 0) 70%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, rgba(56, 189, 248, 0) 70%);
   animation: aurora-3 48s ease-in-out infinite;
 }
 @keyframes aurora-1 {
@@ -295,7 +290,7 @@ body {
 .aurora-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 95% 75% at 50% 38%, transparent 45%, rgba(12, 10, 9, 0.55) 78%, #0c0a09 100%);
+  background: radial-gradient(ellipse 95% 75% at 50% 38%, transparent 45%, rgba(10, 10, 10, 0.55) 78%, #0a0a0a 100%);
 }
 /* Faint static grain to kill OLED gradient banding (desktop only). */
 .aurora-noise {

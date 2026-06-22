@@ -19,7 +19,7 @@ export default function PricingPage() {
             className="pointer-events-none absolute inset-x-0 top-0 h-[400px]"
             style={{
               background:
-                "radial-gradient(ellipse 90% 90% at 50% 0%, rgba(255,122,26,0.18) 0%, transparent 70%)",
+                "radial-gradient(ellipse 90% 90% at 50% 0%, rgba(0,150,255,0.18) 0%, transparent 70%)",
             }}
             aria-hidden
           />
