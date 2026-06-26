@@ -16,7 +16,10 @@ export const metadata: Metadata = {
   description:
     "Cape Town's web agency, delivering fast, modern, high-converting websites for ambitious businesses across South Africa. Free preview first — pay only when you approve.",
   openGraph: { locale: "en_ZA" },
-  alternates: { canonical: "/sa" },
+  alternates: {
+    canonical: "/sa",
+    languages: { "en-ZA": "/sa", "en-US": "/us", "x-default": "/us" },
+  },
 };
 
 // South African version of the homepage — same sections, Rand pricing forced.

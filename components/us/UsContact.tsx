@@ -67,7 +67,7 @@ export function UsContact() {
               rel="noopener noreferrer"
               className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-sky transition-colors hover:text-white"
             >
-              <CalendarCheck className="h-4 w-4" /> Prefer to talk? Book a free call
+              <CalendarCheck className="h-4 w-4" /> Prefer to talk? Book a Free Website Preview Call
             </a>
           </div>
         ) : (

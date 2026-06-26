@@ -30,7 +30,10 @@ export const metadata: Metadata = {
     description:
       "High-converting websites for US home service pros. Free custom preview before you pay. Built in days, not months.",
   },
-  alternates: { canonical: "/us" },
+  alternates: {
+    canonical: "/us",
+    languages: { "en-ZA": "/sa", "en-US": "/us", "x-default": "/us" },
+  },
 };
 
 export default function UsHome() {

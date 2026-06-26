@@ -3,8 +3,8 @@
 // USD only · no WhatsApp · no Cape Town in main content.
 // ─────────────────────────────────────────────────────────────
 
-// 👉 REPLACE THIS with your real Calendly link (used by "Book a Free Call").
-export const US_CALENDLY_URL = "https://calendly.com/netrive/intro";
+// Calendly link used by "Book a Free Call" across the /us page.
+export const US_CALENDLY_URL = "https://calendly.com/hello-netrive/30min";
 
 export const US = {
   tagline: "Websites That Book More Jobs.",
