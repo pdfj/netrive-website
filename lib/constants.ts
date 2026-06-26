@@ -255,7 +255,7 @@ export const TESTIMONIALS = [
 // Section 10 — stats
 export const STATS = [
   { icon: "Zap", value: "24–72hrs", label: "Delivery" },
-  { icon: "CheckCircle2", value: "50+", label: "Sites Launched" },
+  { icon: "CheckCircle2", value: "500+", label: "Sites Launched" },
   { icon: "Star", value: "4.9", label: "Google Rating" },
   { icon: "Globe", value: "SA · US", label: "Clients Served" },
 ] as const;
@@ -271,7 +271,7 @@ export const MARQUEE_ITEMS = [
   "Harbour Point Studios",
   "Summit Health Clinics",
   "Atlantic Bay Consulting",
-  "50+ Projects Delivered",
+  "500+ Projects Delivered",
   "Secured by Yoco",
   "24–72hr Delivery",
   "Maintenance from R250/mo",

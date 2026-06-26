@@ -3,7 +3,7 @@ import { MARQUEE_ITEMS } from "@/lib/constants";
 
 const ICONS: Record<string, typeof Star> = {
   "4.9 Google Rating": Star,
-  "50+ Projects Delivered": CheckCircle2,
+  "500+ Projects Delivered": CheckCircle2,
   "Secured by Yoco": Lock,
   "24–72hr Delivery": Zap,
 };

@@ -15,7 +15,7 @@ export function Testimonials() {
         subtitle={
           <span className="inline-flex items-center gap-2">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            4.9 average rating across 50+ projects
+            4.9 average rating across 500+ projects
           </span>
         }
       />

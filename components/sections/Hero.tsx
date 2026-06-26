@@ -62,7 +62,7 @@ export function Hero() {
           className="mb-8 inline-flex items-center gap-2 rounded-pill glass px-4 py-2 font-grotesk text-[11px] uppercase tracking-[0.16em] text-white/90 shadow-glow-cyan"
         >
           <Star className="h-3.5 w-3.5 fill-sky text-sky" />
-          4.9 rating · 50+ sites shipped · SA &amp; US
+          4.9 rating · 500+ sites shipped · SA &amp; US
         </motion.div>
 
         <motion.h1
@@ -117,7 +117,7 @@ export function Hero() {
             4.9 Google Rating
           </span>
           <span className="text-white/20">·</span>
-          <span>50+ Projects Delivered</span>
+          <span>500+ Projects Delivered</span>
           <span className="text-white/20">·</span>
           <span>South Africa &amp; the US</span>
         </motion.div>
