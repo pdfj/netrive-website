@@ -8,8 +8,15 @@ import { PRICING } from "@/lib/constants";
 import { useCurrency } from "@/components/CurrencyProvider";
 import { cn } from "@/lib/utils";
 
-export function Pricing({ hideSectionHeading }: { hideSectionHeading?: boolean } = {}) {
-  const { format, isZar } = useCurrency();
+export function Pricing({
+  hideSectionHeading,
+  forceZar,
+}: { hideSectionHeading?: boolean; forceZar?: boolean } = {}) {
+  const ccy = useCurrency();
+  const isZar = forceZar ? true : ccy.isZar;
+  const format = forceZar
+    ? (zar: number) => "R" + Math.round(zar).toLocaleString("en-ZA")
+    : ccy.format;
   return (
     <section id="pricing" className="relative mx-auto max-w-content px-6 py-12 sm:py-16">
       {!hideSectionHeading && (
