@@ -88,7 +88,7 @@ export const US_TESTIMONIALS = [
 
 export const US_STATS = [
   "500+ Sites Launched",
-  "5.0 Avg Rating",
+  "4.9 Avg Rating",
   "Up to 72hr Delivery",
   "US & Beyond",
 ] as const;

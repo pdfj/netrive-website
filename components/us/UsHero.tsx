@@ -37,7 +37,7 @@ export function UsHero() {
             </a>
           </div>
           <p className="mt-6 text-sm font-medium text-white/70">
-            ⭐ 5.0 rating · 500+ sites launched · Built in days, not months
+            ⭐ 4.9 rating · 500+ sites launched · Built in days, not months
           </p>
         </div>
 
