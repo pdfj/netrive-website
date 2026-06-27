@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Loader2 } from "lucide-react";
+import { Check, Loader2, Trash2 } from "lucide-react";
 import { LEAD_STATUSES } from "@/lib/leads";
 
 export function AdminLeadControls({
@@ -20,6 +20,8 @@ export function AdminLeadControls({
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   async function save(patch: Record<string, unknown>) {
     setSaving(true);
@@ -52,6 +54,24 @@ export function AdminLeadControls({
       await save({ status: next });
     } catch {
       setStatus(prev);
+    }
+  }
+
+  async function deleteLead() {
+    setDeleting(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/leads/${leadId}`, { method: "DELETE" });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        throw new Error(j.error ?? "Delete failed");
+      }
+      router.push("/admin/projects");
+      router.refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Delete failed");
+      setDeleting(false);
+      setConfirmDelete(false);
     }
   }
 
@@ -106,6 +126,39 @@ export function AdminLeadControls({
       </div>
 
       {error && <p className="text-sm text-red-400">{error}</p>}
+
+      <div className="border-t border-white/[0.06] pt-5">
+        {!confirmDelete ? (
+          <button
+            type="button"
+            onClick={() => setConfirmDelete(true)}
+            className="inline-flex items-center gap-2 rounded-btn px-3 py-2 text-sm font-medium text-red-400/90 transition hover:bg-red-500/10 hover:text-red-400"
+          >
+            <Trash2 className="h-4 w-4" /> Delete lead
+          </button>
+        ) : (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm text-haze">Delete this lead permanently?</span>
+            <button
+              type="button"
+              onClick={deleteLead}
+              disabled={deleting}
+              className="inline-flex items-center gap-2 rounded-btn bg-red-500/90 px-3 py-2 text-sm font-semibold text-white transition hover:bg-red-500 disabled:opacity-60"
+            >
+              {deleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              Delete
+            </button>
+            <button
+              type="button"
+              onClick={() => setConfirmDelete(false)}
+              disabled={deleting}
+              className="rounded-btn px-3 py-2 text-sm font-medium text-haze transition hover:text-white disabled:opacity-60"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
