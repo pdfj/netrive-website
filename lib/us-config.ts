@@ -18,6 +18,8 @@ export const US_SERVICE_TYPES = [
   "Electrical",
   "Roofing",
   "Landscaping",
+  "Pest Control",
+  "Cleaning",
   "Other",
 ] as const;
 

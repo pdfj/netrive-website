@@ -23,7 +23,7 @@ export function UsFooter() {
             rel="noopener noreferrer"
             className="transition-colors hover:text-white"
           >
-            Book a Free Website Preview Call
+            Book a Free Call
           </a>
         </div>
         <div className="inline-flex items-center gap-2 rounded-pill glass px-4 py-2 text-xs text-white/70">

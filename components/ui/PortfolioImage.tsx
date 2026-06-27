@@ -43,6 +43,7 @@ export function PortfolioImage({ src, alt, hue }: Props) {
           src={src}
           alt={alt}
           fill
+          unoptimized
           className="object-cover object-top"
           sizes="(max-width: 768px) 100vw, 50vw"
           onError={() => setFailed(true)}

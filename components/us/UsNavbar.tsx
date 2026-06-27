@@ -19,7 +19,7 @@ export function UsNavbar() {
             rel="noopener noreferrer"
             className="hidden items-center gap-1.5 text-sm font-medium text-haze transition-colors hover:text-white sm:inline-flex"
           >
-            <CalendarCheck className="h-4 w-4" /> Book a Call
+            <CalendarCheck className="h-4 w-4" /> Book a Free Call
           </a>
           <a
             href="#contact"
