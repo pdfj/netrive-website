@@ -435,11 +435,11 @@ export async function sendUsLeadConfirmationEmail({
     <p style="margin:0 0 28px;font-size:15px;line-height:1.85;color:#cfd6e2;">
       Thanks for reaching out. I've got your details and I'm building your free
       website preview now. You'll get the link within 72 hours, no payment needed
-      to look at it. If you want to talk it through sooner, book a quick call here:
+      to look at it. If you want to talk it through sooner, book a free call here:
       <a href="${US_CALENDLY_URL}" style="color:#00a8ff;text-decoration:none;font-weight:600;">${US_CALENDLY_URL}</a>
     </p>
     <div style="text-align:center;">
-      <a href="${US_CALENDLY_URL}" style="${CTA_STYLE}">Book a quick call →</a>
+      <a href="${US_CALENDLY_URL}" style="${CTA_STYLE}">Book a Free Call →</a>
     </div>
   `;
 
