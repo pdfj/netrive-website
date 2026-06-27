@@ -44,7 +44,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <nav className="no-scrollbar flex gap-1 overflow-x-auto px-3 pb-2">
           {[
             { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
-            { href: "/admin/projects", icon: FolderOpen, label: "Projects" },
+            { href: "/admin/projects", icon: FolderOpen, label: "Submissions" },
             { href: "/admin/previews", icon: MonitorPlay, label: "Previews" },
             { href: "/admin/clients", icon: Users, label: "Clients" },
           ].map(({ href, icon: Icon, label }) => (
@@ -92,7 +92,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             className="flex items-center gap-3 rounded-input px-3 py-2.5 text-sm text-haze transition hover:bg-white/[0.05] hover:text-white"
           >
             <FolderOpen className="h-4 w-4" />
-            All Projects
+            Submissions
           </Link>
           <Link
             href="/admin/previews"

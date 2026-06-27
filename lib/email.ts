@@ -1,6 +1,15 @@
 import { Resend } from "resend";
+import { US_CALENDLY_URL } from "@/lib/us-config";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Escape user-supplied text before injecting into HTML email bodies.
+function esc(s: string | null | undefined) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
 // hello@ = warm, human onboarding. info@ = automated brand concierge
 // (invoices, confirmations, internal alerts). Automated mail sets
 // reply-to: hello@ so a client who hits "reply" still reaches a human.
@@ -52,7 +61,7 @@ function bankingBlock(reference: string) {
   </p>`;
 }
 
-function emailShell(content: string, withBanner = false) {
+function emailShell(content: string, withBanner = false, footerLocation = "Cape Town, South Africa") {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +86,7 @@ function emailShell(content: string, withBanner = false) {
         ${content}
       </td></tr>
       <tr><td style="padding-top:28px;text-align:center;font-size:12px;color:#9aa3b2;">
-        NetRive · Cape Town, South Africa · <a href="${SITE_URL}" style="color:#00a8ff;text-decoration:none;">netrive.com</a>
+        NetRive · ${footerLocation} · <a href="${SITE_URL}" style="color:#00a8ff;text-decoration:none;">netrive.com</a>
       </td></tr>
     </table>
   </td></tr>
@@ -405,5 +414,100 @@ export async function sendLiveAgentRequestEmail({
     to,
     subject: `🙋 Live chat request from ${clientName}${reference ? ` · ${reference}` : ""}`,
     html: emailShell(content),
+  });
+}
+
+// ── US lead emails (/us free-preview form) ────────────────────────
+// Auto-reply to the lead. From hello@ (warm/human), US footer (no Cape Town).
+// Copy is intentionally plain: no dashes, no sign-off.
+export async function sendUsLeadConfirmationEmail({
+  to,
+  business,
+  name,
+}: {
+  to: string;
+  business?: string | null;
+  name?: string | null;
+}) {
+  const greeting = esc(business?.trim() || name?.trim() || "there");
+  const content = `
+    <p style="margin:0 0 18px;font-size:17px;font-weight:600;color:#ffffff;">Hi ${greeting},</p>
+    <p style="margin:0 0 28px;font-size:15px;line-height:1.85;color:#cfd6e2;">
+      Thanks for reaching out. I've got your details and I'm building your free
+      website preview now. You'll get the link within 72 hours, no payment needed
+      to look at it. If you want to talk it through sooner, book a quick call here:
+      <a href="${US_CALENDLY_URL}" style="color:#00a8ff;text-decoration:none;font-weight:600;">${US_CALENDLY_URL}</a>
+    </p>
+    <div style="text-align:center;">
+      <a href="${US_CALENDLY_URL}" style="${CTA_STYLE}">Book a quick call →</a>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: FROM, // hello@netrive.com
+    replyTo: REPLY_TO,
+    to,
+    subject: "got it, your free preview is on the way",
+    html: emailShell(content, false, "Serving the US &amp; beyond"),
+  });
+}
+
+// Notify the owner whenever a US lead submits, so they see it outside the dashboard.
+export async function sendUsLeadNotificationEmail({
+  leadId,
+  contactName,
+  business,
+  serviceType,
+  email,
+  phone,
+  message,
+}: {
+  leadId: string;
+  contactName: string;
+  business?: string | null;
+  serviceType?: string | null;
+  email: string;
+  phone?: string | null;
+  message?: string | null;
+}) {
+  const content = `
+    <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;color:#ffffff;">
+      🇺🇸 New US lead 📥
+    </h1>
+    <p style="margin:0 0 24px;font-size:15px;color:#9aa3b2;">A free website preview request just came in from /us</p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+      ${[
+        ["Business", esc(business) || "—"],
+        ["Service type", esc(serviceType) || "—"],
+        ["Contact", esc(contactName)],
+        ["Email", esc(email)],
+        ["Phone", esc(phone) || "—"],
+      ]
+        .map(
+          ([label, value]) => `
+      <tr>
+        <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:#9aa3b2;width:130px;">${label}</td>
+        <td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;color:#ffffff;font-weight:500;">${value}</td>
+      </tr>`
+        )
+        .join("")}
+    </table>
+    ${message ? `
+    <p style="margin:0 0 8px;font-size:13px;color:#9aa3b2;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Their message</p>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:14px;line-height:1.7;color:#ffffff;">${esc(message)}</div>
+    ` : ""}
+    <div style="text-align:center;">
+      <a href="${SITE_URL}/admin/leads/${leadId}" style="${CTA_STYLE}">
+        Open lead in admin →
+      </a>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: INFO_FROM,
+    replyTo: REPLY_TO,
+    to: ADMIN_EMAIL,
+    subject: `🇺🇸 New US lead: ${business || contactName}${serviceType ? ` (${serviceType})` : ""}`,
+    html: emailShell(content, false, "Serving the US &amp; beyond"),
   });
 }

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { FolderOpen, Users, Clock, ArrowRight } from "lucide-react";
+import { FolderOpen, Users, Clock, ArrowRight, Inbox } from "lucide-react";
 
 const STATUS_COLORS: Record<string, string> = {
   submitted: "text-sky bg-sky/10 border-sky/20",
@@ -40,6 +40,19 @@ export default async function AdminOverviewPage() {
         .limit(8),
     ]);
 
+  // New US leads — fully tolerate the leads table not existing yet (migration 007),
+  // so the admin home never breaks if the migration hasn't been run.
+  let newLeads = 0;
+  try {
+    const { count } = await db
+      .from("leads")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "new");
+    newLeads = count ?? 0;
+  } catch {
+    newLeads = 0;
+  }
+
   const activeCount = recentProjects?.filter((p) =>
     ["submitted", "in_review", "in_progress", "review"].includes(p.status)
   ).length ?? 0;
@@ -48,14 +61,15 @@ export default async function AdminOverviewPage() {
     <div>
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold text-white">Admin Dashboard</h1>
-        <p className="mt-1 text-sm text-haze">Overview of all client projects</p>
+        <p className="mt-1 text-sm text-haze">Overview of all projects and US leads</p>
       </div>
 
       {/* Stats */}
-      <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { label: "Total Projects", value: totalProjects ?? 0, icon: <FolderOpen className="h-5 w-5 text-electric" /> },
           { label: "Active Projects", value: activeCount, icon: <Clock className="h-5 w-5 text-yellow-400" /> },
+          { label: "New US Leads", value: newLeads, icon: <Inbox className="h-5 w-5 text-blue-300" /> },
           { label: "Total Clients", value: totalClients ?? 0, icon: <Users className="h-5 w-5 text-sky" /> },
         ].map((s) => (
           <div key={s.label} className="rounded-card glass p-6">
